@@ -20,7 +20,6 @@ function Login() {
   const mainRef = useRef(null);
   return (
     <>
-      {/* eslint-disable-next-line react/no-string-refs */}
       <main ref={mainRef}>
         <section className="section section-shaped section-lg">
           <div className="shape shape-style-1 bg-gradient-default">
@@ -71,7 +70,9 @@ function Login() {
                       </div>
                       <div className="text-center">
                         <Button className="my-4" color="primary" type="submit">
-                          Sign in
+                          <Link to="/" style={{ color: 'white' }}>
+                            Sign in
+                          </Link>
                         </Button>
                       </div>
                     </Form>
