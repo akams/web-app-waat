@@ -49,7 +49,7 @@ function RegisterProspect() {
                   </FormGroup>
                   <FormGroup row>
                     <Label for="phoneNumber" sm={2}>
-                      Prénom
+                      Tél
                     </Label>
                     <Col sm={10}>
                       <Input placeholder="0651032217" type="text" name="phoneNumber" id="phoneNumber" />
