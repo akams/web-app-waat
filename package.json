@@ -5,6 +5,7 @@
   "dependencies": {
     "firebase": "^7.24.0",
     "moment": "^2.29.1",
+    "normalize.css": "^8.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^3.11.0",
