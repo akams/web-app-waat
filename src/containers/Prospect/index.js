@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Badge,
   Card,
   CardHeader,
   CardFooter,
@@ -8,15 +7,12 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Media,
   Pagination,
   PaginationItem,
   PaginationLink,
-  Progress,
   Table,
   Container,
   Row,
-  UncontrolledTooltip,
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
@@ -56,7 +52,7 @@ function ProspectContainer(props) {
               <tbody>
                 {prospects &&
                   prospects.map((p, index) => (
-                    <tr key={index}>
+                    <tr key={index} onClick={() => console.log('onclick', { p })}>
                       <th scope="row">{p.lastname}</th>
                       <td>{p.firstname}</td>
                       <td>{p.address}</td>
@@ -76,13 +72,13 @@ function ProspectContainer(props) {
                           </DropdownToggle>
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Action
+                              Modifier
                             </DropdownItem>
                             <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Another action
+                              Changer le status à terminer
                             </DropdownItem>
                             <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Something else here
+                              Supprimer
                             </DropdownItem>
                           </DropdownMenu>
                         </UncontrolledDropdown>
