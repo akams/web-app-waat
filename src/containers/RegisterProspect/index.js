@@ -1,9 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-// reactstrap components
-import { Button, Card, CardBody, FormGroup, Form, Input, Container, Row, Col, Label } from 'reactstrap';
+import { Button, Card, CardBody, Form, Container, Row, Col } from 'reactstrap';
+import { connect } from 'react-redux';
+import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { compose } from 'recompose';
 
-function RegisterProspect() {
+import { createInitFormData } from '../../redux/form/helpers';
+import { renderInputLabelGroupField } from '../../redux/form/renderers';
+import { compileValidation } from './validate';
+
+export const formName = 'register';
+export const initFormData = createInitFormData(formName);
+
+function RegisterProspectForm(props) {
+  const submitForm = (data) => {
+    props.originalOnSubmit(data);
+  };
+
+  const { handleSubmit } = props;
   return (
     <>
       <Container className="mt-7 pt-lg-7">
@@ -15,51 +28,64 @@ function RegisterProspect() {
                   <h1>Fiche de renseignement</h1>
                 </div>
                 <Form role="form">
-                  <FormGroup row>
-                    <Label for="company" sm={2}>
-                      Entreprise
-                    </Label>
-                    <Col sm={10}>
-                      <Input placeholder="Apple..." type="text" name="company" id="company" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Label for="lastname" sm={2}>
-                      Nom
-                    </Label>
-                    <Col sm={10}>
-                      <Input placeholder="Dupont" type="text" name="lastname" id="lastname" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Label for="firstname" sm={2}>
-                      Prénom
-                    </Label>
-                    <Col sm={10}>
-                      <Input placeholder="Jean" type="text" name="firstname" id="firstname" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Label for="address" sm={2}>
-                      Adresse
-                    </Label>
-                    <Col sm={10}>
-                      <Input placeholder="3 BLV..." type="text" name="address" id="address" />
-                    </Col>
-                  </FormGroup>
-                  <FormGroup row>
-                    <Label for="phoneNumber" sm={2}>
-                      Tél
-                    </Label>
-                    <Col sm={10}>
-                      <Input placeholder="0651032217" type="text" name="phoneNumber" id="phoneNumber" />
-                    </Col>
-                  </FormGroup>
+                  <Field
+                    labelFor="company"
+                    labelSize={2}
+                    labelTxt="Entreprise"
+                    inputColSize={10}
+                    placeholder="Apple..."
+                    type="text"
+                    name="company"
+                    id="company"
+                    component={renderInputLabelGroupField}
+                  />
+                  <Field
+                    labelFor="lastname"
+                    labelSize={2}
+                    labelTxt="Nom"
+                    inputColSize={10}
+                    placeholder="Dupont"
+                    type="text"
+                    name="lastname"
+                    id="lastname"
+                    component={renderInputLabelGroupField}
+                  />
+                  <Field
+                    labelFor="firstname"
+                    labelSize={2}
+                    labelTxt="Prénom"
+                    inputColSize={10}
+                    placeholder="Jean"
+                    type="text"
+                    name="firstname"
+                    id="firstname"
+                    component={renderInputLabelGroupField}
+                  />
+                  <Field
+                    labelFor="address"
+                    labelSize={2}
+                    labelTxt="Adresse"
+                    inputColSize={10}
+                    placeholder="3 BLV..."
+                    type="text"
+                    name="address"
+                    id="address"
+                    component={renderInputLabelGroupField}
+                  />
+                  <Field
+                    labelFor="phoneNumber"
+                    labelSize={2}
+                    labelTxt="Tél"
+                    inputColSize={10}
+                    placeholder="0651032217"
+                    type="text"
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    component={renderInputLabelGroupField}
+                  />
                   <div className="text-center">
-                    <Button className="my-4" color="primary" type="submit">
-                      <Link to="/" style={{ color: 'white' }}>
-                        Enregistrer
-                      </Link>
+                    <Button className="my-4" color="primary" type="submit" onClick={handleSubmit(submitForm)}>
+                      Enregistrer
                     </Button>
                   </div>
                 </Form>
@@ -72,4 +98,22 @@ function RegisterProspect() {
   );
 }
 
-export default RegisterProspect;
+const selector = formValueSelector(formName);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  formValues: {
+    company: selector(state, 'company'),
+    lastname: selector(state, 'lastname'),
+    firstname: selector(state, 'firstname'),
+    address: selector(state, 'address'),
+    phoneNumber: selector(state, 'phoneNumber'),
+  },
+});
+
+export default compose(
+  reduxForm({
+    form: formName,
+    validate: compileValidation,
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(RegisterProspectForm);
