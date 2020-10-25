@@ -8,8 +8,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
  */
 export async function create(firestore, parameter) {
   const { company, firstname, lastname, address, phoneNumber } = parameter;
-  const userRef = firestore.collection('prospect');
-  await userRef.add({
+  const ref = firestore.collection('prospect');
+  await ref.add({
     company,
     firstname,
     lastname,
@@ -17,4 +17,10 @@ export async function create(firestore, parameter) {
     phoneNumber,
     leadTransmissionDate: new Date(),
   });
+}
+
+export function queryGetAll(firestore, parameter) {
+  const ref = firestore.collection('prospect');
+  const query = ref.orderBy('leadTransmissionDate', 'desc').limit(10);
+  return query;
 }

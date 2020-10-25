@@ -7,12 +7,12 @@ export const SIGN_UP = '/signup';
 export const IN_APP_ROUTES = [
   {
     path: HOME,
-    name: 'Dashboard',
+    name: 'Tableau de bord',
     icon: 'ni ni-tv-2',
   },
   {
     path: MANAGE_PROSPECT,
-    name: 'Gestion des prospect',
+    name: 'Gestion des prospects',
     icon: 'ni ni-app',
   },
 ];
