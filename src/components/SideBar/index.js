@@ -1,73 +1,32 @@
 /* eslint-disable react/no-unused-state */
-import React from 'react';
-import { NavLink as NavLinkRRD, Link, withRouter } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink as NavLinkRRD, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Collapse,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  FormGroup,
-  Form,
-  Input,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroup,
-  Media,
-  NavbarBrand,
-  Navbar,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 
-class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collapseOpen: false,
-    };
-    // this.activeRoute.bind(this);
-  }
+function Sidebar(props) {
+  const [collapseOpen, setToggleCollapse] = useState(false);
 
-  // verifies if routeName is the one active (in browser input)
-  // activeRoute(routeName) {
-  //   return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
-  // }
-  // toggles collapse between opened and closed (true/false)
-  // toggleCollapse = () => {
-  //   this.setState({
-  //     collapseOpen: !this.state.collapseOpen
-  //   });
-  // };
-  // closes the collapse
-  // closeCollapse = () => {
-  //   this.setState({
-  //     collapseOpen: false
-  //   });
-  // };
-  // creates the links that appear in the left menu / Sidebar
-  createLinks = (routes) => {
+  const closeCollapse = () => {
+    setToggleCollapse(false);
+  };
+
+  const { routes } = props;
+
+  /**
+   * Create links aside navigation
+   * @param {*} roads
+   */
+  const createLinks = (roads) => {
     const {
       location: { pathname },
-    } = this.props;
-    return routes.map((prop, key) => (
+    } = props;
+    return roads.map((prop, key) => (
       <NavItem key={key}>
         <NavLink
           to={prop.path}
           tag={NavLinkRRD}
-          onClick={this.closeCollapse}
+          onClick={closeCollapse}
           activeClassName={prop.path === pathname ? 'active' : ''}
         >
           <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
@@ -77,25 +36,45 @@ class Sidebar extends React.Component {
     ));
   };
 
-  render() {
-    const { bgColor, routes, logo } = this.props;
-    let navbarBrandProps;
-    if (logo && logo.innerLink) {
-      navbarBrandProps = {
-        to: logo.innerLink,
-        tag: Link,
-      };
-    } else if (logo && logo.outterLink) {
-      navbarBrandProps = {
-        href: logo.outterLink,
-        target: '_blank',
-      };
-    }
-    return (
-      <Navbar className="navbar-vertical fixed-left navbar-light bg-white" expand="md" id="sidenav-main">
-        <Container fluid>
+  return (
+    <Navbar className="navbar-vertical fixed-left navbar-light bg-white" expand="md" id="sidenav-main">
+      <Container fluid>
+        {/* Toggler */}
+        <button className="navbar-toggler" type="button" onClick={setToggleCollapse}>
+          <span className="navbar-toggler-icon" />
+        </button>
+        {/* Brand */}
+        <NavbarBrand className="pt-0">
+          <img
+            title="La Recharge Responsable"
+            alt="La Recharge Responsable"
+            className="navbar-brand-img"
+            src="https://waat.fr/wp-content/uploads/2018/05/logo-waat-v10-rvb.svg"
+          />
+        </NavbarBrand>
+        {/* Collapse */}
+        <Collapse navbar isOpen={collapseOpen}>
+          {/* Collapse header */}
+          <div className="navbar-collapse-header d-md-none">
+            <Row>
+              <Col className="collapse-brand" xs="6">
+                <img
+                  title="La Recharge Responsable"
+                  alt="La Recharge Responsable"
+                  className="navbar-brand-img"
+                  src="https://waat.fr/wp-content/uploads/2018/05/logo-waat-v10-rvb.svg"
+                />
+              </Col>
+              <Col className="collapse-close" xs="6">
+                <button className="navbar-toggler" type="button" onClick={closeCollapse}>
+                  <span />
+                  <span />
+                </button>
+              </Col>
+            </Row>
+          </div>
           {/* Navigation */}
-          <Nav navbar>{this.createLinks(routes)}</Nav>
+          <Nav navbar>{createLinks(routes)}</Nav>
           {/* Divider */}
           <hr className="my-3" />
           {/* Heading */}
@@ -121,10 +100,10 @@ class Sidebar extends React.Component {
               </NavLink>
             </NavItem>
           </Nav>
-        </Container>
-      </Navbar>
-    );
-  }
+        </Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
 export default compose(withRouter)(Sidebar);
