@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { HomePage, SigninPage, RegisterProspectPage } from './pages';
 import * as ROUTES from './constants/routes';
 import { UnProtectedRoute } from './helpers/routes';

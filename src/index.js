@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
+import { ToastContainer } from 'react-toastify';
 import 'normalize.css';
 import { GlobalStyles } from './global-styles';
 import App from './app';
@@ -13,6 +14,7 @@ import './assets/vendor/nucleo/css/nucleo.css';
 import './assets/vendor/font-awesome/css/font-awesome.min.css';
 import './assets/scss/argon-design-system-react.scss';
 import './assets/scss/argon-dashboard-react.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const myStore = configureStore();
 
@@ -23,6 +25,17 @@ ReactDOM.render(
       <Provider store={myStore}>
         <ConnectedRouter history={history}>
           <App dispatch={myStore.dispatch} />
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
         </ConnectedRouter>
       </Provider>
     </FirebaseContext.Provider>
