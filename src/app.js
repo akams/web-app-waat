@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
-import { HomePage, SigninPage, RegisterProspectPage } from './pages';
+import { HomePage, SigninPage, RegisterProspectPage, ProspectPage } from './pages';
 import * as ROUTES from './constants/routes';
 import { UnProtectedRoute } from './helpers/routes';
 
@@ -9,8 +9,14 @@ function App(props) {
   return (
     <Router>
       <Switch>
-        <UnProtectedRoute path={ROUTES.HOME}>
+        <UnProtectedRoute exact path={ROUTES.HOME}>
+          <HomePage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
+        </UnProtectedRoute>
+        <UnProtectedRoute path={ROUTES.REGISTER_PROSPECT}>
           <RegisterProspectPage dispatch={dispatch} />
+        </UnProtectedRoute>
+        <UnProtectedRoute path={ROUTES.MANAGE_PROSPECT}>
+          <ProspectPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
         </UnProtectedRoute>
         <UnProtectedRoute path={ROUTES.SIGN_IN}>
           <SigninPage />
