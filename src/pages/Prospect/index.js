@@ -10,7 +10,7 @@ function Prospect(props) {
     <>
       <SideBar routes={IN_APP_ROUTES} {...props} />
       <div className="main-content" ref={mainContent}>
-        <Navbar brandText="Home" />
+        <Navbar brandText="Gestion des prospect" />
         <div className="header bg-gradient-green py-7 py-lg-8" />
         <ProspectContainer />
       </div>

@@ -4,6 +4,8 @@ import { NavLink as NavLinkRRD, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 
+import { SideMenuUl as SideMenuUlComponent, SideMenuItemLi as SideMenuItemLiComponent } from './styles';
+
 function Sidebar(props) {
   const [collapseOpen, setToggleCollapse] = useState(false);
 
@@ -32,6 +34,12 @@ function Sidebar(props) {
           <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
           {prop.name}
         </NavLink>
+        {/* <div style={{ display: !collapseOpen ? 'block' : 'none' }}>
+          <Sidebar.Ul>
+            <Sidebar.Li>Page 1</Sidebar.Li>
+            <Sidebar.Li>Page 2</Sidebar.Li>
+          </Sidebar.Ul>
+        </div> */}
       </NavItem>
     ));
   };
@@ -105,5 +113,12 @@ function Sidebar(props) {
     </Navbar>
   );
 }
+
+Sidebar.Ul = function SideMenuUl({ children, ...restProps }) {
+  return <SideMenuUlComponent {...restProps}>{children}</SideMenuUlComponent>;
+};
+Sidebar.Li = function SideMenuItemLi({ children, ...restProps }) {
+  return <SideMenuItemLiComponent {...restProps}>{children}</SideMenuItemLiComponent>;
+};
 
 export default compose(withRouter)(Sidebar);
