@@ -108,6 +108,9 @@ function EditForm(props) {
               />
             </Col>
           </Row>
+          <Button color="info" onClick={(e) => e.preventDefault()} size="*md">
+            Enregistrer
+          </Button>
         </div>
       </Form>
     </CardBody>
