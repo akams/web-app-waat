@@ -25,10 +25,9 @@ import { queryGetAll } from '../../firebase/firestore/prospect';
 
 function ProspectContainer(props) {
   moment.locale('fr');
-  const { firebase } = props;
+  const { firebase, history } = props;
   const query = queryGetAll(firebase.firestore);
   const [prospects] = useCollectionData(query, { idField: 'id' });
-  console.log({ prospects });
   const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
   return (
     <Container className="mt--7" fluid>
@@ -56,8 +55,10 @@ function ProspectContainer(props) {
                     const timeStampDate = p.leadTransmissionDate;
                     const dateInMillis = timeStampDate.seconds * 1000;
                     return (
-                      <tr key={index} onClick={() => console.log('onclick', { p })}>
-                        <th scope="row">{p.lastname}</th>
+                      <tr key={index}>
+                        <th scope="row" onClick={() => history.push(`/detail-prospect/${p.id}`)}>
+                          {p.lastname}
+                        </th>
                         <td>{p.firstname}</td>
                         <td>{p.address}</td>
                         <td>{plainTextDateTime(dateInMillis)}</td>
@@ -75,15 +76,13 @@ function ProspectContainer(props) {
                               <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu className="dropdown-menu-arrow" right>
-                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                              <DropdownItem onClick={() => history.push(`/detail-prospect/${p.id}`)}>
                                 Modifier
                               </DropdownItem>
-                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                              <DropdownItem onClick={(e) => e.preventDefault()}>
                                 Changer le status à terminer
                               </DropdownItem>
-                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                                Supprimer
-                              </DropdownItem>
+                              <DropdownItem onClick={(e) => e.preventDefault()}>Supprimer</DropdownItem>
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </td>
