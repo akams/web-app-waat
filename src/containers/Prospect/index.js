@@ -24,11 +24,9 @@ import { queryGetAll } from '../../firebase/firestore/prospect';
 
 function ProspectContainer(props) {
   const { firebase } = props;
-  console.log({ props });
   const query = queryGetAll(firebase.firestore);
   const [prospects] = useCollectionData(query, { idField: 'id' });
   console.log({ prospects });
-
   return (
     <Container className="mt--7" fluid>
       <Row>
