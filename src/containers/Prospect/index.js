@@ -13,6 +13,8 @@ import {
   Table,
   Container,
   Row,
+  Col,
+  Button,
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
@@ -35,7 +37,16 @@ function ProspectContainer(props) {
         <div className="col">
           <Card className="shadow">
             <CardHeader className="border-0">
-              <h3 className="mb-0">Liste des leads</h3>
+              <Row className="align-items-center">
+                <Col xs="8">
+                  <h3 className="mb-0">Liste des leads</h3>
+                </Col>
+                <Col className="text-right" xs="4">
+                  <Button color="primary" onClick={() => history.push('/register-prospect')} size="sm">
+                    Créer un nouveau lead
+                  </Button>
+                </Col>
+              </Row>
             </CardHeader>
             <Table className="align-items-center table-flush" responsive>
               <thead className="thead-light">
