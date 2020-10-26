@@ -5,7 +5,7 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { compose } from 'recompose';
 
 import { createInitFormData } from '../../redux/form/helpers';
-import { renderInputLabelGroupField } from '../../redux/form/renderers';
+import { renderInputLabelRowGroupField } from '../../redux/form/renderers';
 import { compileValidation } from './validate';
 
 export const formName = 'register';
@@ -37,7 +37,7 @@ function RegisterProspectForm(props) {
                     type="text"
                     name="company"
                     id="company"
-                    component={renderInputLabelGroupField}
+                    component={renderInputLabelRowGroupField}
                   />
                   <Field
                     labelFor="lastname"
@@ -48,7 +48,7 @@ function RegisterProspectForm(props) {
                     type="text"
                     name="lastname"
                     id="lastname"
-                    component={renderInputLabelGroupField}
+                    component={renderInputLabelRowGroupField}
                   />
                   <Field
                     labelFor="firstname"
@@ -59,7 +59,7 @@ function RegisterProspectForm(props) {
                     type="text"
                     name="firstname"
                     id="firstname"
-                    component={renderInputLabelGroupField}
+                    component={renderInputLabelRowGroupField}
                   />
                   <Field
                     labelFor="address"
@@ -70,7 +70,7 @@ function RegisterProspectForm(props) {
                     type="text"
                     name="address"
                     id="address"
-                    component={renderInputLabelGroupField}
+                    component={renderInputLabelRowGroupField}
                   />
                   <Field
                     labelFor="phoneNumber"
@@ -81,7 +81,7 @@ function RegisterProspectForm(props) {
                     type="text"
                     name="phoneNumber"
                     id="phoneNumber"
-                    component={renderInputLabelGroupField}
+                    component={renderInputLabelRowGroupField}
                   />
                   <div className="text-center">
                     <Button className="my-4" color="primary" type="submit" onClick={handleSubmit(submitForm)}>

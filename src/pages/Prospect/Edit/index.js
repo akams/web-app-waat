@@ -12,7 +12,7 @@ function ProspectEdit(props) {
       <div className="main-content" ref={mainContent}>
         <Navbar brandText="Home" />
         <div className="header bg-gradient-green py-7 py-lg-8" />
-        <ProspectEditContainer />
+        <ProspectEditContainer {...props} />
       </div>
     </>
   );

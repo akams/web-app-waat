@@ -20,25 +20,49 @@ export const renderInputGroupField = ({ classNameI, input, type, meta: { touched
   </FormGroup>
 );
 
-export const renderInputLabelGroupField = ({
+export const renderInputLabelRowGroupField = ({
   labelFor,
+  labelClass,
   labelSize,
   labelTxt,
   inputColSize,
   input,
+  inputClass,
+  type,
+  isRowFormGroup = true,
+  meta: { touched, error, warning },
+}) => (
+  <>
+    <FormGroup row={isRowFormGroup}>
+      <Label className={labelClass} for={labelFor} sm={labelSize}>
+        {labelTxt}
+      </Label>
+      <Col sm={inputColSize}>
+        <Input {...input} type={type} className={inputClass} />
+        {touched &&
+          ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
+      </Col>
+    </FormGroup>
+  </>
+);
+
+export const renderInputLabelGroupField = ({
+  labelFor,
+  labelClass,
+  labelSize,
+  labelTxt,
+  input,
+  inputClass,
   type,
   meta: { touched, error, warning },
 }) => (
   <>
-    <FormGroup row>
-      <Label for={labelFor} sm={labelSize}>
+    <FormGroup>
+      <Label className={labelClass} for={labelFor} sm={labelSize}>
         {labelTxt}
       </Label>
-      <Col sm={inputColSize}>
-        <Input {...input} type={type} />
-        {touched &&
-          ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
-      </Col>
+      <Input {...input} type={type} className={inputClass} />
+      {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
     </FormGroup>
   </>
 );

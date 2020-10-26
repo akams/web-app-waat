@@ -1,6 +1,6 @@
 export const HOME = '/';
 export const REGISTER_PROSPECT = '/register-prospect';
-export const MANAGE_PROSPECT = '/manage-prospect';
+export const MANAGE_PROSPECT = '/manage-prospects';
 export const DETAIL_PROSPECT = '/detail-prospect/:prospectId';
 export const SIGN_IN = '/signin';
 export const SIGN_UP = '/signup';
