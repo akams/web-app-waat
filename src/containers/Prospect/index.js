@@ -17,16 +17,19 @@ import {
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FaAngleLeft, FaAngleRight, FaEllipsisV } from 'react-icons/fa';
+import moment from 'moment';
 
 import { withFirebase } from '../../context/firebase';
 import { queryGetAll } from '../../firebase/firestore/prospect';
 
 function ProspectContainer(props) {
+  moment.locale('fr');
   const { firebase } = props;
   const query = queryGetAll(firebase.firestore);
   const [prospects] = useCollectionData(query, { idField: 'id' });
   console.log({ prospects });
+  const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
   return (
     <Container className="mt--7" fluid>
       <Row>
@@ -49,40 +52,44 @@ function ProspectContainer(props) {
               </thead>
               <tbody>
                 {prospects &&
-                  prospects.map((p, index) => (
-                    <tr key={index} onClick={() => console.log('onclick', { p })}>
-                      <th scope="row">{p.lastname}</th>
-                      <td>{p.firstname}</td>
-                      <td>{p.address}</td>
-                      <td>25/10/2020</td>
-                      <td>{p.phoneNumber}</td>
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Modifier
-                            </DropdownItem>
-                            <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Changer le status à terminer
-                            </DropdownItem>
-                            <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                              Supprimer
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
-                    </tr>
-                  ))}
+                  prospects.map((p, index) => {
+                    const timeStampDate = p.leadTransmissionDate;
+                    const dateInMillis = timeStampDate.seconds * 1000;
+                    return (
+                      <tr key={index} onClick={() => console.log('onclick', { p })}>
+                        <th scope="row">{p.lastname}</th>
+                        <td>{p.firstname}</td>
+                        <td>{p.address}</td>
+                        <td>{plainTextDateTime(dateInMillis)}</td>
+                        <td>{p.phoneNumber}</td>
+                        <td className="text-right">
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              className="btn-icon-only text-light"
+                              href="#pablo"
+                              role="button"
+                              size="sm"
+                              color=""
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <FaEllipsisV />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                                Modifier
+                              </DropdownItem>
+                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                                Changer le status à terminer
+                              </DropdownItem>
+                              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                                Supprimer
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </Table>
             <CardFooter className="py-4">
