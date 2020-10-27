@@ -20,6 +20,35 @@ export const renderInputGroupField = ({ classNameI, input, type, meta: { touched
   </FormGroup>
 );
 
+export const renderInputGroupFieldComplexe = ({
+  iconComponent,
+  labelClass,
+  labelFor,
+  labelSize,
+  labelTxt,
+  inputClass,
+  inputColSize,
+  input,
+  type,
+  meta: { touched, error, warning },
+}) => (
+  <FormGroup row>
+    <Label className={labelClass} for={labelFor} sm={labelSize}>
+      {labelTxt}
+    </Label>
+    <Col sm={inputColSize}>
+      <InputGroup className="input-group-alternative mb-3">
+        <InputGroupAddon addonType="prepend">
+          <InputGroupText>{iconComponent}</InputGroupText>
+        </InputGroupAddon>
+        <Input {...input} type={type} className={inputClass} />
+      </InputGroup>
+      {touched &&
+        ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
+    </Col>
+  </FormGroup>
+);
+
 export const renderInputLabelRowGroupField = ({
   labelFor,
   labelClass,
@@ -32,18 +61,15 @@ export const renderInputLabelRowGroupField = ({
   isRowFormGroup = true,
   meta: { touched, error, warning },
 }) => (
-  <>
-    <FormGroup row={isRowFormGroup}>
-      <Label className={labelClass} for={labelFor} sm={labelSize}>
-        {labelTxt}
-      </Label>
-      <Col sm={inputColSize}>
-        <Input {...input} type={type} className={inputClass} />
-        {touched &&
-          ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
-      </Col>
-    </FormGroup>
-  </>
+  <FormGroup row={isRowFormGroup}>
+    <Label className={labelClass} for={labelFor} sm={labelSize}>
+      {labelTxt}
+    </Label>
+    <Col sm={inputColSize}>
+      <Input {...input} type={type} className={inputClass} />
+      {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
+    </Col>
+  </FormGroup>
 );
 
 export const renderInputLabelGroupField = ({
@@ -56,15 +82,13 @@ export const renderInputLabelGroupField = ({
   type,
   meta: { touched, error, warning },
 }) => (
-  <>
-    <FormGroup>
-      <Label className={labelClass} for={labelFor} sm={labelSize}>
-        {labelTxt}
-      </Label>
-      <Input {...input} type={type} className={inputClass} />
-      {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
-    </FormGroup>
-  </>
+  <FormGroup>
+    <Label className={labelClass} for={labelFor} sm={labelSize}>
+      {labelTxt}
+    </Label>
+    <Input {...input} type={type} className={inputClass} />
+    {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
+  </FormGroup>
 );
 
 /** render sans label
