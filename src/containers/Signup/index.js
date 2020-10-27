@@ -3,21 +3,44 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
+import { toast } from 'react-toastify';
 
 import { withFirebase } from '../../context/firebase';
 // import { create as createUser, getLastInsert } from '../../firebase/firestore/user';
 import * as ROUTES from '../../constants/routes';
 import { dispatchSetUsers } from '../../redux/action/user';
+import { create as createUser, getByUid } from '../../firebase/firestore/user';
 
 import SignupForm, { initFormData } from './form';
 
 function Signup(props) {
   console.log({ props });
   const mainContent = useRef(null);
-  const { firebase, dispatch } = props;
+  const { firebase, history, dispatch } = props;
 
   const handleSubmit = async (data) => {
     console.log('final submit', { data });
+    const { email, password, lastname, firstname } = data;
+    const { dispatchSetUsersFunction } = props;
+    try {
+      const result = await firebase.doCreateUserWithEmailAndPassword(email, password);
+      await createUser(firebase.firestore, {
+        uid: result.user.uid,
+        email,
+        password,
+        lastname,
+        firstname,
+      });
+      const lastUser = await getByUid(firebase.firestore, result.user.uid);
+      if (lastUser.id) {
+        dispatchSetUsersFunction(lastUser.data);
+        toast.success('🦄 Wow so easy!');
+        history.push(ROUTES.HOME);
+      }
+    } catch (error) {
+      console.error({ error });
+      toast.error(`Error: ${error}`);
+    }
   };
 
   const initForm = (data = { lastname: '', firstname: '', email: '', password: '', passwordTwo: '' }) => {
