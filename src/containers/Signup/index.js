@@ -24,6 +24,7 @@ function Signup(props) {
     const { dispatchSetUsersFunction } = props;
     try {
       const result = await firebase.doCreateUserWithEmailAndPassword(email, password);
+      console.log('after submit', { result });
       await createUser(firebase.firestore, {
         uid: result.user.uid,
         email,
