@@ -10,7 +10,7 @@ import { useAuthListener } from './hooks';
 function App(props) {
   const { dispatch, firebase } = props;
   const { user } = useAuthListener(firebase);
-  return (
+  return user !== false ? (
     <Router>
       <Switch>
         <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_IN}>
@@ -19,27 +19,20 @@ function App(props) {
         <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_UP}>
           <SignupPage dispatch={dispatch} />
         </IsUserRedirect>
-        <ProtectedRoute exact path={ROUTES.HOME}>
+        <ProtectedRoute exact user={user} path={ROUTES.HOME}>
           <HomePage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
+        </ProtectedRoute>
+        <ProtectedRoute user={user} path={ROUTES.MANAGE_PROSPECT}>
+          <ProspectPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
+        </ProtectedRoute>
+        <ProtectedRoute user={user} path={ROUTES.DETAIL_PROSPECT}>
+          <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
         </ProtectedRoute>
       </Switch>
     </Router>
+  ) : (
+    <div>loader</div>
   );
 }
-
-/**
- *         <UnProtectedRoute exact path={ROUTES.HOME}>
-          <HomePage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
-        </UnProtectedRoute>
-        <UnProtectedRoute path={ROUTES.REGISTER_PROSPECT}>
-          <RegisterProspectPage dispatch={dispatch} />
-        </UnProtectedRoute>
-        <UnProtectedRoute path={ROUTES.MANAGE_PROSPECT}>
-          <ProspectPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
-        </UnProtectedRoute>
-        <UnProtectedRoute path={ROUTES.DETAIL_PROSPECT}>
-          <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES} />
-        </UnProtectedRoute>
- */
 
 export default compose(withFirebase)(App);
