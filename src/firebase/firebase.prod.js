@@ -26,14 +26,18 @@ class Firebase {
 
   // *** Auth API ***
 
-  register = (email, password) => this.auth.createUserWithEmailAndPassword(email, password);
+  async register(email, password) {
+    await this.auth.createUserWithEmailAndPassword(email, password);
+  }
 
-  login = (email, password) => this.auth.signInWithEmailAndPassword(email, password);
+  login(email, password) {
+    this.auth.signInWithEmailAndPassword(email, password);
+  }
 
-  logout = () => {
+  logout() {
     // sessionStorage.removeItem('cgabo_user');
     // this.auth.signOut();
-  };
+  }
 
   passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
 
