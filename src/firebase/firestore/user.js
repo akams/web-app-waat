@@ -4,12 +4,11 @@
  * @param {*} parameter
  */
 export async function create(firestore, parameter) {
-  const { uid, email, password, lastname, firstname } = parameter;
+  const { uid, email, lastname, firstname } = parameter;
   const userRef = firestore.collection('users');
   await userRef.add({
     uid,
     email,
-    password,
     lastname,
     firstname,
     acl: { admin: true },

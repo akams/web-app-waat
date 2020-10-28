@@ -16,11 +16,9 @@ function Signup(props) {
     const { email, password, lastname, firstname } = data;
     try {
       const result = await firebase.register(email, password);
-      console.log('after submit', { result });
       await createUser(firebase.firestore, {
         uid: result.user.uid,
         email,
-        password,
         lastname,
         firstname,
       });
