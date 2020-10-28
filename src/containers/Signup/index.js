@@ -1,29 +1,21 @@
 import React, { useEffect, useRef } from 'react';
-import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { connect } from 'react-redux';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
 import { toast } from 'react-toastify';
 
 import { withFirebase } from '../../context/firebase';
-// import { create as createUser, getLastInsert } from '../../firebase/firestore/user';
-import * as ROUTES from '../../constants/routes';
-import { dispatchSetUsers } from '../../redux/action/user';
-import { create as createUser, getByUid } from '../../firebase/firestore/user';
+import { create as createUser } from '../../firebase/firestore/user';
 
 import SignupForm, { initFormData } from './form';
 
 function Signup(props) {
-  console.log({ props });
   const mainContent = useRef(null);
-  const { firebase, history, dispatch } = props;
+  const { firebase, dispatch } = props;
 
   const handleSubmit = async (data) => {
-    console.log('final submit', { data });
     const { email, password, lastname, firstname } = data;
-    const { dispatchSetUsersFunction } = props;
     try {
-      const result = await firebase.doCreateUserWithEmailAndPassword(email, password);
+      const result = await firebase.register(email, password);
       console.log('after submit', { result });
       await createUser(firebase.firestore, {
         uid: result.user.uid,
@@ -32,12 +24,7 @@ function Signup(props) {
         lastname,
         firstname,
       });
-      const lastUser = await getByUid(firebase.firestore, result.user.uid);
-      if (lastUser.id) {
-        dispatchSetUsersFunction(lastUser.data);
-        toast.success('🦄 Wow so easy!');
-        history.push(ROUTES.HOME);
-      }
+      toast.success('🦄 Votre compte à bien été créer!');
     } catch (error) {
       console.error({ error });
       toast.error(`Error: ${error}`);
@@ -85,9 +72,4 @@ function Signup(props) {
   );
 }
 
-const mapDispatchToProps = {
-  dispatchSetUsersFunction: (user) => dispatchSetUsers(user),
-};
-const mapStateToProps = () => ({});
-
-export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(Signup);
+export default compose(withFirebase)(Signup);

@@ -26,8 +26,8 @@ class Firebase {
 
   // *** Auth API ***
 
-  async register(email, password) {
-    await this.auth.createUserWithEmailAndPassword(email, password);
+  register(email, password) {
+    return this.auth.createUserWithEmailAndPassword(email, password);
   }
 
   login(email, password) {
