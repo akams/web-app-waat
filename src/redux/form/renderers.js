@@ -6,15 +6,19 @@ import './style.scss';
 /** Render complex input group sans label
  * @param {*} param0
  */
-export const renderInputGroupField = ({ classNameI, input, type, meta: { touched, error, warning } }) => (
+export const renderInputGroupField = ({
+  iconComponent,
+  inputClass,
+  input,
+  type,
+  meta: { touched, error, warning },
+}) => (
   <FormGroup>
     <InputGroup className="input-group-alternative mb-3">
       <InputGroupAddon addonType="prepend">
-        <InputGroupText>
-          <i className={classNameI} />
-        </InputGroupText>
+        <InputGroupText>{iconComponent}</InputGroupText>
       </InputGroupAddon>
-      <Input {...input} type={type} />
+      <Input {...input} type={type} className={inputClass} />
     </InputGroup>
     {touched && ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
   </FormGroup>
