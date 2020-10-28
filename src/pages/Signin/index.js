@@ -2,41 +2,23 @@ import React, { useRef, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
 import { compose } from 'recompose';
-import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 
 import { withFirebase } from '../../context/firebase';
 import * as ROUTES from '../../constants/routes';
-import { dispatchSetUsers } from '../../redux/action/user';
-import { getByUid } from '../../firebase/firestore/user';
 
 import SigninContainer, { initFormData } from '../../containers/Signin';
 
 function Signin(props) {
-  console.log('log--->>>', { props });
   const mainRef = useRef(null);
   const { firebase, history, dispatch } = props;
 
   const handleSubmit = async (data) => {
-    console.log('final submit', { data });
     const { email, password } = data;
-    const { dispatchSetUsersFunction } = props;
     try {
-      // const result = await firebase.doCreateUserWithEmailAndPassword(email, password);
-      // console.log('after submit', { result });
-      // await createUser(firebase.firestore, {
-      //   uid: result.user.uid,
-      //   email,
-      //   password,
-      //   lastname,
-      //   firstname,
-      // });
-      // const lastUser = await getByUid(firebase.firestore, result.user.uid);
-      // if (lastUser.id) {
-      //   dispatchSetUsersFunction(lastUser.data);
-      //   toast.success('🦄 Wow so easy!');
-      //   history.push(ROUTES.HOME);
-      // }
+      await firebase.login(email, password);
+      toast.success('🦄 Wow so easy!');
+      history.push(ROUTES.HOME);
     } catch (error) {
       console.error({ error });
       toast.error(`Error: ${error}`);
@@ -97,9 +79,4 @@ function Signin(props) {
   );
 }
 
-const mapDispatchToProps = {
-  dispatchSetUsersFunction: (user) => dispatchSetUsers(user),
-};
-const mapStateToProps = () => ({});
-
-export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(Signin);
+export default compose(withRouter, withFirebase)(Signin);
