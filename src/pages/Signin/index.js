@@ -1,24 +1,22 @@
 import React, { useRef, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
 import { compose } from 'recompose';
 import { toast } from 'react-toastify';
 
 import { withFirebase } from '../../context/firebase';
-import * as ROUTES from '../../constants/routes';
 
 import SigninContainer, { initFormData } from '../../containers/Signin';
 
 function Signin(props) {
   const mainRef = useRef(null);
-  const { firebase, history, dispatch } = props;
+  const { firebase, dispatch } = props;
 
   const handleSubmit = async (data) => {
     const { email, password } = data;
     try {
       await firebase.login(email, password);
       toast.success('🦄 Wow so easy!');
-      history.push(ROUTES.HOME);
     } catch (error) {
       console.error({ error });
       toast.error(`Error: ${error}`);
@@ -79,4 +77,4 @@ function Signin(props) {
   );
 }
 
-export default compose(withRouter, withFirebase)(Signin);
+export default compose(withFirebase)(Signin);
