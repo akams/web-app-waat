@@ -34,24 +34,24 @@ function Signin(props) {
   return (
     <>
       <main ref={mainRef}>
-        <section className="section section-shaped section-lg">
-          <div className="shape shape-style-1 bg-gradient-default">
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <Container className="pt-lg-7">
+        <section className="full-page-container-center section section-shaped section-lg bg-secondary">
+          <Container>
             <Row className="justify-content-center">
-              <Col lg="5">
-                <Card className="bg-secondary shadow border-0">
+              <Col lg="8">
+                <Card className="shadow border-0">
                   <CardBody className="px-lg-5 py-lg-5">
-                    <div className="text-center text-muted mb-4">
-                      <small>Connexion</small>
+                    <div className="text-center mb-4">
+                      <img
+                        width={100}
+                        title="La Recharge Responsable"
+                        alt="La Recharge Responsable"
+                        className="navbar-brand-img"
+                        src="https://waat.fr/wp-content/uploads/2018/05/logo-waat-v10-rvb.svg"
+                      />
+                    </div>
+                    <div className="text-center text-muted mb-6">
+                      <h1>Se connecter</h1>
+                      <small>Connectez-vous à votre compte pour continuer</small>
                     </div>
                     <SigninContainer originalOnSubmit={handleSubmit} {...props} />
                   </CardBody>

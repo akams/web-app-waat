@@ -35,8 +35,7 @@ class Firebase {
   }
 
   logout() {
-    // sessionStorage.removeItem('cgabo_user');
-    // this.auth.signOut();
+    return this.auth.signOut();
   }
 
   passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
