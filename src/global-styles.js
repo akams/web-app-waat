@@ -8,4 +8,14 @@ export const GlobalStyles = createGlobalStyle`
   background-color: #ffffff;
   color: #333333;
   font-size: 16px;
-}`;
+}
+
+.full-page-container-center {
+  position: absolute;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+`;

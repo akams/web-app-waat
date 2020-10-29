@@ -5,6 +5,7 @@ import { reduxForm, Field, formValueSelector } from 'redux-form';
 import { compose } from 'recompose';
 import zxcvbn from 'zxcvbn';
 import { FaUnlockAlt } from 'react-icons/fa';
+import { HiMail } from 'react-icons/hi';
 
 import { createInitFormData } from '../../redux/form/helpers';
 import { renderInputGroupFieldComplexe } from '../../redux/form/renderers';
@@ -84,7 +85,7 @@ function SignupForm(props) {
         name="email"
         type="email"
         placeholder="jean.dupont@lambda.fr"
-        iconComponent={<i className="ni ni-hat-3" />}
+        iconComponent={<HiMail />}
         component={renderInputGroupFieldComplexe}
         inputColSize={10}
       />
