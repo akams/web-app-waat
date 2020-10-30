@@ -5,7 +5,7 @@ export const DETAIL_PROSPECT = '/detail-prospect/:prospectId';
 export const SIGN_IN = '/signin';
 export const SIGN_UP = '/signup';
 
-export const IN_APP_ROUTES = [
+export const IN_APP_ROUTES_ASIDE = [
   {
     path: HOME,
     name: 'Tableau de bord',
