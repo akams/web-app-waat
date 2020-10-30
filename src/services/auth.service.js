@@ -27,7 +27,7 @@ export function checkAuthorization(user, allowedRoles) {
  */
 export function checkAuthorizationWithRoutes(user, pathname) {
   const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
-  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
+  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT, ROUTES.REGISTER_PROSPECT];
   if (!user || Object.keys(user).length === 0 || !user.acl) return false;
   const {
     acl: { guest, admin },
