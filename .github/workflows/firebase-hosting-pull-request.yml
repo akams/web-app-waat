@@ -10,9 +10,16 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: CI=false npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Install Dependencies
+        uses: npm install 
+      - name: Run test
+        uses: npm run test
+      - name: Build
+        run: CI=false npm run build
+      - name: Action-hosting-deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WEB_APP_WAAT }}'
