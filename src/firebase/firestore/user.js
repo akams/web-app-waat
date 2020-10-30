@@ -5,9 +5,8 @@
  */
 export async function create(firestore, parameter) {
   const { uid, email, lastname, firstname } = parameter;
-  const userRef = firestore.collection('users');
-  await userRef.add({
-    uid,
+  const userRef = firestore.collection('users').doc(uid);
+  await userRef.set({
     email,
     lastname,
     firstname,
@@ -19,14 +18,15 @@ export async function create(firestore, parameter) {
  * Récupère l'utilisateur par l'uid
  * @param {*} firestore
  */
-export async function getByUid(firestore, uid) {
-  const user = { id: null };
-  const userRef = firestore.collection('users');
-  const querySnapshot = await userRef.where('uid', '==', uid).get();
-
-  querySnapshot.forEach(function (doc) {
+export async function getUser(firestore, uid) {
+  const user = {};
+  const userRef = firestore.collection('users').doc(uid);
+  const doc = await userRef.get();
+  if (doc.exists) {
     user.id = doc.id;
     user.data = doc.data();
-  });
+  } else {
+    console.log('No such document!');
+  }
   return user;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { getByUid } from '../firebase/firestore/user';
+import { getUser } from '../firebase/firestore/user';
 
 export default function useAuthListener(firebase, dispatchSetUsersFunction) {
   const [user, setUser] = useState(false);
@@ -13,7 +13,7 @@ export default function useAuthListener(firebase, dispatchSetUsersFunction) {
   }, []);
 
   if (user && typeof user === 'object') {
-    getByUid(firebase.firestore, user.uid)
+    getUser(firebase.firestore, user.uid)
       .then((dataUser) => {
         dispatchSetUsersFunction(dataUser.data);
       })
