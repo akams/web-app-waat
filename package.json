@@ -2,6 +2,15 @@
   "name": "app-web-waat",
   "version": "0.3.2",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js",
+    "lint:fix": "npm run lint -- --fix",
+    "deploy": "firebase deploy"
+  },
   "dependencies": {
     "bootstrap": "^4.5.3",
     "chart.js": "^2.9.4",
@@ -32,14 +41,6 @@
     "styled-components": "^5.2.0",
     "web-vitals": "^0.2.4",
     "zxcvbn": "^4.4.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint src --ext .js",
-    "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
     "extends": [
