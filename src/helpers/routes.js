@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
+import { checkAuthorizationWithRoutes } from '../services/auth.service';
+
 export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
   return (
     <Route
@@ -32,7 +34,10 @@ export function ProtectedRoute({ user, children, ...rest }) {
       {...rest}
       render={({ location }) => {
         if (user) {
+          // const { pathname } = location;
+          // if (checkAuthorizationWithRoutes(user, pathname)) {
           return children;
+          // }
         }
 
         if (!user) {
