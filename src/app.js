@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { HomePage, SigninPage, SignupPage, RegisterProspectPage, ProspectPage, ProspectEditPage } from './pages';
 import * as ROUTES from './constants/routes';
-import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
+import { IsUserRedirect, ProtectedRoute, UnProtectedRoute } from './helpers/routes';
 import { withFirebase } from './context/firebase';
 import { useAuthListener } from './hooks';
 import { dispatchSetUsers } from './redux/action/user';
@@ -30,9 +30,9 @@ function App(props) {
         <ProtectedRoute user={user} path={ROUTES.DETAIL_PROSPECT}>
           <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
         </ProtectedRoute>
-        <ProtectedRoute user={user} path={ROUTES.REGISTER_PROSPECT}>
-          <RegisterProspectPage dispatch={dispatch} />
-        </ProtectedRoute>
+        <UnProtectedRoute user={user} path={ROUTES.REGISTER_PROSPECT}>
+          <RegisterProspectPage routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
+        </UnProtectedRoute>
       </Switch>
     </Router>
   ) : (
