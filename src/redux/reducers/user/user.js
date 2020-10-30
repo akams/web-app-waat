@@ -1,13 +1,11 @@
 export const SET_USER = 'SET_USER';
 
-const initialState = {
-  payload: {},
-};
+const initialState = {};
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
-      return { ...state, payload: { ...action.user } };
+      return { ...state, ...action.user };
     default:
       return state;
   }

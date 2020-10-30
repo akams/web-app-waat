@@ -3,17 +3,17 @@ import React, { useState } from 'react';
 import { NavLink as NavLinkRRD, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
-
+import { connect } from 'react-redux';
+import { checkAuthorizationWithRoutes } from '../../services/auth.service';
 import { SideMenuUl as SideMenuUlComponent, SideMenuItemLi as SideMenuItemLiComponent } from './styles';
 
 function Sidebar(props) {
+  const { user, routes } = props;
   const [collapseOpen, setToggleCollapse] = useState(false);
 
   const closeCollapse = () => {
     setToggleCollapse(false);
   };
-
-  const { routes } = props;
 
   /**
    * Create links aside navigation
@@ -23,25 +23,31 @@ function Sidebar(props) {
     const {
       location: { pathname },
     } = props;
-    return roads.map((prop, key) => (
-      <NavItem key={key}>
-        <NavLink
-          to={prop.path}
-          tag={NavLinkRRD}
-          onClick={closeCollapse}
-          activeClassName={prop.path === pathname ? 'active' : ''}
-        >
-          <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
-          {prop.name}
-        </NavLink>
-        {/* <div style={{ display: !collapseOpen ? 'block' : 'none' }}>
+    console.log({ user });
+    return roads.map((prop, key) => {
+      if (checkAuthorizationWithRoutes(user, pathname)) {
+        return (
+          <NavItem key={key}>
+            <NavLink
+              to={prop.path}
+              tag={NavLinkRRD}
+              onClick={closeCollapse}
+              activeClassName={prop.path === pathname ? 'active' : ''}
+            >
+              <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
+              {prop.name}
+            </NavLink>
+            {/* <div style={{ display: !collapseOpen ? 'block' : 'none' }}>
           <Sidebar.Ul>
             <Sidebar.Li>Page 1</Sidebar.Li>
             <Sidebar.Li>Page 2</Sidebar.Li>
           </Sidebar.Ul>
         </div> */}
-      </NavItem>
-    ));
+          </NavItem>
+        );
+      }
+      return null;
+    });
   };
 
   return (
@@ -121,4 +127,9 @@ Sidebar.Li = function SideMenuItemLi({ children, ...restProps }) {
   return <SideMenuItemLiComponent {...restProps}>{children}</SideMenuItemLiComponent>;
 };
 
-export default compose(withRouter)(Sidebar);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Sidebar);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { compose } from 'recompose';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import { HomePage, SigninPage, SignupPage, RegisterProspectPage, ProspectPage, ProspectEditPage } from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute } from './helpers/routes';
@@ -29,6 +29,9 @@ function App(props) {
         </ProtectedRoute>
         <ProtectedRoute user={user} path={ROUTES.DETAIL_PROSPECT}>
           <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
+        </ProtectedRoute>
+        <ProtectedRoute user={user} path={ROUTES.REGISTER_PROSPECT}>
+          <RegisterProspectPage dispatch={dispatch} />
         </ProtectedRoute>
       </Switch>
     </Router>
