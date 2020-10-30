@@ -29,7 +29,7 @@ jobs:
           storageBucket: '${{ secrets.REACT_APP_STORAGE_BUCKET }}'
           messagingSenderId: '${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}'
           appId: '${{ secrets.REACT_APP_APP_ID }}'
-          appId: '${{ secrets.REACT_APP_MEASUREMENT_ID }}'
+          measurementId: '${{ secrets.REACT_APP_MEASUREMENT_ID }}'
           projectId: '${{ secrets.REACT_APP_PROJECT_ID }}'
           channelID: '${{ secrets.CHANNEL_ID }}'
         env:
