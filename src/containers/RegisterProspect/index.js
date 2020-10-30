@@ -19,7 +19,7 @@ function RegisterProspectForm(props) {
   const { handleSubmit } = props;
   return (
     <>
-      <Container className="mt-7 pt-lg-7">
+      <Container className="mt--7" fluid>
         <Row className="justify-content-center">
           <Col lg={10}>
             <Card className="bg-secondary shadow border-0">
@@ -83,6 +83,17 @@ function RegisterProspectForm(props) {
                     id="phoneNumber"
                     component={renderInputLabelRowGroupField}
                   />
+                  <Field
+                    labelFor="comments"
+                    labelSize={2}
+                    labelTxt="Commentaire"
+                    inputColSize={10}
+                    placeholder="..."
+                    type="textarea"
+                    name="comments"
+                    id="comments"
+                    component={renderInputLabelRowGroupField}
+                  />
                   <div className="text-center">
                     <Button className="my-4" color="primary" type="submit" onClick={handleSubmit(submitForm)}>
                       Enregistrer
@@ -107,6 +118,7 @@ const mapStateToProps = (state) => ({
     firstname: selector(state, 'firstname'),
     address: selector(state, 'address'),
     phoneNumber: selector(state, 'phoneNumber'),
+    comments: selector(state, 'comments'),
   },
 });
 
