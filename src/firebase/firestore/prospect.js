@@ -4,8 +4,8 @@
  * @param {*} parameter
  */
 export async function create(firestore, parameter) {
-  const { company, firstname, lastname, address, phoneNumber } = parameter;
-  const ref = firestore.collection('prospect');
+  const { company, firstname, lastname, address, phoneNumber, comments } = parameter;
+  const ref = firestore.collection('prospects');
   await ref.add({
     company,
     firstname,
@@ -13,6 +13,10 @@ export async function create(firestore, parameter) {
     address,
     phoneNumber,
     leadTransmissionDate: new Date(),
+    comments,
+    abonnement: {},
+    infoPrice: {},
+    keyDate: {},
   });
 }
 
@@ -22,7 +26,7 @@ export async function create(firestore, parameter) {
  * @param {*} parameter
  */
 export function queryGetAll(firestore, parameter) {
-  const ref = firestore.collection('prospect');
+  const ref = firestore.collection('prospects');
   const query = ref.orderBy('leadTransmissionDate', 'desc').limit(10);
   return query;
 }
@@ -33,20 +37,15 @@ export function queryGetAll(firestore, parameter) {
  * @param {*} uid
  */
 export async function getByUid(firestore, id) {
-  // eslint-disable-next-line no-useless-catch
-  try {
-    let prospect = { id: null };
-    const prospectRef = firestore.collection('prospect').doc(id);
-    const doc = await prospectRef.get();
-    if (doc.exists) {
-      prospect = {
-        ...doc.data(),
-      };
-    } else {
-      console.log('No such document!');
-    }
-    return prospect;
-  } catch (e) {
-    throw e;
+  let prospect = {};
+  const prospectRef = firestore.collection('prospects').doc(id);
+  const doc = await prospectRef.get();
+  if (doc.exists) {
+    prospect = {
+      ...doc.data(),
+    };
+  } else {
+    console.log('No such document!');
   }
+  return prospect;
 }
