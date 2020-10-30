@@ -13,9 +13,9 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Install Dependencies
-        uses: npm install 
+        run: npm install
       - name: Run test
-        uses: npm run test
+        run: npm run test
       - name: Build
         run: CI=false npm run build
       - name: Action-hosting-deploy
