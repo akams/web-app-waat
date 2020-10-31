@@ -8,7 +8,7 @@ on:
       - master
 env:
   CI: false
-  REACT_APP_API_KEY: '${{ secrets.REACT_APP_API_KEY }}'
+  REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
   REACT_APP_AUTH_DOMAIN: '${{ secrets.REACT_APP_AUTH_DOMAIN }}'
   REACT_APP_DATABASE_URL: '${{ secrets.REACT_APP_DATABASE_URL }}'
   REACT_APP_STORAGE_BUCKET: '${{ secrets.REACT_APP_STORAGE_BUCKET }}'
@@ -21,4 +21,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: show
-        run: echo '111'
+        run: echo ${{ secrets.REACT_APP_API_KEY }}
