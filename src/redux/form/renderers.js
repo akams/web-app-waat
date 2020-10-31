@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormGroup, Input, InputGroupAddon, InputGroupText, InputGroup, Label, Col } from 'reactstrap';
 import Select from 'react-select';
+import ReactDatetime from 'react-datetime';
 
 import './style.scss';
 
@@ -54,6 +55,31 @@ export const renderInputGroupFieldComplexe = ({
   </FormGroup>
 );
 
+export const renderDatePickerLabelGroupField = ({
+  labelFor,
+  labelClass,
+  labelSize,
+  labelTxt,
+  onChangeFunction,
+  iconComponent,
+  inputClass,
+  timeFormat = false,
+  meta: { touched, error, warning },
+}) => (
+  <FormGroup>
+    <Label className={labelClass} for={labelFor} sm={labelSize}>
+      {labelTxt}
+    </Label>
+    <InputGroup className="input-group-alternative mb-3">
+      <InputGroupAddon addonType="prepend">
+        <InputGroupText>{iconComponent}</InputGroupText>
+      </InputGroupAddon>
+      <ReactDatetime timeFormat={timeFormat} onChange={onChangeFunction} />
+    </InputGroup>
+    {touched && ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
+  </FormGroup>
+);
+
 export const renderInputLabelRowGroupField = ({
   labelFor,
   labelClass,
@@ -96,6 +122,9 @@ export const renderInputLabelGroupField = ({
   </FormGroup>
 );
 
+/**
+ * retourne le render select group field
+ */
 export const renderSelectLabelGroupField = ({
   labelFor,
   labelClass,
