@@ -56,7 +56,7 @@ export function canRead(user) {
  * @retun boolean
  */
 export function canEdit(user) {
-  const allowed = ['admin', 'guest'];
+  const allowed = ['admin'];
   return checkAuthorization(user, allowed);
 }
 /**

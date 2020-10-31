@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 /**
  * Creer un document
  * @param {*} firestore
@@ -48,4 +50,15 @@ export async function getByUid(firestore, id) {
     console.log('No such document!');
   }
   return prospect;
+}
+
+export async function deleteDocument(firestore, docId) {
+  try {
+    const prospectRef = firestore.collection('prospects').doc(docId);
+    await prospectRef.delete();
+    toast.success('🦄 La suppression a bien été effectuer');
+  } catch (error) {
+    console.error({ error });
+    toast.error(`Error: ${error}`);
+  }
 }

@@ -21,13 +21,15 @@ import { withRouter } from 'react-router-dom';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { FaAngleLeft, FaAngleRight, FaEllipsisV } from 'react-icons/fa';
 import moment from 'moment';
+import { connect } from 'react-redux';
 
+import { canEdit, canDelete } from '../../services/auth.service';
 import { withFirebase } from '../../context/firebase';
-import { queryGetAll } from '../../firebase/firestore/prospect';
+import { queryGetAll, deleteDocument } from '../../firebase/firestore/prospect';
 
 function ProspectContainer(props) {
   moment.locale('fr');
-  const { firebase, history } = props;
+  const { firebase, history, user } = props;
   const query = queryGetAll(firebase.firestore);
   const [prospects] = useCollectionData(query, { idField: 'id' });
   const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
@@ -40,11 +42,6 @@ function ProspectContainer(props) {
               <Row className="align-items-center">
                 <Col xs="8">
                   <h3 className="mb-0">Liste des leads</h3>
-                </Col>
-                <Col className="text-right" xs="4">
-                  <Button color="primary" onClick={() => history.push('/register-prospect')} size="sm">
-                    Créer un nouveau lead
-                  </Button>
                 </Col>
               </Row>
             </CardHeader>
@@ -67,9 +64,7 @@ function ProspectContainer(props) {
                     const dateInMillis = timeStampDate.seconds * 1000;
                     return (
                       <tr key={index}>
-                        <th scope="row" onClick={() => history.push(`/detail-prospect/${p.id}`)}>
-                          {p.lastname}
-                        </th>
+                        <th scope="row">{p.lastname}</th>
                         <td>{p.firstname}</td>
                         <td>{p.address}</td>
                         <td>{plainTextDateTime(dateInMillis)}</td>
@@ -87,13 +82,16 @@ function ProspectContainer(props) {
                               <FaEllipsisV />
                             </DropdownToggle>
                             <DropdownMenu className="dropdown-menu-arrow" right>
-                              <DropdownItem onClick={() => history.push(`/detail-prospect/${p.id}`)}>
-                                Modifier
-                              </DropdownItem>
-                              <DropdownItem onClick={(e) => e.preventDefault()}>
-                                Changer le status à terminer
-                              </DropdownItem>
-                              <DropdownItem onClick={(e) => e.preventDefault()}>Supprimer</DropdownItem>
+                              {canEdit(user) && (
+                                <DropdownItem onClick={() => history.push(`/detail-prospect/${p.id}`)}>
+                                  Modifier
+                                </DropdownItem>
+                              )}
+                              {canDelete(user) && (
+                                <DropdownItem onClick={() => deleteDocument(firebase.firestore, p.id)}>
+                                  Supprimer
+                                </DropdownItem>
+                              )}
                             </DropdownMenu>
                           </UncontrolledDropdown>
                         </td>
@@ -142,4 +140,8 @@ function ProspectContainer(props) {
   );
 }
 
-export default compose(withRouter, withFirebase)(ProspectContainer);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(ProspectContainer);
