@@ -36,7 +36,9 @@ function App(props) {
       </Switch>
     </Router>
   ) : (
-    <div>loader</div>
+    <div className="loader">
+      <div className="preloader-preview-area" />
+    </div>
   );
 }
 
