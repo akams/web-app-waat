@@ -7,18 +7,23 @@ import {
   renderSelectLabelGroupField,
   renderDatePickerLabelGroupField,
 } from '../../../../../redux/form/renderers';
+import { normalizeFieldValue } from '../../../../../redux/form/helpers';
 
 export const subForm = 'mainInfo';
 
 const stateOptions = [
-  { value: 1, label: 'Maison individuelle' },
-  { value: 2, label: 'Copropriété' },
-  { value: 3, label: 'Entreprise' },
+  { id: 1, label: 'Maison individuelle' },
+  { id: 2, label: 'Copropriété' },
+  { id: 3, label: 'Entreprise' },
 ];
 
-export function renderMainInfo({ changeFormActionCreator, ...fields }) {
+export function renderMainInfo({ changeFormActionCreator, originalOnSubmit, handleSubmit, ...fields }) {
+  const datePriseContactTelValue = normalizeFieldValue(fields[subForm].datePriseContactTel.input);
   const setDatePriseContactTel = (date) => {
     fields[subForm].datePriseContactTel.meta.dispatch(changeFormActionCreator(`${subForm}.datePriseContactTel`, date));
+  };
+  const onHandleSubmit = (data) => {
+    originalOnSubmit(data);
   };
   return (
     <>
@@ -98,6 +103,7 @@ export function renderMainInfo({ changeFormActionCreator, ...fields }) {
               name={`${subForm}.datePriseContactTel`}
               id="datePriseContactTel"
               iconComponent={<FaRegCalendarAlt />}
+              value={datePriseContactTelValue}
               onChangeFunction={setDatePriseContactTel}
               component={renderDatePickerLabelGroupField}
             />
@@ -129,7 +135,7 @@ export function renderMainInfo({ changeFormActionCreator, ...fields }) {
             />
           </Col>
         </Row>
-        <Button color="info" onClick={(e) => e.preventDefault()} size="md">
+        <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
           Enregistrer
         </Button>
       </div>

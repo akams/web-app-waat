@@ -63,6 +63,7 @@ export const renderDatePickerLabelGroupField = ({
   onChangeFunction,
   iconComponent,
   inputClass,
+  value,
   timeFormat = false,
   meta: { touched, error, warning },
 }) => (
@@ -74,7 +75,7 @@ export const renderDatePickerLabelGroupField = ({
       <InputGroupAddon addonType="prepend">
         <InputGroupText>{iconComponent}</InputGroupText>
       </InputGroupAddon>
-      <ReactDatetime timeFormat={timeFormat} onChange={onChangeFunction} />
+      <ReactDatetime value={new Date()} timeFormat={timeFormat} onChange={onChangeFunction} />
     </InputGroup>
     {touched && ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
   </FormGroup>
@@ -140,8 +141,9 @@ export const renderSelectLabelGroupField = ({
       {labelTxt}
     </Label>
     <Input {...input} type="select" className={inputClass}>
+      <option value="0">Veuillez choisir une option</option>
       {options.map((o) => (
-        <option key={o.value}>{o.label}</option>
+        <option key={o.id}>{o.label}</option>
       ))}
     </Input>
     {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}

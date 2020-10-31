@@ -19,51 +19,10 @@ export const initFormData = createInitFormData(formName);
 
 const changeFormActionCreator = (...rest) => change(formName, ...rest);
 
-export const ApiToForm = (data) => ({
-  mainInfo: {
-    lastname: data.lastname || '',
-    firstname: data.firstname || '',
-    address: data.address || '',
-    phoneNumber: data.phoneNumber || '',
-    leadTransmissionDate: new Date(data.leadTransmissionDate) || null,
-    // suite data
-    email: data.email || '',
-    datePriseContactTel: new Date(data.datePriseContactTel) || new Date(),
-    comments: data.comments || '',
-    typeHabitation: data.typeHabitation || '',
-    lienPhoto: data.lienPhoto || '',
-  },
-  // detail technique
-  abonnement: {
-    typeAbo: data.abonnement.typeAbo || '',
-    distanceApproximativeCable: data.abonnement.distanceApproximativeCable || '',
-    emplacementBorne: data.abonnement.emplacementBorne || '',
-    emplacementTableau: data.abonnement.emplacementTableau || '',
-    isDispoTableau: data.abonnement.isDispoTableau || '',
-    percementARealiser: data.abonnement.percementARealiser || '',
-    plugChargeDacces: data.abonnement.plugChargeDacces || '',
-    comments: data.abonnement.comments || '',
-  },
-  // price
-  infoPrice: {
-    forfait: data.infoPrice.forfait || '',
-    extraCost: data.infoPrice.extraCost || '',
-    comments: data.infoPrice.comments || '',
-  },
-  keyDate: {
-    chefDeprojet: data.keyDate.chefDeprojet || '',
-    dateLivraisonBorne: data.keyDate.dateLivraisonBorne || null,
-    dateReceptionVE: data.keyDate.dateReceptionVE || '',
-    isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
-    datetravauxPrev: data.keyDate.datetravauxPrev || '',
-    disponibiliteClient: data.keyDate.disponibiliteClient || '',
-  },
-});
-
 function EditForm(props) {
+  const { originalOnSubmit, handleSubmit } = props;
   const [collapse, setCollapse] = useState(false);
   const toggle = () => setCollapse(!collapse);
-  console.log('======>>>>>>', { props });
   const componentFaAngle = collapse ? <FaAngleUp onClick={toggle} /> : <FaAngleDown onClick={toggle} />;
   return (
     <CardBody>
@@ -87,6 +46,8 @@ function EditForm(props) {
             component={renderMainInfo}
             props={{
               changeFormActionCreator,
+              originalOnSubmit,
+              handleSubmit,
             }}
           />
         </div>

@@ -22,6 +22,11 @@ export async function create(firestore, parameter) {
   });
 }
 
+export async function update(firestore, id, values) {
+  const prospectRef = firestore.collection('prospects').doc(id);
+  await prospectRef.update(values);
+}
+
 /**
  * Retourne la query pour récuperer les prospect
  * @param {*} firestore

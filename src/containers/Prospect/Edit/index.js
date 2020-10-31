@@ -7,9 +7,10 @@ import { IoMdArrowRoundBack } from 'react-icons/io';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 import { withFirebase } from '../../../context/firebase';
-import { getByUid } from '../../../firebase/firestore/prospect';
+import { getByUid, update } from '../../../firebase/firestore/prospect';
 
-import EditForm, { ApiToForm, initFormData } from './form';
+import EditForm, { initFormData } from './form';
+import { formToApi, ApiToForm } from './control-data';
 
 function ProspectEditContainer(props) {
   const { firebase, history } = props;
@@ -18,6 +19,17 @@ function ProspectEditContainer(props) {
   const initForm = (data) => {
     const { dispatch } = props;
     dispatch(initFormData(ApiToForm(data)));
+  };
+
+  const handleSubmit = async (data) => {
+    try {
+      const dataToApi = formToApi(data);
+      await update(firebase.firestore, prospectId, dataToApi);
+      toast.success('🦄 Mise à jour terminer');
+    } catch (error) {
+      console.error({ error });
+      toast.error(`Error: ${error}`);
+    }
   };
 
   useEffect(() => {
@@ -45,7 +57,7 @@ function ProspectEditContainer(props) {
                 </Col>
               </Row>
             </CardHeader>
-            <EditForm prospect={prospect} />
+            <EditForm prospect={prospect} originalOnSubmit={handleSubmit} {...props} />
           </Card>
         </Col>
       </Row>
