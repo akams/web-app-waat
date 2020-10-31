@@ -21,4 +21,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: show
-        run: echo ${{ secrets.REACT_APP_API_KEY }}
+        run: echo '${{ secrets.REACT_APP_API_KEY }}'
