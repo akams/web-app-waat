@@ -27,18 +27,60 @@ export function checkAuthorization(user, allowedRoles) {
  */
 export function checkAuthorizationWithRoutes(user, pathname) {
   const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
-  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT, ROUTES.REGISTER_PROSPECT];
+  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
+  const PATHS_SUPER_ADMIN = [ROUTES.HOME, ROUTES.REGISTER_PROSPECT, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
   if (!user || Object.keys(user).length === 0 || !user.acl) return false;
   const {
-    acl: { guest, admin },
+    acl: { guest, admin, superAdmin },
   } = user;
   if (guest) {
     return PATHS_GUEST.includes(pathname);
   }
   if (admin) {
+    console.log({ PATHS_ADMIN, pathname });
     return PATHS_ADMIN.includes(pathname);
   }
+  if (superAdmin) {
+    return PATHS_SUPER_ADMIN.includes(pathname);
+  }
   return false;
+}
+
+function buildRoutes(routes, AUTH_PATHS) {
+  const simpleRoutes = routes.map((route) => route.path);
+  const authRoutes = simpleRoutes.filter((path) => AUTH_PATHS.includes(path));
+  return authRoutes.map(
+    (authR) =>
+      routes
+        .map((r) => {
+          if (r.path === authR) {
+            return {
+              ...r,
+            };
+          }
+          return undefined;
+        })
+        .filter((f) => typeof f !== 'undefined')[0]
+  );
+}
+
+export function getAuthorizationWithRoutes(user, routes) {
+  const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
+  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
+  const PATHS_SUPER_ADMIN = [ROUTES.HOME, ROUTES.REGISTER_PROSPECT, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
+  if (!user || Object.keys(user).length === 0 || !user.acl) return [];
+  const {
+    acl: { guest, admin, superAdmin },
+  } = user;
+  if (guest) {
+    return buildRoutes(routes, PATHS_GUEST);
+  }
+  if (admin) {
+    return buildRoutes(routes, PATHS_ADMIN);
+  }
+  if (superAdmin) {
+    return buildRoutes(routes, PATHS_SUPER_ADMIN);
+  }
 }
 
 /**
@@ -47,7 +89,7 @@ export function checkAuthorizationWithRoutes(user, pathname) {
  * @retun boolean
  */
 export function canRead(user) {
-  const allowed = ['admin', 'guest'];
+  const allowed = ['admin', 'guest', 'superAdmin'];
   return checkAuthorization(user, allowed);
 }
 /**
@@ -56,7 +98,7 @@ export function canRead(user) {
  * @retun boolean
  */
 export function canEdit(user) {
-  const allowed = ['admin'];
+  const allowed = ['admin', 'superAdmin'];
   return checkAuthorization(user, allowed);
 }
 /**
@@ -65,6 +107,6 @@ export function canEdit(user) {
  * @retun boolean
  */
 export function canDelete(user) {
-  const allowed = ['admin'];
+  const allowed = ['admin', 'superAdmin'];
   return checkAuthorization(user, allowed);
 }

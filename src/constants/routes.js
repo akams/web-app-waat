@@ -16,4 +16,9 @@ export const IN_APP_ROUTES_ASIDE = [
     name: 'Gestion des prospects',
     icon: 'ni ni-app',
   },
+  {
+    path: REGISTER_PROSPECT,
+    name: 'Enregistrer un lead',
+    icon: 'ni ni-app',
+  },
 ];

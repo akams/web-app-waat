@@ -4,7 +4,7 @@ import { compose } from 'recompose';
 import { Card, CardBody, Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
-import { checkAuthorizationWithRoutes } from '../../services/auth.service';
+import { checkAuthorizationWithRoutes, getAuthorizationWithRoutes } from '../../services/auth.service';
 import { SideMenuUl as SideMenuUlComponent, SideMenuItemLi as SideMenuItemLiComponent } from './styles';
 
 class Sidebar extends Component {
@@ -60,24 +60,22 @@ class Sidebar extends Component {
       user,
     } = this.props;
     // const { activeIndex } = this.state;
-    console.log({ user });
-    return roads.map((prop, key) => {
-      if (checkAuthorizationWithRoutes(user, pathname)) {
-        return (
-          <NavItem key={key}>
-            <NavLink
-              to={prop.path}
-              tag={NavLinkRRD}
-              onClick={() => {
-                this.closeCollapse();
-                // this.toggleClass(key);
-              }}
-              activeClassName={prop.path === pathname ? 'active' : ''}
-            >
-              <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
-              {prop.name}
-            </NavLink>
-            {/* 
+    const updatedRoutes = getAuthorizationWithRoutes(user, roads);
+    return updatedRoutes.map((prop, key) => (
+      <NavItem key={key}>
+        <NavLink
+          to={prop.path}
+          tag={NavLinkRRD}
+          onClick={() => {
+            this.closeCollapse();
+            // this.toggleClass(key);
+          }}
+          activeClassName={prop.path === pathname ? 'active' : ''}
+        >
+          <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
+          {prop.name}
+        </NavLink>
+        {/* 
             <Collapse isOpen={activeIndex === key}>
               <Sidebar.Ul>
                 <Sidebar.Li className="mt-1 mb-1">Page 1</Sidebar.Li>
@@ -85,11 +83,8 @@ class Sidebar extends Component {
               </Sidebar.Ul>
             </Collapse>
             */}
-          </NavItem>
-        );
-      }
-      return null;
-    });
+      </NavItem>
+    ));
   }
 
   render() {
