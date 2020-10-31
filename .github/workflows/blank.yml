@@ -20,11 +20,5 @@ jobs:
   build_and_preview:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: npm install
-      - name: Run test
-        run: npm run test
       - name: show
-        run: echo $REACT_APP_PROJECT_ID
+        run: echo '111'
