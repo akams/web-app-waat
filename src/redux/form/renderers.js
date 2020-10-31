@@ -1,5 +1,6 @@
 import React from 'react';
 import { FormGroup, Input, InputGroupAddon, InputGroupText, InputGroup, Label, Col } from 'reactstrap';
+import Select from 'react-select';
 
 import './style.scss';
 
@@ -91,6 +92,29 @@ export const renderInputLabelGroupField = ({
       {labelTxt}
     </Label>
     <Input {...input} type={type} className={inputClass} />
+    {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
+  </FormGroup>
+);
+
+export const renderSelectLabelGroupField = ({
+  labelFor,
+  labelClass,
+  labelSize,
+  labelTxt,
+  input,
+  inputClass,
+  options,
+  meta: { touched, error, warning },
+}) => (
+  <FormGroup>
+    <Label className={labelClass} for={labelFor} sm={labelSize}>
+      {labelTxt}
+    </Label>
+    <Input {...input} type="select" className={inputClass}>
+      {options.map((o) => (
+        <option key={o.value}>{o.label}</option>
+      ))}
+    </Input>
     {touched && ((error && <p className="error-render-form mt-2 mb-2">{error}</p>) || (warning && <p>{warning}</p>))}
   </FormGroup>
 );

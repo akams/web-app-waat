@@ -1,11 +1,14 @@
 import React from 'react';
-import { Row, Col, Button, FormGroup, Form, Input, CardBody } from 'reactstrap';
+import { Row, Col, Button, Form, CardBody } from 'reactstrap';
 import { connect } from 'react-redux';
-import { reduxForm, Field, formValueSelector } from 'redux-form';
+import { reduxForm, Field, Fields, formValueSelector } from 'redux-form';
 import { compose } from 'recompose';
 
 import { createInitFormData } from '../../../redux/form/helpers';
-import { renderInputLabelGroupField } from '../../../redux/form/renderers';
+import { renderInputLabelGroupField, renderSelectLabelGroupField } from '../../../redux/form/renderers';
+import { subForm as abonnementSubForm, renderAbonnement } from './renderForm/abonnement/renderAbonnement';
+import { subForm as infoPriceSubForm, renderInfoPrice } from './renderForm/infoPrice/renderInfoPrice';
+import { subForm as keyDateSubForm, renderKeyDate } from './renderForm/keyDate/renderKeyDate';
 
 export const formName = 'formEditProspect';
 export const initFormData = createInitFormData(formName);
@@ -18,9 +21,10 @@ export const ApiToForm = (data) => ({
   phoneNumber: data.phoneNumber || '',
   leadTransmissionDate: new Date(data.leadTransmissionDate) || null,
   // suite data
+  email: data.email || '',
   datePriseContactTel: new Date(data.datePriseContactTel) || null,
   comments: data.comments || '',
-  typeHabitation: data.typeHabitation || [],
+  typeHabitation: data.typeHabitation || '',
   // detail technique
   abonnement: {
     typeAbo: data.abonnement.typeAbo || '',
@@ -42,76 +46,165 @@ export const ApiToForm = (data) => ({
     chefDeprojet: data.keyDate.chefDeprojet || '',
     dateLivraisonBorne: data.keyDate.dateLivraisonBorne || null,
     dateReceptionVE: data.keyDate.dateReceptionVE || '',
+    isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
     datetravauxPrev: data.keyDate.datetravauxPrev || '',
     disponibiliteClient: data.keyDate.disponibiliteClient || '',
   },
   lienPhoto: data.lienPhoto || '',
 });
 
+export const stateOptions = [
+  { value: 1, label: 'Maison individuelle' },
+  { value: 2, label: 'Copropriété' },
+  { value: 3, label: 'Entreprise' },
+];
+
 function EditForm(props) {
   return (
     <CardBody>
       <Form>
-        <h6 className="heading-small text-muted mb-4">Information utilisateur</h6>
-        <div className="pl-lg-2">
-          <Row>
-            <Col lg="6">
-              <Field
-                labelClass="form-control-label"
-                inputClass="form-control-alternative"
-                labelFor="lastname"
-                labelTxt="Nom"
-                placeholder="Dupont"
-                type="text"
-                name="lastname"
-                id="lastname"
-                component={renderInputLabelGroupField}
-              />
-            </Col>
-            <Col lg="6">
-              <Field
-                labelClass="form-control-label"
-                inputClass="form-control-alternative"
-                labelFor="firstname"
-                labelTxt="Prénom"
-                placeholder="Jean"
-                type="text"
-                name="firstname"
-                id="firstname"
-                component={renderInputLabelGroupField}
-              />
-            </Col>
-            <Col lg="6">
-              <Field
-                labelClass="form-control-label"
-                inputClass="form-control-alternative"
-                labelFor="address"
-                labelTxt="Adresse"
-                placeholder="3 BLV..."
-                type="text"
-                name="address"
-                id="address"
-                component={renderInputLabelGroupField}
-              />
-            </Col>
-            <Col lg="6">
-              <Field
-                labelClass="form-control-label"
-                inputClass="form-control-alternative"
-                labelFor="phoneNumber"
-                labelTxt="Tél"
-                placeholder="0651032217"
-                type="text"
-                name="phoneNumber"
-                id="phoneNumber"
-                component={renderInputLabelGroupField}
-              />
-            </Col>
-          </Row>
-          <Button color="info" onClick={(e) => e.preventDefault()} size="md">
-            Enregistrer
-          </Button>
+        <div>
+          <h6 className="heading-small text-muted mb-4">Information utilisateur</h6>
+          <div className="pl-lg-2">
+            <Row>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="lastname"
+                  labelTxt="Nom"
+                  placeholder="Dupont"
+                  type="text"
+                  name="lastname"
+                  id="lastname"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="firstname"
+                  labelTxt="Prénom"
+                  placeholder="Jean"
+                  type="text"
+                  name="firstname"
+                  id="firstname"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="address"
+                  labelTxt="Adresse"
+                  placeholder="3 BLV..."
+                  type="text"
+                  name="address"
+                  id="address"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="phoneNumber"
+                  labelTxt="Tél"
+                  placeholder="0651032217"
+                  type="text"
+                  name="phoneNumber"
+                  id="phoneNumber"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="email"
+                  labelTxt="Email"
+                  placeholder="john.doe@mail.fr"
+                  type="email"
+                  name="email"
+                  id="email"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="datePriseContactTel"
+                  labelTxt="DatePriseContactTel"
+                  placeholder="datePriseContactTel"
+                  type="txt"
+                  name="datePriseContactTel"
+                  id="datePriseContactTel"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="comments"
+                  labelTxt="Commentaire"
+                  placeholder="..."
+                  type="textarea"
+                  name="comments"
+                  id="comments"
+                  component={renderInputLabelGroupField}
+                />
+              </Col>
+              <Col lg="6">
+                <Field
+                  labelClass="form-control-label"
+                  inputClass="form-control-alternative"
+                  labelFor="typeHabitation"
+                  labelTxt="Type habitation"
+                  name="typeHabitation"
+                  id="typeHabitation"
+                  isSearchable
+                  options={stateOptions}
+                  component={renderSelectLabelGroupField}
+                />
+              </Col>
+            </Row>
+          </div>
         </div>
+        <Fields
+          names={[
+            `${abonnementSubForm}.typeAbo`,
+            `${abonnementSubForm}.distanceApproximativeCable`,
+            `${abonnementSubForm}.emplacementBorne`,
+            `${abonnementSubForm}.emplacementTableau`,
+            `${abonnementSubForm}.isDispoTableau`,
+            `${abonnementSubForm}.percementARealiser`,
+            `${abonnementSubForm}.plugChargeDacces`,
+            `${abonnementSubForm}.comments`,
+          ]}
+          component={renderAbonnement}
+        />
+        <Fields
+          names={[`${infoPriceSubForm}.forfait`, `${infoPriceSubForm}.extraCost`, `${infoPriceSubForm}.comments`]}
+          component={renderInfoPrice}
+        />
+        <Fields
+          names={[
+            `${keyDateSubForm}.chefDeprojet`,
+            `${keyDateSubForm}.dateLivraisonBorne`,
+            `${keyDateSubForm}.dateReceptionVE`,
+            `${keyDateSubForm}.isReadyForInstallation`,
+            `${keyDateSubForm}.datetravauxPrev`,
+            `${keyDateSubForm}.disponibiliteClient`,
+          ]}
+          component={renderKeyDate}
+        />
+        <Button color="info" onClick={(e) => e.preventDefault()} size="md">
+          Enregistrer
+        </Button>
       </Form>
     </CardBody>
   );
