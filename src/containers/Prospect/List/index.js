@@ -2,65 +2,62 @@ import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardHeader,
-  CardFooter,
-  DropdownMenu,
-  DropdownItem,
-  UncontrolledDropdown,
-  DropdownToggle,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Table,
   Container,
   Row,
   Col,
-  Progress,
+  Input,
+  Button,
+  Table,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  CardFooter,
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
-import { FaAngleLeft, FaAngleRight, FaEllipsisV } from 'react-icons/fa';
-import moment from 'moment';
 import { connect } from 'react-redux';
+import { CgExport } from 'react-icons/cg';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
-import { canEdit, canDelete } from '../../../services/auth.service';
 import { withFirebase } from '../../../context/firebase';
-import { deleteDocument, getAll, nextPage, prevPage } from '../../../firebase/firestore/prospect';
+import { getAllCompanies } from '../../../firebase/firestore/company';
+import ProspectList from './list';
 
 function ProspectContainer(props) {
-  moment.locale('fr');
   const { firebase, history, user } = props;
-  const [prospects, setProspect] = useState([]);
+  const [companies, setCompany] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [idCompany, setIdCompanyValue] = useState();
 
-  const getNextPage = async () => {
-    const nextValue = await nextPage(firebase.firestore, user.uid, prospects[prospects.length - 1]);
-    if (nextValue.length > 0) {
-      setProspect(nextValue);
-    } else {
-      // empty
+  const handleChange = (e) => {
+    const curr = companies.filter((c) => c.name === e.target.value)[0];
+    setSelectedValue(e.target.value);
+    if (curr) {
+      const { id } = curr;
+      sessionStorage.setItem('selectedValueCompany', e.target.value);
+      setIdCompanyValue(id);
     }
   };
 
-  const getPrevPage = async () => {
-    const prevValue = await prevPage(firebase.firestore, user.uid, prospects[0]);
-    if (prevValue.length > 0) {
-      setProspect(prevValue);
-    } else {
-      // empty
-    }
-  };
+  const getPrevPage = () => {};
+  const getNextPage = () => {};
 
   useEffect(() => {
     async function fetch() {
-      if (user.uid) {
-        const res = await getAll(firebase.firestore, user.uid);
-        setProspect(res);
+      const res = await getAllCompanies(firebase.firestore);
+      const saveId = sessionStorage.getItem('selectedValueCompany');
+      if (saveId) {
+        const curr = res.filter((c) => c.name === saveId)[0];
+        if (curr) {
+          const { id } = curr;
+          setIdCompanyValue(id);
+        }
+        setSelectedValue(saveId);
       }
+      setCompany(res);
     }
-    return () => {
-      fetch();
-    };
-  }, [user]);
-  const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
+    fetch();
+  }, []);
   return (
     <Container className="mt--7" fluid>
       <Row>
@@ -68,8 +65,23 @@ function ProspectContainer(props) {
           <Card className="shadow">
             <CardHeader className="border-0">
               <Row className="align-items-center">
-                <Col xs="8">
+                <Col xs="6">
                   <h3 className="mb-0">Liste des leads</h3>
+                </Col>
+                <Col xs="4">
+                  <Input value={selectedValue} name="select-company" type="select" onChange={handleChange}>
+                    <option value="0">Veuillez choisir une option</option>
+                    {companies.map((o) => (
+                      <option value={o.name} key={o.id}>
+                        {o.name}
+                      </option>
+                    ))}
+                  </Input>
+                </Col>
+                <Col className="text-right" xs="2">
+                  <Button color="primary" size="lg">
+                    <CgExport /> Export
+                  </Button>
                 </Col>
               </Row>
             </CardHeader>
@@ -86,70 +98,7 @@ function ProspectContainer(props) {
                   <th scope="col" />
                 </tr>
               </thead>
-              <tbody>
-                {prospects &&
-                  prospects.map((p, index) => {
-                    const { statusWorksheet } = p;
-                    let simpleIntegerCompletion = 0;
-                    if (statusWorksheet) {
-                      console.log({ statusWorksheet });
-                      simpleIntegerCompletion = statusWorksheet.percentageCompletion
-                        ? Math.floor(statusWorksheet.percentageCompletion)
-                        : 0;
-                    }
-                    let className = 'bg-success';
-                    if (simpleIntegerCompletion < 70) {
-                      className = 'bg-danger';
-                    } else if (simpleIntegerCompletion > 70 && simpleIntegerCompletion < 100) {
-                      className = 'bg-info';
-                    }
-                    const timeStampDate = p.leadTransmissionDate;
-                    const dateInMillis = timeStampDate.seconds * 1000;
-                    return (
-                      <tr key={index}>
-                        <th scope="row">{p.lastname}</th>
-                        <td>{p.firstname}</td>
-                        <td>{p.address}</td>
-                        <td>{plainTextDateTime(dateInMillis)}</td>
-                        <td>{p.phoneNumber}</td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <span className="mr-2">{simpleIntegerCompletion}%</span>
-                            <div>
-                              <Progress max="100" value={simpleIntegerCompletion} barClassName={className} />
-                            </div>
-                          </div>
-                        </td>
-                        <td className="text-right">
-                          <UncontrolledDropdown>
-                            <DropdownToggle
-                              className="btn-icon-only text-light"
-                              href="#pablo"
-                              role="button"
-                              size="sm"
-                              color=""
-                              onClick={(e) => e.preventDefault()}
-                            >
-                              <FaEllipsisV />
-                            </DropdownToggle>
-                            <DropdownMenu className="dropdown-menu-arrow" right>
-                              {canEdit(user) && (
-                                <DropdownItem onClick={() => history.push(`/detail-prospect/${p.id}`)}>
-                                  Modifier
-                                </DropdownItem>
-                              )}
-                              {canDelete(user) && (
-                                <DropdownItem onClick={() => deleteDocument(firebase.firestore, p.id)}>
-                                  Supprimer
-                                </DropdownItem>
-                              )}
-                            </DropdownMenu>
-                          </UncontrolledDropdown>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
+              {idCompany ? <ProspectList idCompany={idCompany} {...props} /> : null}
             </Table>
             <CardFooter className="py-4">
               <nav aria-label="...">
@@ -180,4 +129,5 @@ const mapDispatchToProps = {};
 const mapStateToProps = (state) => ({
   user: state.user,
 });
+
 export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(ProspectContainer);

@@ -36,7 +36,6 @@ export async function getAll(firestore, uid) {
 
   const querySnapshot = await docRef.get();
   querySnapshot.forEach(function (doc) {
-    console.log(doc.id, ' => ', doc.data());
     datas.push({ id: doc.id, ...doc.data() });
   });
   return datas;
