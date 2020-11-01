@@ -4,11 +4,14 @@ const MAX_COMPLETION = 25;
 
 export const getPercentageCompletion = (data) => {
   const dataKeys = Object.keys(data);
+  if (dataKeys.length === 0) {
+    return 0;
+  }
   const nbFieldComplete = dataKeys.filter((key) => data[key] !== '').length;
   return (MAX_COMPLETION * nbFieldComplete) / dataKeys.length;
 };
 
-const getStatusWorksheet = (data) => {
+export const getStatusWorksheet = (data) => {
   const percentageCompletion =
     getPercentageCompletion(data.mainInfo) +
     getPercentageCompletion(data.abonnement) +

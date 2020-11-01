@@ -29,17 +29,6 @@ function RegisterProspectForm(props) {
                 </div>
                 <Form role="form">
                   <Field
-                    labelFor="company"
-                    labelSize={2}
-                    labelTxt="Entreprise"
-                    inputColSize={10}
-                    placeholder="Apple..."
-                    type="text"
-                    name="company"
-                    id="company"
-                    component={renderInputLabelRowGroupField}
-                  />
-                  <Field
                     labelFor="lastname"
                     labelSize={2}
                     labelTxt="Nom"
@@ -113,7 +102,6 @@ const selector = formValueSelector(formName);
 const mapDispatchToProps = {};
 const mapStateToProps = (state) => ({
   formValues: {
-    company: selector(state, 'company'),
     lastname: selector(state, 'lastname'),
     firstname: selector(state, 'firstname'),
     address: selector(state, 'address'),

@@ -1,8 +1,5 @@
 export const compileValidation = (values) => {
   const errors = {};
-  if (!values.company || values.company.trim() === '') {
-    errors.company = 'Champ obligatoire';
-  }
   if (!values.lastname || values.lastname.trim() === '') {
     errors.lastname = 'Champ obligatoire';
   }

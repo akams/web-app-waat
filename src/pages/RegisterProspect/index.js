@@ -8,7 +8,6 @@ import SideBar from '../../components/SideBar';
 import { withFirebase } from '../../context/firebase';
 import RegisterProspectContainer, { initFormData } from '../../containers/RegisterProspect';
 import { create as createProspect } from '../../firebase/firestore/prospect';
-import { create as createCompany } from '../../firebase/firestore/company';
 
 function RegisterProspect(props) {
   const {
@@ -20,15 +19,12 @@ function RegisterProspect(props) {
   const handleSubmit = async (data) => {
     try {
       await createProspect(firebase.firestore, { uidCompany: uid, ...data });
-      await createCompany(firebase.firestore, { name: data.company, uid });
       toast.success('🦄 Fiche travaux créer avec succès!');
     } catch (error) {
       toast.error(`Error: ${error}`);
     }
   };
-  const initForm = (
-    data = { company: '', lastname: '', firstname: '', address: '', phoneNumber: '', comments: '' }
-  ) => {
+  const initForm = (data = { lastname: '', firstname: '', address: '', phoneNumber: '', comments: '' }) => {
     const { dispatch } = props;
     dispatch(initFormData(data));
   };

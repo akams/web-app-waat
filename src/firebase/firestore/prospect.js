@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import { getStatusWorksheet, getPercentageCompletion } from '../../containers/Prospect/Edit/control-data';
 
 /**
  * Creer un document
@@ -6,11 +7,19 @@ import { toast } from 'react-toastify';
  * @param {*} parameter
  */
 export async function create(firestore, parameter) {
-  const { company, firstname, lastname, address, phoneNumber, comments, uidCompany } = parameter;
+  const { firstname, lastname, address, phoneNumber, comments, uidCompany } = parameter;
+  const mainInfo = {
+    uidCompany,
+    firstname,
+    lastname,
+    address,
+    phoneNumber,
+    leadTransmissionDate: new Date(),
+    comments,
+  };
   const ref = firestore.collection('prospects');
   await ref.add({
     uidCompany,
-    company,
     firstname,
     lastname,
     address,
@@ -20,6 +29,19 @@ export async function create(firestore, parameter) {
     abonnement: {},
     infoPrice: {},
     keyDate: {},
+    statusWorksheet: {
+      percentageCompletion:
+        getPercentageCompletion(mainInfo) +
+        getPercentageCompletion({}) +
+        getPercentageCompletion({}) +
+        getPercentageCompletion({}),
+      status: getStatusWorksheet({
+        mainInfo,
+        abonnement: {},
+        infoPrice: {},
+        keyDate: {},
+      }),
+    },
   });
 }
 
