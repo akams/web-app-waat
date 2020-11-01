@@ -8,6 +8,7 @@ import {
   renderDatePickerLabelGroupField,
 } from '../../../../../redux/form/renderers';
 import { normalizeFieldValue } from '../../../../../redux/form/helpers';
+import { setFormatMomentDate } from '../../../../../helpers/datetime';
 
 export const subForm = 'mainInfo';
 
@@ -20,7 +21,9 @@ const stateOptions = [
 export function renderMainInfo({ changeFormActionCreator, originalOnSubmit, handleSubmit, ...fields }) {
   const datePriseContactTelValue = normalizeFieldValue(fields[subForm].datePriseContactTel.input);
   const setDatePriseContactTel = (date) => {
-    fields[subForm].datePriseContactTel.meta.dispatch(changeFormActionCreator(`${subForm}.datePriseContactTel`, date));
+    fields[subForm].datePriseContactTel.meta.dispatch(
+      changeFormActionCreator(`${subForm}.datePriseContactTel`, setFormatMomentDate(date))
+    );
   };
   const onHandleSubmit = (data) => {
     originalOnSubmit(data);

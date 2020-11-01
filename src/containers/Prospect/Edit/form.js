@@ -10,7 +10,7 @@ import { createInitFormData } from '../../../redux/form/helpers';
 import { subForm as mainInfoSubForm, renderMainInfo } from './renderForm/mainInfo/renderMain';
 import { subForm as abonnementSubForm, renderAbonnement } from './renderForm/abonnement/renderAbonnement';
 import { subForm as infoPriceSubForm, renderInfoPrice } from './renderForm/infoPrice/renderInfoPrice';
-// import { subForm as keyDateSubForm, renderKeyDate } from './renderForm/keyDate/renderKeyDate';
+import { subForm as keyDateSubForm, renderKeyDate } from './renderForm/keyDate/renderKeyDate';
 
 import './styles/index.scss';
 
@@ -23,13 +23,13 @@ function EditForm(props) {
   const { originalOnSubmit, handleSubmit } = props;
   const [collapseIT, setCollapseIT] = useState(false);
   const [collapseAbo, setCollapseAbo] = useState(false);
-  const [collapsePrice, setCollapsePrice] = useState(true);
-  // const [collapseAbo, setCollapseAbo] = useState(false);
+  const [collapsePrice, setCollapsePrice] = useState(false);
+  const [collapseKeysDate, setCollapseKeysDate] = useState(true);
 
   const toggleIT = () => setCollapseIT(!collapseIT);
   const toggleAbo = () => setCollapseAbo(!collapseAbo);
   const togglePrice = () => setCollapsePrice(!collapsePrice);
-  // const toggleAbo = () => setCollapseAbo(!collapseAbo);
+  const toggleKeyDate = () => setCollapseKeysDate(!collapseKeysDate);
 
   const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
   const componentFaAngleAbo = collapseAbo ? <FaAngleUp onClick={toggleAbo} /> : <FaAngleDown onClick={toggleAbo} />;
@@ -38,7 +38,11 @@ function EditForm(props) {
   ) : (
     <FaAngleDown onClick={togglePrice} />
   );
-  // const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
+  const componentFaAngleKeyDate = collapseKeysDate ? (
+    <FaAngleUp onClick={toggleKeyDate} />
+  ) : (
+    <FaAngleDown onClick={toggleKeyDate} />
+  );
   return (
     <CardBody>
       <Form className="form-edit-prospect">
@@ -99,6 +103,28 @@ function EditForm(props) {
             <Fields
               names={[`${infoPriceSubForm}.forfait`, `${infoPriceSubForm}.extraCost`, `${infoPriceSubForm}.comments`]}
               component={renderInfoPrice}
+              props={{
+                changeFormActionCreator,
+                originalOnSubmit,
+                handleSubmit,
+              }}
+            />
+          </Collapse>
+          <hr className="my-4" />
+          <h6 className="heading-small text-muted mb-4">
+            Information clé <span className="icon-angle-edge">{componentFaAngleKeyDate}</span>
+          </h6>
+          <Collapse isOpen={collapseKeysDate}>
+            <Fields
+              names={[
+                `${keyDateSubForm}.chefDeprojet`,
+                `${keyDateSubForm}.dateLivraisonBorne`,
+                `${keyDateSubForm}.dateReceptionVE`,
+                `${keyDateSubForm}.isReadyForInstallation`,
+                `${keyDateSubForm}.datetravauxPrev`,
+                `${keyDateSubForm}.disponibiliteClient`,
+              ]}
+              component={renderKeyDate}
               props={{
                 changeFormActionCreator,
                 originalOnSubmit,

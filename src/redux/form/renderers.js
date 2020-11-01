@@ -75,7 +75,7 @@ export const renderDatePickerLabelGroupField = ({
       <InputGroupAddon addonType="prepend">
         <InputGroupText>{iconComponent}</InputGroupText>
       </InputGroupAddon>
-      <ReactDatetime value={new Date()} timeFormat={timeFormat} onChange={onChangeFunction} />
+      <ReactDatetime value={value} timeFormat={timeFormat} onChange={onChangeFunction} />
     </InputGroup>
     {touched && ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
   </FormGroup>

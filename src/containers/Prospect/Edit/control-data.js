@@ -52,10 +52,10 @@ export const ApiToForm = (data) => ({
     firstname: data.firstname || '',
     address: data.address || '',
     phoneNumber: data.phoneNumber || '',
-    leadTransmissionDate: transformTimeFirebaseToMomentTime(data.leadTransmissionDate),
+    leadTransmissionDate: transformTimeFirebaseToMomentTime(data.leadTransmissionDate) || '',
     // suite data
     email: data.email || '',
-    datePriseContactTel: transformTimeFirebaseToMomentTime(data.datePriseContactTel),
+    datePriseContactTel: transformTimeFirebaseToMomentTime(data.datePriseContactTel) || '',
     comments: data.comments || '',
     typeHabitation: data.typeHabitation || '',
     lienPhoto: data.lienPhoto || '',
@@ -79,10 +79,10 @@ export const ApiToForm = (data) => ({
   },
   keyDate: {
     chefDeprojet: data.keyDate.chefDeprojet || '',
-    dateLivraisonBorne: data.keyDate.dateLivraisonBorne || null,
-    dateReceptionVE: data.keyDate.dateReceptionVE || '',
+    dateLivraisonBorne: transformTimeFirebaseToMomentTime(data.keyDate.dateLivraisonBorne) || '',
+    dateReceptionVE: transformTimeFirebaseToMomentTime(data.keyDate.dateReceptionVE) || '',
     isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
-    datetravauxPrev: data.keyDate.datetravauxPrev || '',
+    datetravauxPrev: transformTimeFirebaseToMomentTime(data.keyDate.datetravauxPrev) || '',
     disponibiliteClient: data.keyDate.disponibiliteClient || '',
   },
 });
