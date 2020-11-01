@@ -4,16 +4,22 @@ import { compose } from 'recompose';
 import { withRouter, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IoMdArrowRoundBack } from 'react-icons/io';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { connect } from 'react-redux';
+import { reduxForm, formValueSelector } from 'redux-form';
 
 import { withFirebase } from '../../../context/firebase';
 import { getByUid, update } from '../../../firebase/firestore/prospect';
 
-import EditForm, { initFormData } from './form';
+import EditForm, { initFormData, formName } from './form';
 import { formToApi, ApiToForm } from './control-data';
+import { transformTimeFirebaseToMomentTime as getFormatTime } from '../../../helpers/datetime';
 
 function ProspectEditContainer(props) {
-  const { firebase, history } = props;
+  const {
+    firebase,
+    history,
+    formValues: { leadTransmissionDate },
+  } = props;
   const { prospectId } = useParams();
   const [prospect, setProspect] = useState({});
   const initForm = (data) => {
@@ -49,6 +55,9 @@ function ProspectEditContainer(props) {
               <Row className="align-items-center">
                 <Col xs="8">
                   <h3 className="mb-0">Modification :</h3>
+                  <div className="text-muted mt-2">
+                    <small>Date de transmission Lead: {getFormatTime(leadTransmissionDate)}</small>
+                  </div>
                 </Col>
                 <Col className="text-right" xs="4">
                   <Button color="primary" onClick={() => history.push('/manage-prospects')} size="sm">
@@ -65,4 +74,19 @@ function ProspectEditContainer(props) {
   );
 }
 
-export default compose(withRouter, withFirebase)(ProspectEditContainer);
+const selector = formValueSelector(formName);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  formValues: {
+    leadTransmissionDate: selector(state, 'leadTransmissionDate'),
+  },
+});
+
+export default compose(
+  withRouter,
+  withFirebase,
+  reduxForm({
+    form: formName,
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ProspectEditContainer);

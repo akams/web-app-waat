@@ -1,4 +1,4 @@
-import { transformTimeFirebaseToMomentTime } from '../../../helpers/datetime';
+import { transformTimeFirebaseToDateTime } from '../../../helpers/datetime';
 
 const MAX_COMPLETION = 25;
 
@@ -48,15 +48,16 @@ export const formToApi = (data) => ({
 });
 
 export const ApiToForm = (data) => ({
+  leadTransmissionDate: data.leadTransmissionDate,
   mainInfo: {
     lastname: data.lastname || '',
     firstname: data.firstname || '',
     address: data.address || '',
     phoneNumber: data.phoneNumber || '',
-    leadTransmissionDate: transformTimeFirebaseToMomentTime(data.leadTransmissionDate) || '',
+    leadTransmissionDate: transformTimeFirebaseToDateTime(data.leadTransmissionDate) || '',
     // suite data
     email: data.email || '',
-    datePriseContactTel: transformTimeFirebaseToMomentTime(data.datePriseContactTel) || '',
+    datePriseContactTel: transformTimeFirebaseToDateTime(data.datePriseContactTel) || '',
     comments: data.comments || '',
     typeHabitation: data.typeHabitation || '',
     lienPhoto: data.lienPhoto || '',
@@ -80,10 +81,10 @@ export const ApiToForm = (data) => ({
   },
   keyDate: {
     chefDeprojet: data.keyDate.chefDeprojet || '',
-    dateLivraisonBorne: transformTimeFirebaseToMomentTime(data.keyDate.dateLivraisonBorne) || '',
-    dateReceptionVE: transformTimeFirebaseToMomentTime(data.keyDate.dateReceptionVE) || '',
+    dateLivraisonBorne: transformTimeFirebaseToDateTime(data.keyDate.dateLivraisonBorne) || '',
+    dateReceptionVE: transformTimeFirebaseToDateTime(data.keyDate.dateReceptionVE) || '',
     isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
-    datetravauxPrev: transformTimeFirebaseToMomentTime(data.keyDate.datetravauxPrev) || '',
+    datetravauxPrev: transformTimeFirebaseToDateTime(data.keyDate.datetravauxPrev) || '',
     disponibiliteClient: data.keyDate.disponibiliteClient || '',
     comments: data.keyDate.comments || '',
   },

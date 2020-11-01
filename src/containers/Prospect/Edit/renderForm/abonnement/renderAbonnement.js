@@ -5,10 +5,7 @@ import { renderInputLabelGroupField, renderSelectLabelGroupField } from '../../.
 
 export const subForm = 'abonnement';
 
-export function renderAbonnement({ originalOnSubmit, handleSubmit }) {
-  const onHandleSubmit = (data) => {
-    originalOnSubmit(data);
-  };
+export function renderAbonnement() {
   return (
     <>
       <div className="pl-lg-2">
@@ -121,9 +118,6 @@ export function renderAbonnement({ originalOnSubmit, handleSubmit }) {
             />
           </Col>
         </Row>
-        <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
-          Enregistrer
-        </Button>
       </div>
     </>
   );

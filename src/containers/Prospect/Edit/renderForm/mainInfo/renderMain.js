@@ -18,15 +18,12 @@ const stateOptions = [
   { id: 3, label: 'Entreprise' },
 ];
 
-export function renderMainInfo({ changeFormActionCreator, originalOnSubmit, handleSubmit, ...fields }) {
+export function renderMainInfo({ changeFormActionCreator, ...fields }) {
   const datePriseContactTelValue = normalizeFieldValue(fields[subForm].datePriseContactTel.input);
   const setDatePriseContactTel = (date) => {
     fields[subForm].datePriseContactTel.meta.dispatch(
       changeFormActionCreator(`${subForm}.datePriseContactTel`, setFormatMomentDate(date))
     );
-  };
-  const onHandleSubmit = (data) => {
-    originalOnSubmit(data);
   };
   return (
     <>
@@ -138,9 +135,6 @@ export function renderMainInfo({ changeFormActionCreator, originalOnSubmit, hand
             />
           </Col>
         </Row>
-        <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
-          Enregistrer
-        </Button>
       </div>
     </>
   );

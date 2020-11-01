@@ -12,7 +12,7 @@ import { setFormatMomentDate } from '../../../../../helpers/datetime';
 
 export const subForm = 'keyDate';
 
-export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handleSubmit, ...fields }) {
+export function renderKeyDate({ changeFormActionCreator, ...fields }) {
   const dateLivraisonBorneValue = normalizeFieldValue(fields[subForm].dateLivraisonBorne.input);
   const dateReceptionVEValue = normalizeFieldValue(fields[subForm].dateReceptionVE.input);
   const datetravauxPrevValue = normalizeFieldValue(fields[subForm].datetravauxPrev.input);
@@ -30,9 +30,6 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
     fields[subForm].datetravauxPrev.meta.dispatch(
       changeFormActionCreator(`${subForm}.datetravauxPrev`, setFormatMomentDate(date))
     );
-  };
-  const onHandleSubmit = (data) => {
-    originalOnSubmit(data);
   };
   return (
     <>
@@ -134,9 +131,6 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
             />
           </Col>
         </Row>
-        <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
-          Enregistrer
-        </Button>
       </div>
     </>
   );

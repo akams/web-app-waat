@@ -5,10 +5,7 @@ import { renderInputLabelGroupField } from '../../../../../redux/form/renderers'
 
 export const subForm = 'infoPrice';
 
-export function renderInfoPrice({ originalOnSubmit, handleSubmit }) {
-  const onHandleSubmit = (data) => {
-    originalOnSubmit(data);
-  };
+export function renderInfoPrice() {
   return (
     <>
       <div className="pl-lg-2">
@@ -53,9 +50,6 @@ export function renderInfoPrice({ originalOnSubmit, handleSubmit }) {
             />
           </Col>
         </Row>
-        <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
-          Enregistrer
-        </Button>
       </div>
     </>
   );

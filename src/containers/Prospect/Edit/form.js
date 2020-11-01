@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Collapse, CardBody, Form } from 'reactstrap';
+import { Collapse, CardBody, Form, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { reduxForm, Fields, change } from 'redux-form';
 import { compose } from 'recompose';
@@ -30,6 +30,10 @@ function EditForm(props) {
   const toggleAbo = () => setCollapseAbo(!collapseAbo);
   const togglePrice = () => setCollapsePrice(!collapsePrice);
   const toggleKeyDate = () => setCollapseKeysDate(!collapseKeysDate);
+
+  const onHandleSubmit = (data) => {
+    originalOnSubmit(data);
+  };
 
   const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
   const componentFaAngleAbo = collapseAbo ? <FaAngleUp onClick={toggleAbo} /> : <FaAngleDown onClick={toggleAbo} />;
@@ -66,8 +70,6 @@ function EditForm(props) {
               component={renderMainInfo}
               props={{
                 changeFormActionCreator,
-                originalOnSubmit,
-                handleSubmit,
               }}
             />
           </Collapse>
@@ -90,8 +92,6 @@ function EditForm(props) {
               component={renderAbonnement}
               props={{
                 changeFormActionCreator,
-                originalOnSubmit,
-                handleSubmit,
               }}
             />
           </Collapse>
@@ -105,8 +105,6 @@ function EditForm(props) {
               component={renderInfoPrice}
               props={{
                 changeFormActionCreator,
-                originalOnSubmit,
-                handleSubmit,
               }}
             />
           </Collapse>
@@ -128,11 +126,14 @@ function EditForm(props) {
               component={renderKeyDate}
               props={{
                 changeFormActionCreator,
-                originalOnSubmit,
-                handleSubmit,
               }}
             />
           </Collapse>
+          <div className="pl-lg-2">
+            <Button color="info" onClick={handleSubmit(onHandleSubmit)} size="md">
+              Enregistrer
+            </Button>
+          </div>
         </div>
       </Form>
     </CardBody>
