@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Collapse, CardBody, Card, Button, Form } from 'reactstrap';
+import { Collapse, CardBody, Form } from 'reactstrap';
 import { connect } from 'react-redux';
 import { reduxForm, Fields, change } from 'redux-form';
 import { compose } from 'recompose';
@@ -9,7 +9,7 @@ import validate from './validation';
 import { createInitFormData } from '../../../redux/form/helpers';
 import { subForm as mainInfoSubForm, renderMainInfo } from './renderForm/mainInfo/renderMain';
 import { subForm as abonnementSubForm, renderAbonnement } from './renderForm/abonnement/renderAbonnement';
-// import { subForm as infoPriceSubForm, renderInfoPrice } from './renderForm/infoPrice/renderInfoPrice';
+import { subForm as infoPriceSubForm, renderInfoPrice } from './renderForm/infoPrice/renderInfoPrice';
 // import { subForm as keyDateSubForm, renderKeyDate } from './renderForm/keyDate/renderKeyDate';
 
 import './styles/index.scss';
@@ -22,18 +22,22 @@ const changeFormActionCreator = (...rest) => change(formName, ...rest);
 function EditForm(props) {
   const { originalOnSubmit, handleSubmit } = props;
   const [collapseIT, setCollapseIT] = useState(false);
-  const [collapseAbo, setCollapseAbo] = useState(true);
-  // const [collapseAbo, setCollapseAbo] = useState(false);
+  const [collapseAbo, setCollapseAbo] = useState(false);
+  const [collapsePrice, setCollapsePrice] = useState(true);
   // const [collapseAbo, setCollapseAbo] = useState(false);
 
   const toggleIT = () => setCollapseIT(!collapseIT);
   const toggleAbo = () => setCollapseAbo(!collapseAbo);
-  // const toggleAbo = () => setCollapseAbo(!collapseAbo);
+  const togglePrice = () => setCollapsePrice(!collapsePrice);
   // const toggleAbo = () => setCollapseAbo(!collapseAbo);
 
   const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
   const componentFaAngleAbo = collapseAbo ? <FaAngleUp onClick={toggleAbo} /> : <FaAngleDown onClick={toggleAbo} />;
-  // const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
+  const componentFaAnglePrice = collapsePrice ? (
+    <FaAngleUp onClick={togglePrice} />
+  ) : (
+    <FaAngleDown onClick={togglePrice} />
+  );
   // const componentFaAngleIT = collapseIT ? <FaAngleUp onClick={toggleIT} /> : <FaAngleDown onClick={toggleIT} />;
   return (
     <CardBody>
@@ -80,6 +84,21 @@ function EditForm(props) {
                 `${abonnementSubForm}.comments`,
               ]}
               component={renderAbonnement}
+              props={{
+                changeFormActionCreator,
+                originalOnSubmit,
+                handleSubmit,
+              }}
+            />
+          </Collapse>
+          <hr className="my-4" />
+          <h6 className="heading-small text-muted mb-4">
+            Information prix <span className="icon-angle-edge">{componentFaAnglePrice}</span>
+          </h6>
+          <Collapse isOpen={collapsePrice}>
+            <Fields
+              names={[`${infoPriceSubForm}.forfait`, `${infoPriceSubForm}.extraCost`, `${infoPriceSubForm}.comments`]}
+              component={renderInfoPrice}
               props={{
                 changeFormActionCreator,
                 originalOnSubmit,
