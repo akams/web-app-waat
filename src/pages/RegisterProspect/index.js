@@ -2,20 +2,25 @@ import React, { useEffect, useRef } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
 import Navbar from '../../components/Navbar';
 import SideBar from '../../components/SideBar';
 import { withFirebase } from '../../context/firebase';
 import RegisterProspectContainer, { initFormData } from '../../containers/RegisterProspect';
 import { create as createProspect } from '../../firebase/firestore/prospect';
+import { create as createCompany } from '../../firebase/firestore/company';
 
 function RegisterProspect(props) {
-  const { IN_APP_ROUTES } = props;
+  const {
+    firebase,
+    IN_APP_ROUTES,
+    user: { uid },
+  } = props;
   const mainContent = useRef(null);
-
   const handleSubmit = async (data) => {
-    const { firebase } = props;
     try {
-      await createProspect(firebase.firestore, data);
+      // await createProspect(firebase.firestore, { uidCompany: uid, ...data });
+      await createCompany(firebase.firestore, { name: data.company, uid });
       toast.success('🦄 Fiche travaux créer avec succès!');
     } catch (error) {
       toast.error(`Error: ${error}`);
@@ -42,4 +47,9 @@ function RegisterProspect(props) {
   );
 }
 
-export default compose(withRouter, withFirebase)(RegisterProspect);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(RegisterProspect);

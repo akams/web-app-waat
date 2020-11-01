@@ -15,7 +15,7 @@ export default function useAuthListener(firebase, dispatchSetUsersFunction) {
   if (user && typeof user === 'object') {
     getUser(firebase.firestore, user.uid)
       .then((dataUser) => {
-        dispatchSetUsersFunction(dataUser.data);
+        dispatchSetUsersFunction({ uid: user.uid, ...dataUser.data });
       })
       .catch((error) => {
         console.error({ error });

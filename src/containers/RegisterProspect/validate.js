@@ -12,9 +12,6 @@ export const compileValidation = (values) => {
   if (!values.address || values.address.trim() === '') {
     errors.address = 'Champ obligatoire';
   }
-  if (!values.comments || values.comments.trim() === '') {
-    errors.comments = 'Champ obligatoire';
-  }
   if (!values.phoneNumber) {
     errors.phoneNumber = 'Champ obligatoire';
   } else if (!/^(01|06|07)[0-9]{8}$/i.test(values.phoneNumber)) {

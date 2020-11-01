@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
  * @param {*} parameter
  */
 export async function create(firestore, parameter) {
-  const { company, firstname, lastname, address, phoneNumber, comments } = parameter;
+  console.log('prospect', { parameter });
+  const { company, firstname, lastname, address, phoneNumber, comments, uidCompany } = parameter;
   const ref = firestore.collection('prospects');
   await ref.add({
+    uidCompany,
     company,
     firstname,
     lastname,
