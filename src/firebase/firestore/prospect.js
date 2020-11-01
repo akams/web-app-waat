@@ -6,7 +6,6 @@ import { toast } from 'react-toastify';
  * @param {*} parameter
  */
 export async function create(firestore, parameter) {
-  console.log('prospect', { parameter });
   const { company, firstname, lastname, address, phoneNumber, comments, uidCompany } = parameter;
   const ref = firestore.collection('prospects');
   await ref.add({
@@ -24,6 +23,57 @@ export async function create(firestore, parameter) {
   });
 }
 
+const pageSize = 3;
+const field = 'leadTransmissionDate';
+
+export async function getAll(firestore, uid) {
+  const datas = [];
+  const docRef = firestore
+    .collection('prospects')
+    .where('uidCompany', '==', uid)
+    .orderBy('leadTransmissionDate', 'desc')
+    .limit(pageSize);
+
+  const querySnapshot = await docRef.get();
+  querySnapshot.forEach(function (doc) {
+    console.log(doc.id, ' => ', doc.data());
+    datas.push({ id: doc.id, ...doc.data() });
+  });
+  return datas;
+}
+
+export async function nextPage(firestore, uid, last) {
+  const datas = [];
+  const docRef = firestore
+    .collection('prospects')
+    .where('uidCompany', '==', uid)
+    .orderBy('leadTransmissionDate', 'desc')
+    .startAfter(last[field])
+    .limit(pageSize);
+
+  const querySnapshot = await docRef.get();
+  querySnapshot.forEach((doc) => {
+    datas.push({ id: doc.id, ...doc.data() });
+  });
+  return datas;
+}
+
+export async function prevPage(firestore, uid, first) {
+  const datas = [];
+  const docRef = firestore
+    .collection('prospects')
+    .where('uidCompany', '==', uid)
+    .orderBy('leadTransmissionDate', 'desc')
+    .endBefore(first[field])
+    .limitToLast(pageSize);
+
+  const querySnapshot = await docRef.get();
+  querySnapshot.forEach((doc) => {
+    datas.push({ id: doc.id, ...doc.data() });
+  });
+  return datas;
+}
+
 export async function update(firestore, id, values) {
   const prospectRef = firestore.collection('prospects').doc(id);
   await prospectRef.update(values);
@@ -34,9 +84,17 @@ export async function update(firestore, id, values) {
  * @param {*} firestore
  * @param {*} parameter
  */
-export function queryGetAll(firestore, parameter) {
+export function queryGetAllByUidCompany(firestore, userUid) {
+  console.log({ userUid });
   const ref = firestore.collection('prospects');
-  const query = ref.orderBy('leadTransmissionDate', 'desc').limit(10);
+  const query = ref.where('uidCompany', '==', userUid).orderBy('leadTransmissionDate', 'desc').limit(10);
+
+  // db.collection("cities").doc("SF")
+  // .onSnapshot(function(doc) {
+  //     var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
+  //     console.log(source, " data: ", doc.data());
+  // });
+
   return query;
 }
 

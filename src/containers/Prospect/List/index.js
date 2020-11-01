@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardHeader,
@@ -18,20 +18,48 @@ import {
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { FaAngleLeft, FaAngleRight, FaEllipsisV } from 'react-icons/fa';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-import { canEdit, canDelete } from '../../services/auth.service';
-import { withFirebase } from '../../context/firebase';
-import { queryGetAll, deleteDocument } from '../../firebase/firestore/prospect';
+import { canEdit, canDelete } from '../../../services/auth.service';
+import { withFirebase } from '../../../context/firebase';
+import { deleteDocument, getAll, nextPage, prevPage } from '../../../firebase/firestore/prospect';
 
 function ProspectContainer(props) {
   moment.locale('fr');
   const { firebase, history, user } = props;
-  const query = queryGetAll(firebase.firestore);
-  const [prospects] = useCollectionData(query, { idField: 'id' });
+  const [prospects, setProspect] = useState([]);
+
+  const getNextPage = async () => {
+    const nextValue = await nextPage(firebase.firestore, user.uid, prospects[prospects.length - 1]);
+    if (nextValue.length > 0) {
+      setProspect(nextValue);
+    } else {
+      // empty
+    }
+  };
+
+  const getPrevPage = async () => {
+    const prevValue = await prevPage(firebase.firestore, user.uid, prospects[0]);
+    if (prevValue.length > 0) {
+      setProspect(prevValue);
+    } else {
+      // empty
+    }
+  };
+
+  useEffect(() => {
+    async function fetch() {
+      if (user.uid) {
+        const res = await getAll(firebase.firestore, user.uid);
+        setProspect(res);
+      }
+    }
+    return () => {
+      fetch();
+    };
+  }, [user]);
   const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
   return (
     <Container className="mt--7" fluid>
@@ -61,10 +89,14 @@ function ProspectContainer(props) {
               <tbody>
                 {prospects &&
                   prospects.map((p, index) => {
-                    const {
-                      statusWorksheet: { percentageCompletion },
-                    } = p;
-                    const simpleIntegerCompletion = Math.floor(percentageCompletion);
+                    const { statusWorksheet } = p;
+                    let simpleIntegerCompletion = 0;
+                    if (statusWorksheet) {
+                      console.log({ statusWorksheet });
+                      simpleIntegerCompletion = statusWorksheet.percentageCompletion
+                        ? Math.floor(statusWorksheet.percentageCompletion)
+                        : 0;
+                    }
                     let className = 'bg-success';
                     if (simpleIntegerCompletion < 70) {
                       className = 'bg-danger';
@@ -84,7 +116,7 @@ function ProspectContainer(props) {
                           <div className="d-flex align-items-center">
                             <span className="mr-2">{simpleIntegerCompletion}%</span>
                             <div>
-                              <Progress max="100" value={percentageCompletion} barClassName={className} />
+                              <Progress max="100" value={simpleIntegerCompletion} barClassName={className} />
                             </div>
                           </div>
                         </td>
@@ -122,29 +154,14 @@ function ProspectContainer(props) {
             <CardFooter className="py-4">
               <nav aria-label="...">
                 <Pagination className="pagination justify-content-end mb-0" listClassName="justify-content-end mb-0">
-                  <PaginationItem className="disabled">
-                    <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()} tabIndex="-1">
+                  <PaginationItem>
+                    <PaginationLink onClick={() => getPrevPage()} tabIndex="-1">
                       <FaAngleLeft />
                       <span className="sr-only">Previous</span>
                     </PaginationLink>
                   </PaginationItem>
-                  <PaginationItem className="active">
-                    <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                      1
-                    </PaginationLink>
-                  </PaginationItem>
                   <PaginationItem>
-                    <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                      2 <span className="sr-only">(current)</span>
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
-                      3
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink href="#pablo" onClick={(e) => e.preventDefault()}>
+                    <PaginationLink onClick={() => getNextPage()}>
                       <FaAngleRight />
                       <span className="sr-only">Next</span>
                     </PaginationLink>

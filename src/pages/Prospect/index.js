@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Navbar from '../../components/Navbar';
 import SideBar from '../../components/SideBar';
-import ProspectContainer from '../../containers/Prospect';
+import ProspectContainer from '../../containers/Prospect/List';
 
 function Prospect(props) {
   const { IN_APP_ROUTES } = props;

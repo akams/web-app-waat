@@ -13,7 +13,6 @@ export const initFormData = createInitFormData(formName);
 
 function RegisterProspectForm(props) {
   const submitForm = (data) => {
-    console.log({ data });
     props.originalOnSubmit(data);
   };
 

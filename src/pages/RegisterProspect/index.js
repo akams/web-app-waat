@@ -19,7 +19,7 @@ function RegisterProspect(props) {
   const mainContent = useRef(null);
   const handleSubmit = async (data) => {
     try {
-      // await createProspect(firebase.firestore, { uidCompany: uid, ...data });
+      await createProspect(firebase.firestore, { uidCompany: uid, ...data });
       await createCompany(firebase.firestore, { name: data.company, uid });
       toast.success('🦄 Fiche travaux créer avec succès!');
     } catch (error) {
