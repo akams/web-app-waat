@@ -1,15 +1,11 @@
 import React from 'react';
-import { Row, Col, Button, FormGroup, Form, Input, CardBody } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import { Field } from 'redux-form';
-import {
-  renderInputLabelGroupField,
-  renderSelectLabelGroupField,
-  renderDatePickerLabelGroupField,
-} from '../../../../../redux/form/renderers';
+import { renderInputLabelGroupField, renderSelectLabelGroupField } from '../../../../../redux/form/renderers';
 
 export const subForm = 'abonnement';
 
-export function renderAbonnement({ changeFormActionCreator, originalOnSubmit, handleSubmit, ...fields }) {
+export function renderAbonnement({ originalOnSubmit, handleSubmit }) {
   const onHandleSubmit = (data) => {
     originalOnSubmit(data);
   };
