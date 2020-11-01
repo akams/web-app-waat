@@ -14,7 +14,7 @@ import {
   Container,
   Row,
   Col,
-  Button,
+  Progress,
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
@@ -53,6 +53,7 @@ function ProspectContainer(props) {
                   <th scope="col">Adresse</th>
                   <th scope="col">Date de transmission</th>
                   <th scope="col">Tél</th>
+                  <th scope="col">Achèvement</th>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th scope="col" />
                 </tr>
@@ -60,6 +61,16 @@ function ProspectContainer(props) {
               <tbody>
                 {prospects &&
                   prospects.map((p, index) => {
+                    const {
+                      statusWorksheet: { percentageCompletion },
+                    } = p;
+                    const simpleIntegerCompletion = Math.floor(percentageCompletion);
+                    let className = 'bg-success';
+                    if (simpleIntegerCompletion < 70) {
+                      className = 'bg-danger';
+                    } else if (simpleIntegerCompletion > 70 && simpleIntegerCompletion < 100) {
+                      className = 'bg-info';
+                    }
                     const timeStampDate = p.leadTransmissionDate;
                     const dateInMillis = timeStampDate.seconds * 1000;
                     return (
@@ -69,6 +80,14 @@ function ProspectContainer(props) {
                         <td>{p.address}</td>
                         <td>{plainTextDateTime(dateInMillis)}</td>
                         <td>{p.phoneNumber}</td>
+                        <td>
+                          <div className="d-flex align-items-center">
+                            <span className="mr-2">{simpleIntegerCompletion}%</span>
+                            <div>
+                              <Progress max="100" value={percentageCompletion} barClassName={className} />
+                            </div>
+                          </div>
+                        </td>
                         <td className="text-right">
                           <UncontrolledDropdown>
                             <DropdownToggle
