@@ -35,6 +35,7 @@ export const formToApi = (data) => ({
   },
   keyDate: {
     ...data.keyDate,
+    dateLivraisonBorne: new Date(data.keyDate.dateLivraisonBorne),
   },
   statusWorksheet: {
     percentageCompletion:
@@ -84,5 +85,6 @@ export const ApiToForm = (data) => ({
     isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
     datetravauxPrev: transformTimeFirebaseToMomentTime(data.keyDate.datetravauxPrev) || '',
     disponibiliteClient: data.keyDate.disponibiliteClient || '',
+    comments: data.keyDate.comments || '',
   },
 });

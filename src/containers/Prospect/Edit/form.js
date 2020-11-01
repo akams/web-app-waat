@@ -123,6 +123,7 @@ function EditForm(props) {
                 `${keyDateSubForm}.isReadyForInstallation`,
                 `${keyDateSubForm}.datetravauxPrev`,
                 `${keyDateSubForm}.disponibiliteClient`,
+                `${keyDateSubForm}.comments`,
               ]}
               component={renderKeyDate}
               props={{
