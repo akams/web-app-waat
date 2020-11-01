@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, FormGroup, Form, Input, CardBody } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import { Field } from 'redux-form';
 import { FaRegCalendarAlt } from 'react-icons/fa';
 import {
@@ -32,7 +32,6 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
     );
   };
   const onHandleSubmit = (data) => {
-    console.log({ data });
     originalOnSubmit(data);
   };
   return (
@@ -61,7 +60,7 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
               name={`${subForm}.dateLivraisonBorne`}
               id="dateLivraisonBorne"
               iconComponent={<FaRegCalendarAlt />}
-              value={dateLivraisonBorneValue}
+              dateTimeValue={dateLivraisonBorneValue}
               onChangeFunction={setDateLivraisonBorneValue}
               component={renderDatePickerLabelGroupField}
             />
@@ -75,7 +74,7 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
               name={`${subForm}.dateReceptionVE`}
               id="dateReceptionVE"
               iconComponent={<FaRegCalendarAlt />}
-              value={dateReceptionVEValue}
+              dateTimeValue={dateReceptionVEValue}
               onChangeFunction={setDateReceptionVEValue}
               component={renderDatePickerLabelGroupField}
             />
@@ -104,7 +103,7 @@ export function renderKeyDate({ changeFormActionCreator, originalOnSubmit, handl
               name={`${subForm}.datetravauxPrev`}
               id="datetravauxPrev"
               iconComponent={<FaRegCalendarAlt />}
-              value={datetravauxPrevValue}
+              dateTimeValue={datetravauxPrevValue}
               onChangeFunction={setDateTravauxPrevValue}
               component={renderDatePickerLabelGroupField}
             />

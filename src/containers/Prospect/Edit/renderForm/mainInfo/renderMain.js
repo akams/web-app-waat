@@ -106,7 +106,7 @@ export function renderMainInfo({ changeFormActionCreator, originalOnSubmit, hand
               name={`${subForm}.datePriseContactTel`}
               id="datePriseContactTel"
               iconComponent={<FaRegCalendarAlt />}
-              value={datePriseContactTelValue}
+              dateTimeValue={datePriseContactTelValue}
               onChangeFunction={setDatePriseContactTel}
               component={renderDatePickerLabelGroupField}
             />

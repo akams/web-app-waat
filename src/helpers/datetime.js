@@ -9,10 +9,12 @@ moment.locale('fr');
 export function transformTimeFirebaseToMomentTime(firebaseDateTime) {
   if (firebaseDateTime && typeof firebaseDateTime === 'object') {
     const dateInMillis = firebaseDateTime.seconds * 1000;
-    return moment(dateInMillis).format('YYYY-MM-DD HH:mm:ss');
+    return new Date(moment(dateInMillis).format('YYYY-MM-DD HH:mm:ss'));
+    // return moment(dateInMillis).format('YYYY-MM-DD HH:mm:ss');
   }
 }
 
 export function setFormatMomentDate(date) {
-  return moment(date).format('YYYY-MM-DD HH:mm:ss');
+  return new Date(date);
+  // return moment(date).format('YYYY-MM-DD HH:mm:ss');
 }

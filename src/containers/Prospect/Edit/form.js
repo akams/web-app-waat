@@ -21,10 +21,10 @@ const changeFormActionCreator = (...rest) => change(formName, ...rest);
 
 function EditForm(props) {
   const { originalOnSubmit, handleSubmit } = props;
-  const [collapseIT, setCollapseIT] = useState(false);
+  const [collapseIT, setCollapseIT] = useState(true);
   const [collapseAbo, setCollapseAbo] = useState(false);
   const [collapsePrice, setCollapsePrice] = useState(false);
-  const [collapseKeysDate, setCollapseKeysDate] = useState(true);
+  const [collapseKeysDate, setCollapseKeysDate] = useState(false);
 
   const toggleIT = () => setCollapseIT(!collapseIT);
   const toggleAbo = () => setCollapseAbo(!collapseAbo);
