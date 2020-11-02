@@ -17,7 +17,7 @@ import moment from 'moment';
 
 import { canEdit, canDelete } from '../../../services/auth.service';
 import { withFirebase } from '../../../context/firebase';
-import { deleteDocument, getAll, nextPage, prevPage } from '../../../firebase/firestore/prospect';
+import { deleteDocument, getDataByPagination, nextPage, prevPage } from '../../../firebase/firestore/prospect';
 
 function ProspectList(props) {
   moment.locale('fr');
@@ -44,13 +44,13 @@ function ProspectList(props) {
 
   const onDelete = async ({ id }) => {
     await deleteDocument(firebase.firestore, id);
-    const data = await getAll(firebase.firestore, idCompany);
+    const data = await getDataByPagination(firebase.firestore, idCompany);
     setProspect(data);
   };
 
   useEffect(() => {
     async function fetch() {
-      const res = await getAll(firebase.firestore, idCompany);
+      const res = await getDataByPagination(firebase.firestore, idCompany);
       setProspect(res);
     }
     fetch();

@@ -4,8 +4,13 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CgExport } from 'react-icons/cg';
+
 import { withFirebase } from '../../../context/firebase';
 import { getAllCompanies } from '../../../firebase/firestore/company';
+import { downloadCsv } from '../../../helpers/downloadCsv';
+
+import { getAll } from '../../../firebase/firestore/prospect';
+
 import ProspectList from './list';
 
 function ProspectContainer(props) {
@@ -13,6 +18,7 @@ function ProspectContainer(props) {
   const [companies, setCompany] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [idCompany, setIdCompanyValue] = useState();
+  const [datalistLeads, setDataListLeadsValue] = useState([]);
 
   const handleChange = (e) => {
     const curr = companies.filter((c) => c.name === e.target.value)[0];
@@ -21,6 +27,13 @@ function ProspectContainer(props) {
       const { id } = curr;
       sessionStorage.setItem('selectedValueCompany', e.target.value);
       setIdCompanyValue(id);
+    }
+  };
+
+  const onExport = async () => {
+    if (idCompany) {
+      const data = await getAll(firebase.firestore, idCompany);
+      downloadCsv(data);
     }
   };
 
@@ -61,7 +74,7 @@ function ProspectContainer(props) {
                   </Input>
                 </Col>
                 <Col className="text-right" xs="2">
-                  <Button color="primary" size="lg">
+                  <Button color="primary" size="lg" onClick={() => onExport()}>
                     <CgExport /> Export
                   </Button>
                 </Col>
@@ -80,7 +93,9 @@ function ProspectContainer(props) {
                   <th scope="col" />
                 </tr>
               </thead>
-              {idCompany ? <ProspectList idCompany={idCompany} {...props} /> : null}
+              {idCompany ? (
+                <ProspectList setDataListLeadsFunction={setDataListLeadsValue} idCompany={idCompany} {...props} />
+              ) : null}
             </Table>
           </Card>
         </div>

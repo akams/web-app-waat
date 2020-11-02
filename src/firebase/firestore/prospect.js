@@ -45,10 +45,24 @@ export async function create(firestore, parameter) {
   });
 }
 
+export async function getAll(firestore, uid) {
+  const datas = [];
+  const docRef = firestore
+    .collection('prospects')
+    .where('uidCompany', '==', uid)
+    .orderBy('leadTransmissionDate', 'desc');
+
+  const querySnapshot = await docRef.get();
+  querySnapshot.forEach(function (doc) {
+    datas.push({ id: doc.id, ...doc.data() });
+  });
+  return datas;
+}
+
 const pageSize = 10;
 const field = 'leadTransmissionDate';
 
-export async function getAll(firestore, uid) {
+export async function getDataByPagination(firestore, uid) {
   const datas = [];
   const docRef = firestore
     .collection('prospects')
