@@ -87,6 +87,7 @@ export default compose(
   withFirebase,
   reduxForm({
     form: formName,
+    asyncBlurFields: [],
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(ProspectEditContainer);
