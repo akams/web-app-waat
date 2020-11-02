@@ -49,7 +49,7 @@ class HomeChart extends Component {
               <CardHeader className="bg-transparent">
                 <Row className="align-items-center">
                   <div className="col">
-                    <h6 className="text-uppercase text-light ls-1 mb-1">Overview</h6>
+                    <h6 className="text-uppercase text-light ls-1 mb-1">Aperçu</h6>
                     <h2 className="text-white mb-0">Sales value</h2>
                   </div>
                   <div className="col">
@@ -101,7 +101,7 @@ class HomeChart extends Component {
                 <Row className="align-items-center">
                   <div className="col">
                     <h6 className="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-                    <h2 className="mb-0">Total orders</h2>
+                    <h2 className="mb-0">Total des fiches travaux</h2>
                   </div>
                 </Row>
               </CardHeader>

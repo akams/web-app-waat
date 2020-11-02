@@ -21,7 +21,7 @@ function AdminNavbar(props) {
     firebase,
     user: { firstname, lastname },
   } = props;
-  console.log({ props });
+
   const logout = async () => {
     await firebase.logout();
   };

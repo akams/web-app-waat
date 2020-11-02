@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap';
-import { FaChartBar, FaChartPie, FaUsers, FaPercent } from 'react-icons/fa';
+import { FaChartBar, FaChartPie, FaUsers, FaPercent, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { RiPercentLine } from 'react-icons/ri';
 
 class HomeCard extends Component {
@@ -16,9 +16,9 @@ class HomeCard extends Component {
                   <Row>
                     <div className="col">
                       <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                        Traffic
+                        Acquisition nouveau lead
                       </CardTitle>
-                      <span className="h2 font-weight-bold mb-0">350,897</span>
+                      <span className="h2 font-weight-bold mb-0">350</span>
                     </div>
                     <Col className="col-auto">
                       <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -28,9 +28,9 @@ class HomeCard extends Component {
                   </Row>
                   <p className="mt-3 mb-0 text-muted text-sm">
                     <span className="text-success mr-2">
-                      <i className="fa fa-arrow-up" /> 3.48%
+                      <FaArrowUp /> 8.48%
                     </span>{' '}
-                    <span className="text-nowrap">Since last month</span>
+                    <span className="text-nowrap">Depuis le mois dernier</span>
                   </p>
                 </CardBody>
               </Card>
@@ -41,9 +41,9 @@ class HomeCard extends Component {
                   <Row>
                     <div className="col">
                       <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                        New users
+                        Nouvelle fiche travaux
                       </CardTitle>
-                      <span className="h2 font-weight-bold mb-0">2,356</span>
+                      <span className="h2 font-weight-bold mb-0">3</span>
                     </div>
                     <Col className="col-auto">
                       <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -53,9 +53,9 @@ class HomeCard extends Component {
                   </Row>
                   <p className="mt-3 mb-0 text-muted text-sm">
                     <span className="text-danger mr-2">
-                      <i className="fas fa-arrow-down" /> 3.48%
+                      <FaArrowDown /> 1.48%
                     </span>{' '}
-                    <span className="text-nowrap">Since last week</span>
+                    <span className="text-nowrap">Depuis la semaine dernière</span>
                   </p>
                 </CardBody>
               </Card>
@@ -66,9 +66,8 @@ class HomeCard extends Component {
                   <Row>
                     <div className="col">
                       <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                        Sales
+                        Nouveau apporteur d'affaire
                       </CardTitle>
-                      <span className="h2 font-weight-bold mb-0">924</span>
                     </div>
                     <Col className="col-auto">
                       <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -78,9 +77,9 @@ class HomeCard extends Component {
                   </Row>
                   <p className="mt-3 mb-0 text-muted text-sm">
                     <span className="text-warning mr-2">
-                      <i className="fas fa-arrow-down" /> 1.10%
+                      <FaArrowDown /> <span className="font-weight-bold mb-0">1</span>
                     </span>{' '}
-                    <span className="text-nowrap">Since yesterday</span>
+                    <span className="text-nowrap">Depuis hier</span>
                   </p>
                 </CardBody>
               </Card>
@@ -103,7 +102,7 @@ class HomeCard extends Component {
                   </Row>
                   <p className="mt-3 mb-0 text-muted text-sm">
                     <span className="text-success mr-2">
-                      <i className="fas fa-arrow-up" /> 12%
+                      <FaArrowUp /> 12%
                     </span>{' '}
                     <span className="text-nowrap">Since last month</span>
                   </p>
