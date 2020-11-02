@@ -11,11 +11,17 @@ import {
   Media,
 } from 'reactstrap';
 import { compose } from 'recompose';
+import { connect } from 'react-redux';
 import { withFirebase } from '../../context/firebase';
 import './styles.scss';
 
 function AdminNavbar(props) {
-  const { brandText, firebase } = props;
+  const {
+    brandText,
+    firebase,
+    user: { firstname, lastname },
+  } = props;
+  console.log({ props });
   const logout = async () => {
     await firebase.logout();
   };
@@ -34,7 +40,7 @@ function AdminNavbar(props) {
                     <img alt="..." src="../assets/img/theme/team-4-800x800.jpg" />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
-                    <span className="mb-0 text-sm font-weight-bold">Lyes Cheurfa</span>
+                    <span className="mb-0 text-sm font-weight-bold">{`${firstname} ${lastname}`}</span>
                   </Media>
                 </Media>
               </DropdownToggle>
@@ -71,5 +77,9 @@ function AdminNavbar(props) {
     </>
   );
 }
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-export default compose(withFirebase)(AdminNavbar);
+export default compose(withFirebase, connect(mapStateToProps, mapDispatchToProps))(AdminNavbar);
