@@ -9,7 +9,7 @@ import { getAllCompanies } from '../../../firebase/firestore/company';
 import ProspectList from './list';
 
 function ProspectContainer(props) {
-  const { firebase, history, user } = props;
+  const { firebase } = props;
   const [companies, setCompany] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [idCompany, setIdCompanyValue] = useState();

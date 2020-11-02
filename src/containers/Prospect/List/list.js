@@ -42,6 +42,12 @@ function ProspectList(props) {
     }
   };
 
+  const onDelete = async ({ id }) => {
+    await deleteDocument(firebase.firestore, id);
+    const data = await getAll(firebase.firestore, idCompany);
+    setProspect(data);
+  };
+
   useEffect(() => {
     async function fetch() {
       const res = await getAll(firebase.firestore, idCompany);
@@ -78,12 +84,10 @@ function ProspectList(props) {
                 <td>{plainTextDateTime(dateInMillis)}</td>
                 <td>{p.phoneNumber}</td>
                 <td>
-                  <div className="d-flex align-items-center">
+                  <span className="d-flex align-items-center">
                     <span className="mr-2">{simpleIntegerCompletion}%</span>
-                    <div>
-                      <Progress max="100" value={simpleIntegerCompletion} barClassName={className} />
-                    </div>
-                  </div>
+                    <Progress max="100" value={simpleIntegerCompletion} barClassName={className} />
+                  </span>
                 </td>
                 <td className="text-right">
                   <UncontrolledDropdown>
@@ -101,9 +105,7 @@ function ProspectList(props) {
                       {canEdit(user) && (
                         <DropdownItem onClick={() => history.push(`/detail-prospect/${p.id}`)}>Modifier</DropdownItem>
                       )}
-                      {canDelete(user) && (
-                        <DropdownItem onClick={() => deleteDocument(firebase.firestore, p.id)}>Supprimer</DropdownItem>
-                      )}
+                      {canDelete(user) && <DropdownItem onClick={() => onDelete(p)}>Supprimer</DropdownItem>}
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </td>
