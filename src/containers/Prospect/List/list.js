@@ -14,6 +14,7 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { FaEllipsisV, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 import { canEdit, canDelete } from '../../../services/auth.service';
 import { withFirebase } from '../../../context/firebase';
@@ -30,6 +31,7 @@ function ProspectList(props) {
       setProspect(nextValue);
     } else {
       // empty
+      toast.info('vous avez atteint la limite maximum');
     }
   };
 
@@ -39,6 +41,7 @@ function ProspectList(props) {
       setProspect(prevValue);
     } else {
       // empty
+      toast.info('vous avez atteint la limite minimum');
     }
   };
 
