@@ -1,24 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Card,
-  CardHeader,
-  Container,
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  CardFooter,
-} from 'reactstrap';
+import { Card, CardHeader, Container, Row, Col, Input, Button, Table } from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CgExport } from 'react-icons/cg';
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-
 import { withFirebase } from '../../../context/firebase';
 import { getAllCompanies } from '../../../firebase/firestore/company';
 import ProspectList from './list';
@@ -38,9 +23,6 @@ function ProspectContainer(props) {
       setIdCompanyValue(id);
     }
   };
-
-  const getPrevPage = () => {};
-  const getNextPage = () => {};
 
   useEffect(() => {
     async function fetch() {
@@ -100,24 +82,6 @@ function ProspectContainer(props) {
               </thead>
               {idCompany ? <ProspectList idCompany={idCompany} {...props} /> : null}
             </Table>
-            <CardFooter className="py-4">
-              <nav aria-label="...">
-                <Pagination className="pagination justify-content-end mb-0" listClassName="justify-content-end mb-0">
-                  <PaginationItem>
-                    <PaginationLink onClick={() => getPrevPage()} tabIndex="-1">
-                      <FaAngleLeft />
-                      <span className="sr-only">Previous</span>
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink onClick={() => getNextPage()}>
-                      <FaAngleRight />
-                      <span className="sr-only">Next</span>
-                    </PaginationLink>
-                  </PaginationItem>
-                </Pagination>
-              </nav>
-            </CardFooter>
           </Card>
         </div>
       </Row>

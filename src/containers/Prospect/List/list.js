@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { DropdownMenu, DropdownItem, UncontrolledDropdown, DropdownToggle, Table, Progress } from 'reactstrap';
+import {
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Progress,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  CardFooter,
+} from 'reactstrap';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
-import { FaEllipsisV } from 'react-icons/fa';
+import { FaEllipsisV, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import moment from 'moment';
 
 import { canEdit, canDelete } from '../../../services/auth.service';
@@ -101,6 +111,24 @@ function ProspectList(props) {
             );
           })}
       </tbody>
+      <CardFooter className="py-4">
+        <nav aria-label="...">
+          <Pagination className="pagination justify-content-end mb-0" listClassName="justify-content-end mb-0">
+            <PaginationItem>
+              <PaginationLink onClick={() => getPrevPage()} tabIndex="-1">
+                <FaAngleLeft />
+                <span className="sr-only">Previous</span>
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink onClick={() => getNextPage()}>
+                <FaAngleRight />
+                <span className="sr-only">Next</span>
+              </PaginationLink>
+            </PaginationItem>
+          </Pagination>
+        </nav>
+      </CardFooter>
     </>
   );
 }

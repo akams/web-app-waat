@@ -45,7 +45,7 @@ export async function create(firestore, parameter) {
   });
 }
 
-const pageSize = 3;
+const pageSize = 10;
 const field = 'leadTransmissionDate';
 
 export async function getAll(firestore, uid) {
