@@ -2,7 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
-import { HomePage, SigninPage, SignupPage, RegisterProspectPage, ProspectPage, ProspectEditPage } from './pages';
+import {
+  HomePage,
+  SigninPage,
+  SignupPage,
+  SignupBusinessPage,
+  RegisterProspectPage,
+  ProspectPage,
+  ProspectEditPage,
+} from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute, UnProtectedRoute } from './helpers/routes';
 import { withFirebase } from './context/firebase';
@@ -17,6 +25,9 @@ function App(props) {
       <Switch>
         <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_IN}>
           <SigninPage dispatch={dispatch} />
+        </IsUserRedirect>
+        <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_UP_GUEST}>
+          <SignupBusinessPage dispatch={dispatch} />
         </IsUserRedirect>
         <IsUserRedirect user={user} loggedInPath={ROUTES.HOME} path={ROUTES.SIGN_UP}>
           <SignupPage dispatch={dispatch} />

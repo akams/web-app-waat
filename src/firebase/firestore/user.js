@@ -14,6 +14,17 @@ export async function create(firestore, parameter) {
   });
 }
 
+export async function createSimpleUser(firestore, parameter) {
+  const { uid, email, lastname, firstname } = parameter;
+  const userRef = firestore.collection('users').doc(uid);
+  await userRef.set({
+    email,
+    lastname,
+    firstname,
+    acl: { guest: true },
+  });
+}
+
 /**
  * Récupère l'utilisateur par l'uid
  * @param {*} firestore
