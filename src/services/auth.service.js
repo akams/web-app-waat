@@ -37,7 +37,6 @@ export function checkAuthorizationWithRoutes(user, pathname) {
     return PATHS_GUEST.includes(pathname);
   }
   if (admin) {
-    console.log({ PATHS_ADMIN, pathname });
     return PATHS_ADMIN.includes(pathname);
   }
   if (superAdmin) {

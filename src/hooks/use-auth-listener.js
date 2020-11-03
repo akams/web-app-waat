@@ -13,14 +13,16 @@ export default function useAuthListener(firebase, dispatchSetUsersFunction) {
   }, []);
 
   if (user && typeof user === 'object') {
-    getUser(firebase.firestore, user.uid)
-      .then((dataUser) => {
-        dispatchSetUsersFunction({ uid: user.uid, ...dataUser.data });
-      })
-      .catch((error) => {
-        console.error({ error });
-        toast.error(`Error: ${error}`);
-      });
+    if (user.emailVerified) {
+      getUser(firebase.firestore, user.uid)
+        .then((dataUser) => {
+          dispatchSetUsersFunction({ uid: user.uid, ...dataUser.data });
+        })
+        .catch((error) => {
+          console.error({ error });
+          toast.error(`Error heeeeure: ${error}`);
+        });
+    }
   }
 
   return { user };

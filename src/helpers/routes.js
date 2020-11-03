@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
+export function IsUserRedirect({ user, confirmEmailVerifiedPath, loggedInPath, children, ...rest }) {
   return (
     <Route
       {...rest}
@@ -11,10 +11,19 @@ export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
         }
 
         if (user) {
+          if (user.emailVerified) {
+            return (
+              <Redirect
+                to={{
+                  pathname: loggedInPath,
+                }}
+              />
+            );
+          }
           return (
             <Redirect
               to={{
-                pathname: loggedInPath,
+                pathname: confirmEmailVerifiedPath,
               }}
             />
           );
@@ -26,20 +35,30 @@ export function IsUserRedirect({ user, loggedInPath, children, ...rest }) {
   );
 }
 
-export function ProtectedRoute({ user, children, ...rest }) {
+export function ProtectedRoute({ user, confirmEmailVerifiedPath, children, ...rest }) {
   return (
     <Route
       {...rest}
       render={({ location }) => {
         if (user) {
-          return children;
+          if (user.emailVerified) {
+            return children;
+          }
+          return (
+            <Redirect
+              to={{
+                pathname: '/signin',
+                state: { from: location },
+              }}
+            />
+          );
         }
 
         if (!user) {
           return (
             <Redirect
               to={{
-                pathname: '/signin',
+                pathname: confirmEmailVerifiedPath,
                 state: { from: location },
               }}
             />

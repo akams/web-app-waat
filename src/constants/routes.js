@@ -4,6 +4,7 @@ export const MANAGE_PROSPECT = '/manage-prospects';
 export const DETAIL_PROSPECT = '/detail-prospect/:prospectId';
 export const SIGN_IN = '/signin';
 export const SIGN_UP = '/signup';
+export const SIGN_UP_END = '/confirmation-inscription';
 export const SIGN_UP_GUEST = '/business/signup';
 
 export const IN_APP_ROUTES_ASIDE = [
