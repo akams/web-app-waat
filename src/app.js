@@ -60,9 +60,9 @@ function App(props) {
         <ProtectedRoute user={user} path={ROUTES.DETAIL_PROSPECT}>
           <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
         </ProtectedRoute>
-        <UnProtectedRoute path={ROUTES.REGISTER_PROSPECT}>
+        <ProtectedRoute user={user} path={ROUTES.REGISTER_PROSPECT}>
           <RegisterProspectPage routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
-        </UnProtectedRoute>
+        </ProtectedRoute>
       </Switch>
     </Router>
   ) : (

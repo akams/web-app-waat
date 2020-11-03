@@ -49,7 +49,7 @@ function LoginContainer(props) {
       </div>
       <div className="text-center">
         <Button className="my-4" color="primary" type="submit" onClick={handleSubmit(onHandleSubmit)}>
-          Sign in
+          Valider
         </Button>
       </div>
     </Form>
