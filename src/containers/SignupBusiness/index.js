@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { compose } from 'recompose';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import { withFirebase } from '../../context/firebase';
-import { createSimpleUser } from '../../firebase/firestore/user';
-import { create } from '../../firebase/firestore/company';
+import ENV from '../../constants/environment/common.env';
 
 import SignupForm, { initFormData } from './form';
+
+const requestSignUp = (payload) => axios.post(`${ENV.apiUrl}/signup/business`, payload);
 
 function SignupBusiness(props) {
   const mainContent = useRef(null);
@@ -17,15 +19,12 @@ function SignupBusiness(props) {
     const { company, email, password, lastname, firstname } = data;
     try {
       const result = await firebase.register(email, password);
-      await createSimpleUser(firebase.firestore, {
+      await requestSignUp({
         uid: result.user.uid,
         email,
         lastname,
         firstname,
-      });
-      await create(firebase.firestore, {
-        uid: result.user.uid,
-        name: company,
+        company,
       });
       toast.success('🦄 Votre compte à bien été créer!');
     } catch (error) {
