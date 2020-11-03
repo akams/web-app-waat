@@ -51,13 +51,13 @@ function App(props) {
         <UnProtectedRoute path={ROUTES.SIGN_UP_END}>
           <SignupEnd dispatch={dispatch} />
         </UnProtectedRoute>
-        <ProtectedRoute exact user={user} confirmEmailVerifiedPath={ROUTES.SIGN_UP_END} path={ROUTES.HOME}>
+        <ProtectedRoute exact user={user} path={ROUTES.HOME}>
           <HomePage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
         </ProtectedRoute>
-        <ProtectedRoute user={user} confirmEmailVerifiedPath={ROUTES.SIGN_UP_END} path={ROUTES.MANAGE_PROSPECT}>
+        <ProtectedRoute user={user} path={ROUTES.MANAGE_PROSPECT}>
           <ProspectPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
         </ProtectedRoute>
-        <ProtectedRoute user={user} confirmEmailVerifiedPath={ROUTES.SIGN_UP_END} path={ROUTES.DETAIL_PROSPECT}>
+        <ProtectedRoute user={user} path={ROUTES.DETAIL_PROSPECT}>
           <ProspectEditPage dispatch={dispatch} routes={ROUTES.IN_APP_ROUTES_ASIDE} />
         </ProtectedRoute>
         <UnProtectedRoute path={ROUTES.REGISTER_PROSPECT}>

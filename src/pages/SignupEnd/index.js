@@ -1,10 +1,27 @@
-import React, { useRef } from 'react';
-// import { compose } from 'recompose';
-import { Card, CardBody, Container, Row, Col } from 'reactstrap';
+import React, { useRef, useEffect } from 'react';
+import { compose } from 'recompose';
+import { Card, CardBody, Container, Row, Col, Button } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { GoSignIn } from 'react-icons/go';
+import { withFirebase } from '../../context/firebase';
 
 function SignupEnd(props) {
+  const { firebase, history } = props;
   const mainContent = useRef(null);
-  console.log('SignupEnd--===>>>>', { props });
+  const redirectToSignIn = async () => {
+    await firebase.logout();
+    history.push('/signin');
+  };
+  useEffect(() => {
+    async function fetch() {
+      try {
+        await firebase.sendEmailVerification();
+      } catch (e) {
+        console.error({ e });
+      }
+    }
+    fetch();
+  }, []);
   return (
     <>
       <main ref={mainContent}>
@@ -28,6 +45,11 @@ function SignupEnd(props) {
                     </div>
                     <p>Merci de votre inscription, vous allez recevoir un e-mail de confirmation à votre adresse.</p>
                     <p>A tout de suite!</p>
+                    <div className="text-center text-muted mb-6">
+                      <Button color="primary" size="lg" onClick={() => redirectToSignIn()}>
+                        <GoSignIn /> Revenir sur l'écran de connexion
+                      </Button>
+                    </div>
                   </CardBody>
                 </Card>
               </Col>
@@ -39,4 +61,4 @@ function SignupEnd(props) {
   );
 }
 
-export default SignupEnd;
+export default compose(withRouter, withFirebase)(SignupEnd);

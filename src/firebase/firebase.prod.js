@@ -38,6 +38,14 @@ class Firebase {
     return this.auth.signOut();
   }
 
+  sendEmailVerification() {
+    const user = this.auth.currentUser;
+    if (!user.emailVerified) {
+      return user.sendEmailVerification();
+    }
+    return Promise.resolve({ warning: 'un e-mail a déjà été envoyer' });
+  }
+
   passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
 
   passwordUpdate = (password) => this.auth.currentUser.updatePassword(password);

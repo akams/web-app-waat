@@ -58,7 +58,7 @@ export function ProtectedRoute({ user, confirmEmailVerifiedPath, children, ...re
           return (
             <Redirect
               to={{
-                pathname: confirmEmailVerifiedPath,
+                pathname: '/signin',
                 state: { from: location },
               }}
             />
