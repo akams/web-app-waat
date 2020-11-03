@@ -1,20 +1,4 @@
 /**
- * Creer un document
- * @param {*} firestore
- * @param {*} parameter
- */
-export async function create(firestore, parameter) {
-  const { uid, email, lastname, firstname } = parameter;
-  const userRef = firestore.collection('users').doc(uid);
-  await userRef.set({
-    email,
-    lastname,
-    firstname,
-    acl: { admin: true },
-  });
-}
-
-/**
  * Récupère l'utilisateur par l'uid
  * @param {*} firestore
  */

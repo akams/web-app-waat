@@ -2,11 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { compose } from 'recompose';
 import { Card, CardBody, Container, Row, Col } from 'reactstrap';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import { withFirebase } from '../../context/firebase';
-import { create as createUser } from '../../firebase/firestore/user';
+import ENV from '../../constants/environment/common.env';
 
 import SignupForm, { initFormData } from './form';
+
+const requestSignUp = (payload) => axios.post(`${ENV.apiUrl}/signup`, payload);
 
 function Signup(props) {
   const mainContent = useRef(null);
@@ -16,7 +19,7 @@ function Signup(props) {
     const { email, password, lastname, firstname } = data;
     try {
       const result = await firebase.register(email, password);
-      await createUser(firebase.firestore, {
+      await requestSignUp({
         uid: result.user.uid,
         email,
         lastname,
