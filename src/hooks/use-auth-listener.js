@@ -19,8 +19,9 @@ export default function useAuthListener(firebase, dispatchSetUsersFunction) {
           dispatchSetUsersFunction({ uid: user.uid, ...dataUser.data });
         })
         .catch((error) => {
+          firebase.logout();
           console.error({ error });
-          toast.error(`Error heeeeure: ${error}`);
+          toast.error(`Error: ${error}`);
         });
     }
   }
