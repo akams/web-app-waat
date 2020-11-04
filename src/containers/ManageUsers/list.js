@@ -41,7 +41,7 @@ function List(props) {
     await deleteUser(firebase.firestore, id);
     const data = await getAll(firebase.firestore);
     setUsers(data);
-    setSelectedId(id);
+    toggle();
   };
 
   const onActivate = async ({ id }) => {
