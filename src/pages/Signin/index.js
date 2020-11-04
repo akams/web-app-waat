@@ -16,7 +16,7 @@ function Signin(props) {
     const { email, password } = data;
     try {
       await firebase.login(email, password);
-      toast.success('🦄 Wow so easy!');
+      toast.success('Connexion réussie');
     } catch (error) {
       console.error({ error });
       toast.error(`Error: ${error}`);

@@ -8,9 +8,14 @@ import {
   PaginationItem,
   PaginationLink,
   CardFooter,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  Button,
 } from 'reactstrap';
 import { compose } from 'recompose';
 import { FaEllipsisV, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { ImWarning } from 'react-icons/im';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -24,11 +29,19 @@ const requestActiveAccount = (payload) => axios.post(`${ENV.apiUrl}/manage/users
 function List(props) {
   const { firebase, user: currentUser } = props;
   const [users, setUsers] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedId, setSelectedId] = useState();
+
+  const toggle = (id) => {
+    setModal(!modal);
+    setSelectedId(id);
+  };
 
   const onDelete = async ({ id }) => {
     await deleteUser(firebase.firestore, id);
     const data = await getAll(firebase.firestore);
     setUsers(data);
+    setSelectedId(id);
   };
 
   const onActivate = async ({ id }) => {
@@ -99,7 +112,7 @@ function List(props) {
                         <DropdownItem onClick={() => onActivate(p)}>Activer compte</DropdownItem>
                       )}
                       {canDelete(currentUser) && (
-                        <DropdownItem onClick={() => onDelete(p)}>Supprimer compte</DropdownItem>
+                        <DropdownItem onClick={() => toggle(p.id)}>Supprimer compte</DropdownItem>
                       )}
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -126,6 +139,17 @@ function List(props) {
           </Pagination>
         </nav>
       </CardFooter>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalBody>Vous êtes sur le point de supprimer un utilisateur, êtes vous sur de votre décision ?</ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={() => onDelete({ id: selectedId })}>
+            <ImWarning /> Supprimer l'utilisateur
+          </Button>{' '}
+          <Button color="secondary" onClick={toggle}>
+            Annuler
+          </Button>
+        </ModalFooter>
+      </Modal>
     </>
   );
 }
