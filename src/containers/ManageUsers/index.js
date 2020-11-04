@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, Container, Row, Col, Input, Button, Table } from 'reactstrap';
+import React from 'react';
+import { Card, CardHeader, Container, Row, Col, Table } from 'reactstrap';
 import { compose } from 'recompose';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { withFirebase } from '../../context/firebase';
@@ -27,6 +26,7 @@ function ManageUsers(props) {
                   <th scope="col">Prénom</th>
                   <th scope="col">E-mail</th>
                   <th scope="col">Entreprise</th>
+                  <th scope="col">actitver</th>
                   {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                   <th scope="col" />
                 </tr>
@@ -41,6 +41,8 @@ function ManageUsers(props) {
 }
 
 const mapDispatchToProps = {};
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-export default compose(withRouter, withFirebase, connect(mapStateToProps, mapDispatchToProps))(ManageUsers);
+export default compose(withFirebase, connect(mapStateToProps, mapDispatchToProps))(ManageUsers);

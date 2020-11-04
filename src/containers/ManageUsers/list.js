@@ -10,7 +10,6 @@ import {
   CardFooter,
 } from 'reactstrap';
 import { compose } from 'recompose';
-import { withRouter } from 'react-router-dom';
 import { FaEllipsisV, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -23,7 +22,7 @@ import { getAll, deleteUser, nextPage, prevPage } from '../../firebase/firestore
 const requestActiveAccount = (payload) => axios.post(`${ENV.apiUrl}/manage/users/validate`, payload);
 
 function List(props) {
-  const { firebase, history, user: currentUser } = props;
+  const { firebase, user: currentUser } = props;
   const [users, setUsers] = useState([]);
 
   const onDelete = async ({ id }) => {
@@ -81,23 +80,30 @@ function List(props) {
               <td>{p.firstname}</td>
               <td>{p.email}</td>
               <td>{p.company}</td>
+              <td>{JSON.stringify(p.validate)}</td>
               <td className="text-right">
-                <UncontrolledDropdown>
-                  <DropdownToggle
-                    className="btn-icon-only text-light"
-                    href="#pablo"
-                    role="button"
-                    size="sm"
-                    color=""
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <FaEllipsisV />
-                  </DropdownToggle>
-                  <DropdownMenu className="dropdown-menu-arrow" right>
-                    <DropdownItem onClick={() => onActivate(p)}>Activer compte</DropdownItem>
-                    <DropdownItem onClick={() => onDelete(p)}>Supprimer compte</DropdownItem>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
+                {currentUser.uid !== p.id && (
+                  <UncontrolledDropdown>
+                    <DropdownToggle
+                      className="btn-icon-only text-light"
+                      href="#pablo"
+                      role="button"
+                      size="sm"
+                      color=""
+                      onClick={(e) => e.preventDefault()}
+                    >
+                      <FaEllipsisV />
+                    </DropdownToggle>
+                    <DropdownMenu className="dropdown-menu-arrow" right>
+                      {!p.validate && canEdit(currentUser) && (
+                        <DropdownItem onClick={() => onActivate(p)}>Activer compte</DropdownItem>
+                      )}
+                      {canDelete(currentUser) && (
+                        <DropdownItem onClick={() => onDelete(p)}>Supprimer compte</DropdownItem>
+                      )}
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                )}
               </td>
             </tr>
           ))}
@@ -124,4 +130,4 @@ function List(props) {
   );
 }
 
-export default compose(withRouter, withFirebase)(List);
+export default compose(withFirebase)(List);
