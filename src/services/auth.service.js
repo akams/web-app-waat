@@ -2,6 +2,16 @@ import * as ROUTES from '../constants/routes';
 
 /// ////// Abilities and Roles Authorization /////////
 
+const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
+const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT, ROUTES.MANAGE_USERS];
+const PATHS_SUPER_ADMIN = [
+  ROUTES.HOME,
+  ROUTES.REGISTER_PROSPECT,
+  ROUTES.MANAGE_PROSPECT,
+  ROUTES.DETAIL_PROSPECT,
+  ROUTES.MANAGE_USERS,
+];
+
 /**
  * Verifie si un utilisateur match avec les roles
  * @user: User
@@ -26,9 +36,6 @@ export function checkAuthorization(user, allowedRoles) {
  * @return: boolean
  */
 export function checkAuthorizationWithRoutes(user, pathname) {
-  const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
-  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
-  const PATHS_SUPER_ADMIN = [ROUTES.HOME, ROUTES.REGISTER_PROSPECT, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
   if (!user || Object.keys(user).length === 0 || !user.acl) return false;
   const {
     acl: { guest, admin, superAdmin },
@@ -64,9 +71,6 @@ function buildRoutes(routes, AUTH_PATHS) {
 }
 
 export function getAuthorizationWithRoutes(user, routes) {
-  const PATHS_GUEST = [ROUTES.REGISTER_PROSPECT];
-  const PATHS_ADMIN = [ROUTES.HOME, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
-  const PATHS_SUPER_ADMIN = [ROUTES.HOME, ROUTES.REGISTER_PROSPECT, ROUTES.MANAGE_PROSPECT, ROUTES.DETAIL_PROSPECT];
   if (!user || Object.keys(user).length === 0 || !user.acl) return [];
   const {
     acl: { guest, admin, superAdmin },

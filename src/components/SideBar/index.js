@@ -1,4 +1,4 @@
-import React, { useState, Component } from 'react';
+import React, { Component } from 'react';
 import { NavLink as NavLinkRRD, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { Card, CardBody, Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import { checkAuthorizationWithRoutes, getAuthorizationWithRoutes } from '../../services/auth.service';
 import { SideMenuUl as SideMenuUlComponent, SideMenuItemLi as SideMenuItemLiComponent } from './styles';
+import './styles/index.scss';
 
 class Sidebar extends Component {
   constructor(props) {
@@ -72,10 +73,10 @@ class Sidebar extends Component {
           }}
           activeClassName={prop.path === pathname ? 'active' : ''}
         >
-          <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
-          {prop.name}
+          {prop.icon(prop.path === pathname ? 'text-primary icon-sidebar' : 'icon-sidebar')} {prop.name}
         </NavLink>
         {/* 
+          <i className={`${prop.path === pathname ? `${prop.icon} text-primary` : `${prop.icon}`}`} />
             <Collapse isOpen={activeIndex === key}>
               <Sidebar.Ul>
                 <Sidebar.Li className="mt-1 mb-1">Page 1</Sidebar.Li>

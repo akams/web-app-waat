@@ -11,6 +11,7 @@ import {
   RegisterProspectPage,
   ProspectPage,
   ProspectEditPage,
+  ManageUsers,
 } from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute, UnProtectedRoute } from './helpers/routes';
@@ -62,6 +63,9 @@ function App(props) {
         </ProtectedRoute>
         <ProtectedRoute user={user} path={ROUTES.REGISTER_PROSPECT}>
           <RegisterProspectPage routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
+        </ProtectedRoute>
+        <ProtectedRoute user={user} path={ROUTES.MANAGE_USERS}>
+          <ManageUsers routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
         </ProtectedRoute>
       </Switch>
     </Router>

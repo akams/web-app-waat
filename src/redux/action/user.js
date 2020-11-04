@@ -8,9 +8,7 @@ function setUsersList(user) {
 }
 
 export function dispatchSetUsers(user) {
-  return (dispatch, getState) => {
-    console.warn('state before: ', getState());
+  return (dispatch) => {
     dispatch(setUsersList(user));
-    console.warn('state after: ', getState());
   };
 }
