@@ -18,11 +18,11 @@ import { toast } from 'react-toastify';
 
 import { canEdit, canDelete } from '../../services/auth.service';
 import { withFirebase } from '../../context/firebase';
-// import { deleteDocument, getDataByPagination, nextPage, prevPage } from '../../../firebase/firestore/prospect';
+import { getAll } from '../../firebase/firestore/user';
 
 function List(props) {
-  // const { firebase, history, user, idCompany } = props;
-  const [prospects, setProspect] = useState([]);
+  const { firebase, history, user: currentUser, idCompany } = props;
+  const [users, setUsers] = useState([]);
 
   // const getNextPage = async () => {
   //   const nextValue = await nextPage(firebase.firestore, idCompany, prospects[prospects.length - 1]);
@@ -44,24 +44,18 @@ function List(props) {
   //   }
   // };
 
-  // const onDelete = async ({ id }) => {
-  //   await deleteDocument(firebase.firestore, id);
-  //   const data = await getDataByPagination(firebase.firestore, idCompany);
-  //   setProspect(data);
-  // };
-
-  // useEffect(() => {
-  //   async function fetch() {
-  //     const res = await getDataByPagination(firebase.firestore, idCompany);
-  //     setProspect(res);
-  //   }
-  //   fetch();
-  // }, [idCompany]);
+  useEffect(() => {
+    async function fetch() {
+      const res = await getAll(firebase.firestore);
+      setUsers(res);
+    }
+    fetch();
+  }, []);
   return (
     <>
       <tbody>
-        {prospects &&
-          prospects.map((p, index) => (
+        {users &&
+          users.map((p, index) => (
             <tr key={index}>
               <th scope="row">{p.lastname}</th>
               <td>{p.firstname}</td>

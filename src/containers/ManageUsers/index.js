@@ -8,8 +8,6 @@ import { withFirebase } from '../../context/firebase';
 import ListContainer from './list';
 
 function ManageUsers(props) {
-  const { firebase } = props;
-
   return (
     <Container className="mt--7" fluid>
       <Row>
