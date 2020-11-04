@@ -16,7 +16,7 @@ function ManageUsers(props) {
             <CardHeader className="border-0">
               <Row className="align-items-center">
                 <Col xs="6">
-                  <h3 className="mb-0">Liste</h3>
+                  <h3 className="mb-0">Liste des utilisateurs:</h3>
                 </Col>
               </Row>
             </CardHeader>

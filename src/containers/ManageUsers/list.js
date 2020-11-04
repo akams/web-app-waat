@@ -4,7 +4,6 @@ import {
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Progress,
   Pagination,
   PaginationItem,
   PaginationLink,
@@ -13,36 +12,57 @@ import {
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { FaEllipsisV, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import moment from 'moment';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
+import ENV from '../../constants/environment/common.env';
 import { canEdit, canDelete } from '../../services/auth.service';
 import { withFirebase } from '../../context/firebase';
-import { getAll } from '../../firebase/firestore/user';
+import { getAll, deleteUser, nextPage, prevPage } from '../../firebase/firestore/user';
+
+const requestActiveAccount = (payload) => axios.post(`${ENV.apiUrl}/manage/users/validate`, payload);
 
 function List(props) {
-  const { firebase, history, user: currentUser, idCompany } = props;
+  const { firebase, history, user: currentUser } = props;
   const [users, setUsers] = useState([]);
 
-  // const getNextPage = async () => {
-  //   const nextValue = await nextPage(firebase.firestore, idCompany, prospects[prospects.length - 1]);
-  //   if (nextValue.length > 0) {
-  //     setProspect(nextValue);
-  //   } else {
-  //     // empty
-  //     toast.info('vous avez atteint la limite maximum');
-  //   }
-  // };
+  const onDelete = async ({ id }) => {
+    await deleteUser(firebase.firestore, id);
+    const data = await getAll(firebase.firestore);
+    setUsers(data);
+  };
 
-  // const getPrevPage = async () => {
-  //   const prevValue = await prevPage(firebase.firestore, idCompany, prospects[0]);
-  //   if (prevValue.length > 0) {
-  //     setProspect(prevValue);
-  //   } else {
-  //     // empty
-  //     toast.info('vous avez atteint la limite minimum');
-  //   }
-  // };
+  const onActivate = async ({ id }) => {
+    try {
+      await requestActiveAccount({ uid: id });
+      toast.success('Le compte a bien été activer');
+      const data = await getAll(firebase.firestore);
+      setUsers(data);
+    } catch (error) {
+      console.error({ error });
+      toast.error(`Error: une erreur c'est déroulé lors de l'activation du compte`);
+    }
+  };
+
+  const getNextPage = async () => {
+    const nextValue = await nextPage(firebase.firestore, users[users.length - 1]);
+    if (nextValue.length > 0) {
+      setUsers(nextValue);
+    } else {
+      // empty
+      toast.info('vous avez atteint la limite maximum');
+    }
+  };
+
+  const getPrevPage = async () => {
+    const prevValue = await prevPage(firebase.firestore, users[0]);
+    if (prevValue.length > 0) {
+      setUsers(prevValue);
+    } else {
+      // empty
+      toast.info('vous avez atteint la limite minimum');
+    }
+  };
 
   useEffect(() => {
     async function fetch() {
@@ -74,8 +94,8 @@ function List(props) {
                     <FaEllipsisV />
                   </DropdownToggle>
                   <DropdownMenu className="dropdown-menu-arrow" right>
-                    <DropdownItem onClick={() => console.log('modify')}>Modifier</DropdownItem>
-                    <DropdownItem onClick={() => console.log('Supprimer')}>Supprimer</DropdownItem>
+                    <DropdownItem onClick={() => onActivate(p)}>Activer compte</DropdownItem>
+                    <DropdownItem onClick={() => onDelete(p)}>Supprimer compte</DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </td>
@@ -86,15 +106,15 @@ function List(props) {
         <nav aria-label="...">
           <Pagination className="pagination justify-content-end mb-0" listClassName="justify-content-end mb-0">
             <PaginationItem>
-              <PaginationLink onClick={() => console.log('-1')} tabIndex="-1">
+              <PaginationLink onClick={() => getPrevPage()} tabIndex="-1">
                 <FaAngleLeft />
-                <span className="sr-only">Previous</span>
+                <span className="sr-only">Précédent</span>
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink onClick={() => console.log('-2')}>
+              <PaginationLink onClick={() => getNextPage()}>
                 <FaAngleRight />
-                <span className="sr-only">Next</span>
+                <span className="sr-only">Suivant</span>
               </PaginationLink>
             </PaginationItem>
           </Pagination>
