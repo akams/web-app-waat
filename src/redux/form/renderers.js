@@ -11,6 +11,7 @@ import './style.scss';
 export const renderInputGroupField = ({
   iconComponent,
   inputClass,
+  placeholder,
   input,
   type,
   meta: { touched, error, warning },
@@ -20,7 +21,7 @@ export const renderInputGroupField = ({
       <InputGroupAddon addonType="prepend">
         <InputGroupText>{iconComponent}</InputGroupText>
       </InputGroupAddon>
-      <Input {...input} type={type} className={inputClass} />
+      <Input {...input} placeholder={placeholder} type={type} className={inputClass} />
     </InputGroup>
     {touched && ((error && <span className="error-render-form">{error}</span>) || (warning && <span>{warning}</span>))}
   </FormGroup>

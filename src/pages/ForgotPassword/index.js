@@ -1,28 +1,31 @@
 import React, { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, CardBody, Container, Row, Col } from 'reactstrap';
+import { withRouter } from 'react-router-dom';
+import { Card, CardBody, Container, Row, Col, Button } from 'reactstrap';
 import { compose } from 'recompose';
 import { toast } from 'react-toastify';
+import { IoMdArrowRoundBack } from 'react-icons/io';
 
 import { withFirebase } from '../../context/firebase';
 
-import SigninContainer, { initFormData } from '../../containers/Signin';
+import Form, { initFormData } from '../../containers/ForgotPassword';
 
-function Signin(props) {
+function ForgotPassword(props) {
   const mainRef = useRef(null);
-  const { firebase, dispatch } = props;
+  const { firebase, dispatch, history } = props;
 
   const handleSubmit = async (data) => {
-    const { email, password } = data;
+    const { email } = data;
+    console.log({ data });
     try {
-      await firebase.login(email, password);
-      toast.success('Connexion réussie');
+      await firebase.passwordReset(email);
+      toast.success('Un e-mail a été envoyer dans votre boite mail');
     } catch (error) {
-      toast.error(`${error}`);
+      console.error({ error });
+      toast.error(`Error: ${error}`);
     }
   };
 
-  const initForm = (data = { email: '', password: '' }) => {
+  const initForm = (data = { email: '' }) => {
     dispatch(initFormData(data));
   };
 
@@ -49,24 +52,22 @@ function Signin(props) {
                       />
                     </div>
                     <div className="text-center text-muted mb-6">
-                      <h1>Se connecter</h1>
-                      <small>Connectez-vous à votre compte pour continuer</small>
+                      <h1>
+                        Mot de passe oublié ?{' '}
+                        <Button
+                          style={{ float: 'right' }}
+                          color="primary"
+                          onClick={() => history.push('/signin')}
+                          size="sm"
+                        >
+                          <IoMdArrowRoundBack />
+                        </Button>
+                      </h1>
+                      <small>Saisissez votre adresse e-mail pour réinitialiser votre mot de passe</small>
                     </div>
-                    <SigninContainer originalOnSubmit={handleSubmit} {...props} />
+                    <Form originalOnSubmit={handleSubmit} {...props} />
                   </CardBody>
                 </Card>
-                <Row className="mt-3">
-                  <Col xs="6">
-                    <Link style={{ color: 'black' }} to="/mot-de-passe-oublié">
-                      <small>Mot de passe oublié?</small>
-                    </Link>
-                  </Col>
-                  <Col className="text-right" xs="6">
-                    <Link style={{ color: 'black' }} to="/signup">
-                      <small>Créer un nouveau compte</small>
-                    </Link>
-                  </Col>
-                </Row>
               </Col>
             </Row>
           </Container>
@@ -76,4 +77,4 @@ function Signin(props) {
   );
 }
 
-export default compose(withFirebase)(Signin);
+export default compose(withRouter, withFirebase)(ForgotPassword);

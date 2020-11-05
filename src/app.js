@@ -12,6 +12,7 @@ import {
   ProspectPage,
   ProspectEditPage,
   ManageUsers,
+  ForgotPassword,
 } from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute, UnProtectedRoute } from './helpers/routes';
@@ -48,6 +49,14 @@ function App(props) {
           path={ROUTES.SIGN_UP}
         >
           <SignupPage dispatch={dispatch} />
+        </IsUserRedirect>
+        <IsUserRedirect
+          user={user}
+          confirmEmailVerifiedPath={ROUTES.SIGN_UP_END}
+          loggedInPath={ROUTES.HOME}
+          path={ROUTES.FORGOT_PWD}
+        >
+          <ForgotPassword dispatch={dispatch} />
         </IsUserRedirect>
         <UnProtectedRoute path={ROUTES.SIGN_UP_END}>
           <SignupEnd dispatch={dispatch} />

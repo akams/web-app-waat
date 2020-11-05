@@ -7,3 +7,4 @@ export { default as RegisterProspectPage } from './RegisterProspect';
 export { default as ProspectPage } from './Prospect';
 export { default as ProspectEditPage } from './Prospect/Edit';
 export { default as ManageUsers } from './ManageUsers';
+export { default as ForgotPassword } from './ForgotPassword';
