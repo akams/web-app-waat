@@ -20,14 +20,16 @@ export const getStatusWorksheet = (data) => {
   return percentageCompletion < 100 ? 'en cours' : 'terminer';
 };
 
+const controlEmptyDate = (value) => (value !== '' ? new Date(value) : '');
+
 /**
  * Transform data from form to api
  * @data
  */
 export const formToApi = (data) => ({
   ...data.mainInfo,
-  leadTransmissionDate: new Date(data.mainInfo.leadTransmissionDate),
-  datePriseContactTel: new Date(data.mainInfo.datePriseContactTel),
+  leadTransmissionDate: controlEmptyDate(data.mainInfo.leadTransmissionDate),
+  datePriseContactTel: controlEmptyDate(data.mainInfo.datePriseContactTel),
   // detail technique
   abonnement: {
     ...data.abonnement,
@@ -38,7 +40,7 @@ export const formToApi = (data) => ({
   },
   keyDate: {
     ...data.keyDate,
-    dateLivraisonBorne: new Date(data.keyDate.dateLivraisonBorne),
+    dateLivraisonBorne: controlEmptyDate(data.keyDate.dateLivraisonBorne),
   },
   statusWorksheet: {
     percentageCompletion:
@@ -57,10 +59,10 @@ export const ApiToForm = (data) => ({
     firstname: data.firstname || '',
     address: data.address || '',
     phoneNumber: data.phoneNumber || '',
-    leadTransmissionDate: transformTimeFirebaseToDateTime(data.leadTransmissionDate) || new Date(),
+    leadTransmissionDate: transformTimeFirebaseToDateTime(data.leadTransmissionDate) || '',
     // suite data
     email: data.email || '',
-    datePriseContactTel: transformTimeFirebaseToDateTime(data.datePriseContactTel) || new Date(),
+    datePriseContactTel: transformTimeFirebaseToDateTime(data.datePriseContactTel) || '',
     comments: data.comments || '',
     typeHabitation: data.typeHabitation || '',
     lienPhoto: data.lienPhoto || '',
@@ -84,10 +86,10 @@ export const ApiToForm = (data) => ({
   },
   keyDate: {
     chefDeprojet: data.keyDate.chefDeprojet || '',
-    dateLivraisonBorne: transformTimeFirebaseToDateTime(data.keyDate.dateLivraisonBorne) || new Date(),
-    dateReceptionVE: transformTimeFirebaseToDateTime(data.keyDate.dateReceptionVE) || new Date(),
+    dateLivraisonBorne: transformTimeFirebaseToDateTime(data.keyDate.dateLivraisonBorne) || '',
+    dateReceptionVE: transformTimeFirebaseToDateTime(data.keyDate.dateReceptionVE) || '',
     isReadyForInstallation: data.keyDate.isReadyForInstallation || '',
-    datetravauxPrev: transformTimeFirebaseToDateTime(data.keyDate.datetravauxPrev) || new Date(),
+    datetravauxPrev: transformTimeFirebaseToDateTime(data.keyDate.datetravauxPrev) || '',
     disponibiliteClient: data.keyDate.disponibiliteClient || '',
     comments: data.keyDate.comments || '',
   },

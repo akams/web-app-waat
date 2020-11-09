@@ -6,13 +6,18 @@ import { toast } from 'react-toastify';
 import { IoMdArrowRoundBack } from 'react-icons/io';
 import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
+import axios from 'axios';
 
 import { withFirebase } from '../../../context/firebase';
-import { getByUid, update } from '../../../firebase/firestore/prospect';
+import { getByUid } from '../../../firebase/firestore/prospect';
 
 import EditForm, { initFormData, formName } from './form';
 import { formToApi, ApiToForm } from './control-data';
 import { transformTimeFirebaseToMomentTime as getFormatTime } from '../../../helpers/datetime';
+
+import ENV from '../../../constants/environment/common.env';
+
+const requestUpdateData = (payload) => axios.post(`${ENV.apiUrl}/prospect`, payload);
 
 function ProspectEditContainer(props) {
   const {
@@ -30,7 +35,7 @@ function ProspectEditContainer(props) {
   const handleSubmit = async (data) => {
     try {
       const dataToApi = formToApi(data);
-      await update(firebase.firestore, prospectId, dataToApi);
+      await requestUpdateData({ uid: prospectId, dataToApi });
       toast.success('🦄 Mise à jour terminer');
     } catch (error) {
       console.error({ error });
