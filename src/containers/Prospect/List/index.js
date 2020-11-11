@@ -18,7 +18,6 @@ function ProspectContainer(props) {
   const [companies, setCompany] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
   const [idCompany, setIdCompanyValue] = useState();
-  const [datalistLeads, setDataListLeadsValue] = useState([]);
 
   const handleChange = (e) => {
     const curr = companies.filter((c) => c.name === e.target.value)[0];
@@ -93,9 +92,7 @@ function ProspectContainer(props) {
                   <th scope="col" />
                 </tr>
               </thead>
-              {idCompany ? (
-                <ProspectList setDataListLeadsFunction={setDataListLeadsValue} idCompany={idCompany} {...props} />
-              ) : null}
+              {idCompany ? <ProspectList idCompany={idCompany} {...props} /> : null}
             </Table>
           </Card>
         </div>

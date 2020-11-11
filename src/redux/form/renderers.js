@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormGroup, Input, InputGroupAddon, InputGroupText, InputGroup, Label, Col } from 'reactstrap';
-import Select from 'react-select';
 import ReactDatetime from 'react-datetime';
 
 import './style.scss';

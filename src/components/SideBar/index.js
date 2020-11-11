@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink as NavLinkRRD, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { Card, CardBody, Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
+import { Collapse, NavbarBrand, Navbar, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
-import { checkAuthorizationWithRoutes, getAuthorizationWithRoutes } from '../../services/auth.service';
+import { getAuthorizationWithRoutes } from '../../services/auth.service';
 import { SideMenuUl as SideMenuUlComponent, SideMenuItemLi as SideMenuItemLiComponent } from './styles';
 import './styles/index.scss';
 
@@ -88,7 +88,7 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { user, routes } = this.props;
+    const { routes } = this.props;
     const { collapseOpen } = this.state;
     return (
       <Navbar className="navbar-vertical fixed-left navbar-light bg-white" expand="md" id="sidenav-main">
@@ -131,29 +131,6 @@ class Sidebar extends Component {
             <Nav navbar>{this.createLinks(routes)}</Nav>
             {/* Divider */}
             <hr className="my-3" />
-            {/* Heading */}
-            <h6 className="navbar-heading text-muted">Documentation</h6>
-            {/* Navigation */}
-            <Nav className="mb-md-3" navbar>
-              <NavItem>
-                <NavLink href="#">
-                  <i className="ni ni-spaceship" />
-                  Getting started
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">
-                  <i className="ni ni-palette" />
-                  Foundation
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="#">
-                  <i className="ni ni-ui-04" />
-                  Components
-                </NavLink>
-              </NavItem>
-            </Nav>
           </Collapse>
         </Container>
       </Navbar>

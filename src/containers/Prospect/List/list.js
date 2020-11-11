@@ -19,7 +19,6 @@ import { toast } from 'react-toastify';
 import { canEdit, canDelete } from '../../../services/auth.service';
 import { withFirebase } from '../../../context/firebase';
 import { deleteDocument, getDataByPagination, nextPage, prevPage } from '../../../firebase/firestore/prospect';
-import { transformTimeFirebaseToDateTime } from '../../../helpers/datetime';
 
 function ProspectList(props) {
   moment.locale('fr');

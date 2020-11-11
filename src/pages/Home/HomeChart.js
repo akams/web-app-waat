@@ -3,20 +3,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Chart from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
-import {
-  Button,
-  Card,
-  CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import { Card, CardHeader, CardBody, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 import { chartOptions, parseOptions, chartExample1, chartExample2 } from '../../chart';
 
 class HomeChart extends Component {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap';
-import { FaChartBar, FaChartPie, FaUsers, FaPercent, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaChartBar, FaChartPie, FaUsers, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 import { RiPercentLine } from 'react-icons/ri';
 
 class HomeCard extends Component {
