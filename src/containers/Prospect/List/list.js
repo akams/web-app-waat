@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import { canEdit, canDelete } from '../../../services/auth.service';
 import { withFirebase } from '../../../context/firebase';
 import { deleteDocument, getDataByPagination, nextPage, prevPage } from '../../../firebase/firestore/prospect';
+import { transformTimeFirebaseToDateTime } from '../../../helpers/datetime';
 
 function ProspectList(props) {
   moment.locale('fr');
@@ -77,14 +78,19 @@ function ProspectList(props) {
             } else if (simpleIntegerCompletion > 70 && simpleIntegerCompletion < 100) {
               className = 'bg-info';
             }
-            const timeStampDate = p.leadTransmissionDate;
-            const dateInMillis = timeStampDate.seconds * 1000;
+            let dateInMillis;
+            if (typeof p.leadTransmissionDate !== 'string') {
+              const timeStampDate = p.leadTransmissionDate;
+              dateInMillis = plainTextDateTime(timeStampDate.seconds * 1000);
+            } else {
+              dateInMillis = plainTextDateTime(p.leadTransmissionDate);
+            }
             return (
               <tr key={index}>
                 <th scope="row">{p.lastname}</th>
                 <td>{p.firstname}</td>
                 <td>{p.address}</td>
-                <td>{plainTextDateTime(dateInMillis)}</td>
+                <td>{dateInMillis}</td>
                 <td>{p.phoneNumber}</td>
                 <td>
                   <span className="d-flex align-items-center">
