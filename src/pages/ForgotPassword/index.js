@@ -15,7 +15,6 @@ function ForgotPassword(props) {
 
   const handleSubmit = async (data) => {
     const { email } = data;
-    console.log({ data });
     try {
       await firebase.passwordReset(email);
       toast.success('Un e-mail a été envoyer dans votre boite mail');

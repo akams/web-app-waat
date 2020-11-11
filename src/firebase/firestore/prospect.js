@@ -115,16 +115,8 @@ export async function prevPage(firestore, uid, first) {
  * @param {*} parameter
  */
 export function queryGetAllByUidCompany(firestore, userUid) {
-  console.log({ userUid });
   const ref = firestore.collection('prospects');
   const query = ref.where('uidCompany', '==', userUid).orderBy('leadTransmissionDate', 'desc').limit(10);
-
-  // db.collection("cities").doc("SF")
-  // .onSnapshot(function(doc) {
-  //     var source = doc.metadata.hasPendingWrites ? "Local" : "Server";
-  //     console.log(source, " data: ", doc.data());
-  // });
-
   return query;
 }
 

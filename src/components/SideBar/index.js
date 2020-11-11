@@ -25,7 +25,6 @@ class Sidebar extends Component {
 
   toggleClass(index) {
     const { activeIndex } = this.state;
-    console.log({ activeIndex, index });
     this.setState({
       activeIndex: activeIndex === index ? null : index,
     });
