@@ -129,8 +129,6 @@ class Sidebar extends Component {
             </div>
             {/* Navigation */}
             <Nav navbar>{this.createLinks(routes)}</Nav>
-            {/* Divider */}
-            <hr className="my-3" />
           </Collapse>
         </Container>
       </Navbar>

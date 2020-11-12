@@ -294,7 +294,7 @@ export function parseOptions(parent, options) {
   }
 }
 
-// Example 1 of Chart inside src/views/Index.js (Sales value - Card)
+// Graph option
 export const chartExample1 = {
   options: {
     scales: {
@@ -307,7 +307,7 @@ export const chartExample1 = {
           ticks: {
             callback(value) {
               if (!(value % 10)) {
-                return `$${value}k`;
+                return value;
               }
             },
           },
@@ -325,33 +325,16 @@ export const chartExample1 = {
             content += label;
           }
 
-          content += `$${yLabel}k`;
+          content += ` ${yLabel}`;
+          // content += yLabel;
           return content;
         },
       },
     },
   },
-  data1: (canvas) => ({
-    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-      {
-        label: 'Performance',
-        data: [0, 20, 10, 30, 15, 40, 20, 60, 60],
-      },
-    ],
-  }),
-  data2: (canvas) => ({
-    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-      {
-        label: 'Performance',
-        data: [0, 20, 5, 25, 10, 30, 15, 40, 40],
-      },
-    ],
-  }),
 };
 
-// Example 2 of Chart inside src/views/Index.js (Total orders - Card)
+// Bar option
 export const chartExample2 = {
   options: {
     scales: {
@@ -382,15 +365,5 @@ export const chartExample2 = {
         },
       },
     },
-  },
-  data: {
-    labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-      {
-        label: 'Sales',
-        data: [25, 20, 30, 22, 17, 29],
-        maxBarThickness: 10,
-      },
-    ],
   },
 };
