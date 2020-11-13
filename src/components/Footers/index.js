@@ -19,12 +19,8 @@ function Footer() {
         <Col xl="6">
           <Nav className="nav-footer justify-content-center justify-content-xl-end">
             <NavItem>
-              <NavLink
-                href="https://www.creative-tim.com/presentation?ref=adr-admin-footer"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                About Us
+              <NavLink href="https://waat.fr/#contexte" rel="noopener noreferrer" target="_blank">
+                À propos de nous
               </NavLink>
             </NavItem>
           </Nav>
