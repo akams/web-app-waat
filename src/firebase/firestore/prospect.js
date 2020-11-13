@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify';
 import { getStatusWorksheet, getPercentageCompletion } from '../../containers/Prospect/Edit/control-data';
+import { mergeArraysByKeyId } from '../../helpers/array';
 
 /**
  * Creer un document
@@ -43,6 +44,30 @@ export async function create(firestore, parameter) {
       }),
     },
   });
+}
+
+export async function getLastFiveProspect({ firestore }) {
+  const ref = firestore.collection('prospects');
+  const query = ref.orderBy('leadTransmissionDate', 'desc').limit(5);
+
+  const querySnapshot = await query.get();
+  const prospects = [];
+  querySnapshot.forEach(function (doc) {
+    prospects.push({ id: doc.id, ...doc.data() });
+  });
+
+  const collectionCompanies = firestore.collection('companies');
+  const reads = prospects.map((prospect) => collectionCompanies.doc(prospect.uidCompany).get());
+  const results = await Promise.all(reads);
+  const companies = results.map((v) => ({ uidCompany: v.id, ...v.data() }));
+  const merge = mergeArraysByKeyId(prospects, companies, 'uidCompany');
+  const datas = merge.map((m) => ({
+    id: m.id,
+    company: m.name,
+    leadTransmissionDate: m.leadTransmissionDate,
+    prospectName: `${m.firstname} ${m.lastname}`,
+  }));
+  return datas;
 }
 
 export async function getAll(firestore, uid) {

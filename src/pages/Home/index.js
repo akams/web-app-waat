@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { compose } from 'recompose';
 import axios from 'axios';
+import { Container } from 'reactstrap';
+import { connect } from 'react-redux';
 
 import Navbar from '../../components/Navbar';
 import SideBar from '../../components/SideBar';
+import Footers from '../../components/Footers';
 import { withFirebase } from '../../context/firebase';
+
 // import HomeCard from './HomeCard';
 import HomeChart from './HomeChart';
+import HomePreviewData from './HomePreviewData';
 
 import ENV from '../../constants/environment/common.env';
 import { MONTHS } from '../../constants/months';
@@ -83,11 +88,25 @@ function Home(props) {
       <SideBar routes={IN_APP_ROUTES} {...props} />
       <div className="main-content" ref={mainContent}>
         <Navbar brandText="Tableau de bord" />
-        <div className="header bg-gradient-green py-7 py-lg-8" />
-        <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} />
+        <div className="header bg-gradient-green py-7 py-lg-8">
+          <Container className="mt--7" fluid>
+            <HomePreviewData {...props} />
+          </Container>
+        </div>
+        <Container className="mt--7" fluid>
+          <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} />
+        </Container>
+        <Container fluid>
+          <Footers />
+        </Container>
       </div>
     </>
   );
 }
 
-export default compose(withFirebase)(Home);
+const mapDispatchToProps = {};
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default compose(withFirebase, connect(mapStateToProps, mapDispatchToProps))(Home);
