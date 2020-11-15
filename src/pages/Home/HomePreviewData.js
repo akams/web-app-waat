@@ -31,6 +31,7 @@ const getSimpleInfoStat = () => axios.get(`${ENV.apiUrl}/get-simple-stats-info`)
 function HomePreviewData(props) {
   const { firebase, history, user } = props;
   const [prospects, setProspects] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [simpleInfoData, setSimpleInfoData] = useState({
     newBusinessProviderSize: 0,
     newWorksheetSize: 0,
@@ -43,6 +44,7 @@ function HomePreviewData(props) {
       const res2 = await getSimpleInfoStat();
       setProspects(res);
       setSimpleInfoData(res2.data);
+      setIsLoading(false);
     }
     fetch();
   }, []);
@@ -123,6 +125,7 @@ function HomePreviewData(props) {
           value={simpleInfoData.newLeadAcquisitionSize}
           icon={<FaChartBar />}
           iconClassName="icon icon-shape bg-danger text-white rounded-circle shadow"
+          isLoading={isLoading}
         />
         <CardKpi
           title="Fiche travaux avec status terminer"
@@ -131,6 +134,7 @@ function HomePreviewData(props) {
           classNameCard="card-stats mb-4 mb-xl-0 mt-4"
           icon={<FaChartPie />}
           iconClassName="icon icon-shape bg-warning text-white rounded-circle shadow"
+          isLoading={isLoading}
         />
         <CardKpi
           title="Nouveau apporteur d'affaire"
@@ -140,6 +144,7 @@ function HomePreviewData(props) {
           icon={<FaUsers />}
           iconClassName="icon icon-shape bg-yellow text-white rounded-circle shadow"
           isIntern={false}
+          isLoading={isLoading}
         />
       </Col>
     </Row>

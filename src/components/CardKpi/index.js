@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardBody, CardTitle, Row, Col } from 'reactstrap';
+import { Card, CardBody, CardTitle, Row, Col, Spinner } from 'reactstrap';
 import { FaArrowUp, FaEquals } from 'react-icons/fa';
 
 const getClassName = (value) => 'mr-2 '.concat(value > 0 ? 'text-success' : 'text-info');
@@ -12,6 +12,7 @@ function CardKpi({
   icon,
   iconClassName,
   isIntern = true,
+  isLoading,
 }) {
   return (
     <Card className={classNameCard}>
@@ -28,10 +29,14 @@ function CardKpi({
           {isIntern && (
             <Col className="col">
               <p className="mb-0 text-muted text-sm">
-                <span className={getClassName(value)}>
-                  {value > 0 ? <FaArrowUp /> : <FaEquals />}
-                  <span className="font-weight-bold mb-0">{value}</span>
-                </span>{' '}
+                {isLoading ? (
+                  <Spinner color="primary" />
+                ) : (
+                  <span className={getClassName(value)}>
+                    {value > 0 ? <FaArrowUp /> : <FaEquals />}
+                    <span className="font-weight-bold mb-0">{value}</span>
+                  </span>
+                )}{' '}
                 <span className="text-nowrap">{description}</span>
               </p>
             </Col>
@@ -39,10 +44,14 @@ function CardKpi({
         </Row>
         {!isIntern && (
           <p className="mt-3 mb-0 text-muted text-sm">
-            <span className={getClassName(value)}>
-              {value > 0 ? <FaArrowUp /> : <FaEquals />}
-              <span className="font-weight-bold mb-0">{value}</span>
-            </span>{' '}
+            {isLoading ? (
+              <Spinner color="primary" />
+            ) : (
+              <span className={getClassName(value)}>
+                {value > 0 ? <FaArrowUp /> : <FaEquals />}
+                <span className="font-weight-bold mb-0">{value}</span>
+              </span>
+            )}{' '}
             <span className="text-nowrap">{description}</span>
           </p>
         )}
