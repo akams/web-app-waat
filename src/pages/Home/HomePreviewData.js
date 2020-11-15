@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { FaEllipsisV, FaChartBar, FaChartPie, FaUsers, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaEllipsisV, FaChartBar, FaChartPie, FaUsers, FaArrowUp, FaEquals } from 'react-icons/fa';
 import moment from 'moment';
 
 import { withFirebase } from '../../context/firebase';
@@ -24,7 +24,12 @@ import { getLastFiveProspect } from '../../firebase/firestore/prospect';
 import { canEdit } from '../../services/auth.service';
 
 function HomePreviewData(props) {
-  const { firebase, history, user } = props;
+  const {
+    firebase,
+    history,
+    user,
+    simpleInfoData: { newBusinessProviderSize = 0, newWorksheetSize = 0 },
+  } = props;
   const [prospects, setProspects] = useState([]);
   useEffect(() => {
     async function fetch() {
@@ -34,6 +39,8 @@ function HomePreviewData(props) {
     fetch();
   }, []);
   const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
+  const getClassName = (value) => 'mr-2 '.concat(value > 0 ? 'text-success' : 'text-info');
+
   return (
     <Row className="mt-5">
       <Col className="mb-5 mb-xl-0" xl="8">
@@ -134,20 +141,22 @@ function HomePreviewData(props) {
                 <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
                   Nouvelle fiche travaux
                 </CardTitle>
-                <span className="h2 font-weight-bold mb-0">3</span>
               </div>
               <Col className="col-auto">
                 <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
                   <FaChartPie />
                 </div>
               </Col>
+              <Col className="col">
+                <p className="mb-0 text-muted text-sm">
+                  <span className={getClassName(newWorksheetSize)}>
+                    {newWorksheetSize > 0 ? <FaArrowUp /> : <FaEquals />}{' '}
+                    <span className="font-weight-bold mb-0">{newWorksheetSize}</span>
+                  </span>{' '}
+                  <span className="text-nowrap">Depuis la semaine dernière</span>
+                </p>
+              </Col>
             </Row>
-            <p className="mt-3 mb-0 text-muted text-sm">
-              <span className="text-danger mr-2">
-                <FaArrowDown /> 1.48%
-              </span>{' '}
-              <span className="text-nowrap">Depuis la semaine dernière</span>
-            </p>
           </CardBody>
         </Card>
 
@@ -166,8 +175,9 @@ function HomePreviewData(props) {
               </Col>
             </Row>
             <p className="mt-3 mb-0 text-muted text-sm">
-              <span className="text-warning mr-2">
-                <FaArrowDown /> <span className="font-weight-bold mb-0">1</span>
+              <span className={getClassName(newBusinessProviderSize)}>
+                {newBusinessProviderSize > 0 ? <FaArrowUp /> : <FaEquals />}{' '}
+                <span className="font-weight-bold mb-0">{newBusinessProviderSize}</span>
               </span>{' '}
               <span className="text-nowrap">Depuis hier</span>
             </p>
