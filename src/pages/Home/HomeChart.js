@@ -2,8 +2,15 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
-import { Card, CardHeader, CardBody, Row, Col } from 'reactstrap';
+import { Card, CardHeader, CardBody, Row, Col, Spinner } from 'reactstrap';
 import { chartOptions, parseOptions, chartExample1, chartExample2 } from '../../chart';
+
+const styles = {
+  spinner: {
+    position: 'relative',
+    top: '50%',
+  },
+};
 
 class HomeChart extends Component {
   constructor(props) {
@@ -15,7 +22,7 @@ class HomeChart extends Component {
   }
 
   render() {
-    const { dataChart, dataChartLine } = this.props;
+    const { dataChart, dataChartLine, isLoading } = this.props;
     return (
       <Row>
         <Col className="mb-5 mb-xl-0" xl="8">
@@ -30,8 +37,12 @@ class HomeChart extends Component {
             </CardHeader>
             <CardBody>
               {/* Chart */}
-              <div className="chart">
-                <Line data={dataChartLine} options={chartExample1.options} x />
+              <div className="chart text-center">
+                {isLoading ? (
+                  <Spinner style={styles.spinner} color="primary" />
+                ) : (
+                  <Line data={dataChartLine} options={chartExample1.options} x />
+                )}
               </div>
             </CardBody>
           </Card>
@@ -48,8 +59,12 @@ class HomeChart extends Component {
             </CardHeader>
             <CardBody>
               {/* Chart */}
-              <div className="chart">
-                <Bar data={dataChart} options={chartExample2.options} />
+              <div className="chart text-center">
+                {isLoading ? (
+                  <Spinner style={styles.spinner} color="primary" />
+                ) : (
+                  <Bar data={dataChart} options={chartExample2.options} />
+                )}
               </div>
             </CardBody>
           </Card>

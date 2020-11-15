@@ -18,7 +18,6 @@ import { MONTHS } from '../../constants/months';
 
 const getDataStatistic = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect`);
 const getDataStatisticWithStatus = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect-with-status`);
-// const getSimpleInfoStat = () => axios.get(`${ENV.apiUrl}/get-simple-stats-info`);
 
 function getRandomArbitrary(min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -71,6 +70,7 @@ function Home(props) {
   const mainContent = useRef(null);
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const get = async () => {
     const res = await getDataStatistic();
@@ -80,6 +80,7 @@ function Home(props) {
     const dataToChartLine = buildChartForLine(res2.data);
     setDataChartBar(dataToChart);
     setDataChartLine(dataToChartLine);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -96,7 +97,7 @@ function Home(props) {
           </Container>
         </div>
         <Container className="mt--7" fluid>
-          <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} />
+          <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} isLoading={isLoading} />
         </Container>
         <Container fluid>
           <Footers />
