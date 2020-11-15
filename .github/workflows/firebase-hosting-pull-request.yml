@@ -5,7 +5,7 @@ name: Deploy to Firebase Hosting on PR
 on:
   push:
     branches:
-      - master
+      - master_dev
 env:
   CI: false
   REACT_APP_API_KEY: '${{ secrets.REACT_APP_API_KEY }}'
