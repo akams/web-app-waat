@@ -28,7 +28,7 @@ function HomePreviewData(props) {
     firebase,
     history,
     user,
-    simpleInfoData: { newBusinessProviderSize = 0, newWorksheetSize = 0 },
+    simpleInfoData: { newBusinessProviderSize = 0, newWorksheetSize = 0, newLeadAcquisitionSize = 0 },
   } = props;
   const [prospects, setProspects] = useState([]);
   useEffect(() => {
@@ -117,20 +117,22 @@ function HomePreviewData(props) {
                 <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
                   Acquisition nouveau lead
                 </CardTitle>
-                <span className="h2 font-weight-bold mb-0">350</span>
               </div>
               <Col className="col-auto">
                 <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
                   <FaChartBar />
                 </div>
               </Col>
+              <Col className="col">
+                <p className="mb-0 text-muted text-sm">
+                  <span className={getClassName(newLeadAcquisitionSize)}>
+                    {newLeadAcquisitionSize > 0 ? <FaArrowUp /> : <FaEquals />}
+                    <span className="font-weight-bold mb-0">{newLeadAcquisitionSize}</span>
+                  </span>{' '}
+                  <span className="text-nowrap">Depuis le mois dernier</span>
+                </p>
+              </Col>
             </Row>
-            <p className="mt-3 mb-0 text-muted text-sm">
-              <span className="text-success mr-2">
-                <FaArrowUp /> 8.48%
-              </span>{' '}
-              <span className="text-nowrap">Depuis le mois dernier</span>
-            </p>
           </CardBody>
         </Card>
 
@@ -139,7 +141,7 @@ function HomePreviewData(props) {
             <Row>
               <div className="col">
                 <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                  Nouvelle fiche travaux
+                  Fiche travaux avec status terminer
                 </CardTitle>
               </div>
               <Col className="col-auto">
