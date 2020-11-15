@@ -5,8 +5,6 @@ import {
   CardHeader,
   Button,
   Table,
-  CardBody,
-  CardTitle,
   Row,
   Col,
   DropdownMenu,
@@ -16,30 +14,39 @@ import {
 } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
-import { FaEllipsisV, FaChartBar, FaChartPie, FaUsers, FaArrowUp, FaEquals } from 'react-icons/fa';
+import { FaEllipsisV, FaChartBar, FaChartPie, FaUsers } from 'react-icons/fa';
 import moment from 'moment';
+import axios from 'axios';
 
 import { withFirebase } from '../../context/firebase';
 import { getLastFiveProspect } from '../../firebase/firestore/prospect';
 import { canEdit } from '../../services/auth.service';
 
+import CardKpi from '../../components/CardKpi';
+
+import ENV from '../../constants/environment/common.env';
+
+const getSimpleInfoStat = () => axios.get(`${ENV.apiUrl}/get-simple-stats-info`);
+
 function HomePreviewData(props) {
-  const {
-    firebase,
-    history,
-    user,
-    simpleInfoData: { newBusinessProviderSize = 0, newWorksheetSize = 0, newLeadAcquisitionSize = 0 },
-  } = props;
+  const { firebase, history, user } = props;
   const [prospects, setProspects] = useState([]);
+  const [simpleInfoData, setSimpleInfoData] = useState({
+    newBusinessProviderSize: 0,
+    newWorksheetSize: 0,
+    newLeadAcquisitionSize: 0,
+  });
+
   useEffect(() => {
     async function fetch() {
       const res = await getLastFiveProspect(firebase);
+      const res2 = await getSimpleInfoStat();
       setProspects(res);
+      setSimpleInfoData(res2.data);
     }
     fetch();
   }, []);
   const plainTextDateTime = (dateTime) => moment(dateTime).format('YYYY-MM-DD HH:mm:ss');
-  const getClassName = (value) => 'mr-2 '.concat(value > 0 ? 'text-success' : 'text-info');
 
   return (
     <Row className="mt-5">
@@ -110,81 +117,30 @@ function HomePreviewData(props) {
         </Card>
       </Col>
       <Col xl="4">
-        <Card className="card-stats mb-4 mb-xl-0">
-          <CardBody>
-            <Row>
-              <div className="col">
-                <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                  Acquisition nouveau lead
-                </CardTitle>
-              </div>
-              <Col className="col-auto">
-                <div className="icon icon-shape bg-danger text-white rounded-circle shadow">
-                  <FaChartBar />
-                </div>
-              </Col>
-              <Col className="col">
-                <p className="mb-0 text-muted text-sm">
-                  <span className={getClassName(newLeadAcquisitionSize)}>
-                    {newLeadAcquisitionSize > 0 ? <FaArrowUp /> : <FaEquals />}
-                    <span className="font-weight-bold mb-0">{newLeadAcquisitionSize}</span>
-                  </span>{' '}
-                  <span className="text-nowrap">Depuis le mois dernier</span>
-                </p>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-
-        <Card className="card-stats mb-4 mb-xl-0 mt-4">
-          <CardBody>
-            <Row>
-              <div className="col">
-                <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                  Fiche travaux avec status terminer
-                </CardTitle>
-              </div>
-              <Col className="col-auto">
-                <div className="icon icon-shape bg-warning text-white rounded-circle shadow">
-                  <FaChartPie />
-                </div>
-              </Col>
-              <Col className="col">
-                <p className="mb-0 text-muted text-sm">
-                  <span className={getClassName(newWorksheetSize)}>
-                    {newWorksheetSize > 0 ? <FaArrowUp /> : <FaEquals />}{' '}
-                    <span className="font-weight-bold mb-0">{newWorksheetSize}</span>
-                  </span>{' '}
-                  <span className="text-nowrap">Depuis la semaine dernière</span>
-                </p>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-
-        <Card className="card-stats mb-4 mb-xl-0 mt-4">
-          <CardBody>
-            <Row>
-              <div className="col">
-                <CardTitle tag="h5" className="text-uppercase text-muted mb-0">
-                  Nouveau apporteur d'affaire
-                </CardTitle>
-              </div>
-              <Col className="col-auto">
-                <div className="icon icon-shape bg-yellow text-white rounded-circle shadow">
-                  <FaUsers />
-                </div>
-              </Col>
-            </Row>
-            <p className="mt-3 mb-0 text-muted text-sm">
-              <span className={getClassName(newBusinessProviderSize)}>
-                {newBusinessProviderSize > 0 ? <FaArrowUp /> : <FaEquals />}{' '}
-                <span className="font-weight-bold mb-0">{newBusinessProviderSize}</span>
-              </span>{' '}
-              <span className="text-nowrap">Depuis hier</span>
-            </p>
-          </CardBody>
-        </Card>
+        <CardKpi
+          title="Acquisition nouveau lead"
+          description="Depuis le mois dernier"
+          value={simpleInfoData.newLeadAcquisitionSize}
+          icon={<FaChartBar />}
+          iconClassName="icon icon-shape bg-danger text-white rounded-circle shadow"
+        />
+        <CardKpi
+          title="Fiche travaux avec status terminer"
+          description="Depuis la semaine dernière"
+          value={simpleInfoData.newWorksheetSize}
+          classNameCard="card-stats mb-4 mb-xl-0 mt-4"
+          icon={<FaChartPie />}
+          iconClassName="icon icon-shape bg-warning text-white rounded-circle shadow"
+        />
+        <CardKpi
+          title="Nouveau apporteur d'affaire"
+          description="Depuis hier"
+          value={simpleInfoData.newBusinessProviderSize}
+          classNameCard="card-stats mb-4 mb-xl-0 mt-4"
+          icon={<FaUsers />}
+          iconClassName="icon icon-shape bg-yellow text-white rounded-circle shadow"
+          isIntern={false}
+        />
       </Col>
     </Row>
   );

@@ -18,7 +18,7 @@ import { MONTHS } from '../../constants/months';
 
 const getDataStatistic = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect`);
 const getDataStatisticWithStatus = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect-with-status`);
-const getSimpleInfoStat = () => axios.get(`${ENV.apiUrl}/get-simple-stats-info`);
+// const getSimpleInfoStat = () => axios.get(`${ENV.apiUrl}/get-simple-stats-info`);
 
 function getRandomArbitrary(min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -71,18 +71,15 @@ function Home(props) {
   const mainContent = useRef(null);
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
-  const [simpleInfoData, setSimpleInfoData] = useState({});
 
   const get = async () => {
     const res = await getDataStatistic();
     const res2 = await getDataStatisticWithStatus();
-    const res3 = await getSimpleInfoStat();
 
     const dataToChart = buildChartForBar(res.data);
     const dataToChartLine = buildChartForLine(res2.data);
     setDataChartBar(dataToChart);
     setDataChartLine(dataToChartLine);
-    setSimpleInfoData(res3.data);
   };
 
   useEffect(() => {
@@ -95,7 +92,7 @@ function Home(props) {
         <Navbar brandText="Tableau de bord" />
         <div className="header bg-gradient-green py-7 py-lg-8">
           <Container className="mt--7" fluid>
-            <HomePreviewData simpleInfoData={simpleInfoData} {...props} />
+            <HomePreviewData {...props} />
           </Container>
         </div>
         <Container className="mt--7" fluid>
