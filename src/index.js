@@ -18,26 +18,24 @@ import 'react-toastify/dist/ReactToastify.css';
 export const myStore = configureStore();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <FirebaseContext.Provider value={new Firebase()}>
-      <GlobalStyles />
-      <Provider store={myStore}>
-        <ConnectedRouter history={history}>
-          <App dispatch={myStore.dispatch} />
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </ConnectedRouter>
-      </Provider>
-    </FirebaseContext.Provider>
-  </React.StrictMode>,
+  <FirebaseContext.Provider value={new Firebase()}>
+    <GlobalStyles />
+    <Provider store={myStore}>
+      <ConnectedRouter history={history}>
+        <App dispatch={myStore.dispatch} />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </ConnectedRouter>
+    </Provider>
+  </FirebaseContext.Provider>,
   document.getElementById('root')
 );
