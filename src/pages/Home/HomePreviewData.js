@@ -45,7 +45,6 @@ function HomePreviewData(props) {
       if (displayKPIForAdmin(user)) {
         const res = await getProspect();
         const res2 = await getSimpleInfoStat();
-        console.log({ res });
         setProspects(res.data);
         setSimpleInfoData(res2.data);
         setIsLoading(false);
