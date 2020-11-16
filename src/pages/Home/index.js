@@ -16,6 +16,8 @@ import HomePreviewData from './HomePreviewData';
 import ENV from '../../constants/environment/common.env';
 import { MONTHS } from '../../constants/months';
 
+import { displayKPIForAdmin } from '../../services/auth.service';
+
 const getDataStatistic = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect`);
 const getDataStatisticWithStatus = () => axios.get(`${ENV.apiUrl}/get-statistics-prospect-with-status`);
 
@@ -66,7 +68,7 @@ const buildChartForLine = ({ onload, done }) => {
 };
 
 function Home(props) {
-  const { IN_APP_ROUTES } = props;
+  const { IN_APP_ROUTES, user } = props;
   const mainContent = useRef(null);
   const [dataChartBar, setDataChartBar] = useState({});
   const [dataChartLine, setDataChartLine] = useState({});
@@ -97,9 +99,11 @@ function Home(props) {
           </Container>
         </div>
         <Container className="mt--7" fluid>
-          <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} isLoading={isLoading} />
+          {displayKPIForAdmin(user) && (
+            <HomeChart dataChart={dataChartBar} dataChartLine={dataChartLine} isLoading={isLoading} />
+          )}
         </Container>
-        <Container fluid>
+        <Container fluid className="mt-7">
           <Footers />
         </Container>
       </div>

@@ -95,6 +95,16 @@ export function canRead(user) {
   const allowed = ['admin', 'guest', 'superAdmin'];
   return checkAuthorization(user, allowed);
 }
+
+export function displayKPIForAdmin(user) {
+  const allowed = ['admin', 'superAdmin'];
+  return checkAuthorization(user, allowed);
+}
+
+export function displayKPIForGuest(user) {
+  const allowed = ['guest'];
+  return checkAuthorization(user, allowed);
+}
 /**
  * Verifie si un utilisateur peut modifier
  * @user: User
