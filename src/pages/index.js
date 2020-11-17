@@ -9,3 +9,4 @@ export { default as ProspectEditPage } from './Prospect/Edit';
 export { default as ManageUsers } from './ManageUsers';
 export { default as ForgotPassword } from './ForgotPassword';
 export { default as Profil } from './Profil';
+export { default as NotFound } from './NotFound';

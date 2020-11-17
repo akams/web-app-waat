@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import {
@@ -14,6 +14,7 @@ import {
   ManageUsers,
   ForgotPassword,
   Profil,
+  NotFound,
 } from './pages';
 import * as ROUTES from './constants/routes';
 import { IsUserRedirect, ProtectedRoute, UnProtectedRoute } from './helpers/routes';
@@ -80,6 +81,7 @@ function App(props) {
         <ProtectedRoute user={user} path={ROUTES.MY_PROFIL}>
           <Profil routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
         </ProtectedRoute>
+        <Route path="*" component={NotFound} />
       </Switch>
     </Router>
   ) : (
