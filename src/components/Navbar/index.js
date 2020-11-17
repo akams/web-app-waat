@@ -10,6 +10,7 @@ import {
   Container,
   Media,
 } from 'reactstrap';
+import { FaUser } from 'react-icons/fa';
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { withFirebase } from '../../context/firebase';
@@ -45,8 +46,9 @@ function AdminNavbar(props) {
                 </Media>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-arrow" right>
-                <DropdownItem className="noti-title" header tag="div">
-                  <h6 className="text-overflow m-0">Bonjour!</h6>
+                <DropdownItem to="/mon-profil" tag={Link}>
+                  <FaUser />
+                  <span>Mon profil</span>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={logout}>

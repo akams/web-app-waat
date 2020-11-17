@@ -13,6 +13,7 @@ export const SIGN_UP_END = '/confirmation-inscription';
 export const SIGN_UP_GUEST = '/business/signup';
 export const MANAGE_USERS = '/gestion-des-utilisateurs';
 export const FORGOT_PWD = '/mot-de-passe-oublié';
+export const MY_PROFIL = '/mon-profil';
 
 export const IN_APP_ROUTES_ASIDE = [
   {
