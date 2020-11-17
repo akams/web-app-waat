@@ -13,7 +13,6 @@ import {
   ProspectEditPage,
   ManageUsers,
   ForgotPassword,
-  Profil,
   NotFound,
 } from './pages';
 import * as ROUTES from './constants/routes';
@@ -77,9 +76,6 @@ function App(props) {
         </ProtectedRoute>
         <ProtectedRoute user={user} path={ROUTES.MANAGE_USERS}>
           <ManageUsers routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
-        </ProtectedRoute>
-        <ProtectedRoute user={user} path={ROUTES.MY_PROFIL}>
-          <Profil routes={ROUTES.IN_APP_ROUTES_ASIDE} dispatch={dispatch} />
         </ProtectedRoute>
         <Route path="*" component={NotFound} />
       </Switch>

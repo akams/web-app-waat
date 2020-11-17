@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Profil(props) {
+function Profil() {
   return <h1>profil</h1>;
 }
 
