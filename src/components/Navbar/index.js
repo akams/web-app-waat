@@ -36,16 +36,12 @@ function AdminNavbar(props) {
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
-                    <img alt="..." src="../assets/img/theme/team-4-800x800.jpg" />
-                  </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">{`${firstname} ${lastname}`}</span>
                   </Media>
                 </Media>
               </DropdownToggle>
               <DropdownMenu className="dropdown-menu-arrow" right>
-                <DropdownItem divider />
                 <DropdownItem onClick={logout}>
                   <i className="ni ni-user-run" />
                   <span>Deconnexion</span>
